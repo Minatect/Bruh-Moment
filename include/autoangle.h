@@ -2,13 +2,9 @@
 #define AUTOANGLE_H
 
 
-
 void angleUp(void*);
 
-void angleDown();
-
-void angleUpTest(void* argument);
-
+void angleDown(void*);
 
 
 #endif

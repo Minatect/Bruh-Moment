@@ -57,8 +57,10 @@ void initialize() {
 	//argument->startLoop = false;
 
 	pros::Task autoangleup(angleUp, nullptr, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
+	pros::Task autoangledown(angleDown, nullptr, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Auto Angle Down");
 
-	pros::lcd::initialize();
+
+	//pros::lcd::initialize();
 	gui();
 }
 

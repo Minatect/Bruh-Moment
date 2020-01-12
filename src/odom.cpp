@@ -1,29 +1,33 @@
 #include "main.h"
 
+typedef struct {
 float cartX = 0;
 float cartY = 0;
 float cartAngle = 0;
-float cart[3] = {cartX, cartY, cartAngle};
+} cartPosition
 
+
+typedef struct {
 float polR = 0;
 float pol0 = 0;
 float polAngle = 0;
-float pol[3] = {polR, pol0, polAngle};
+} polarPosition
 
-float chassisWidth = 9;
 
 bool track = true;
 
 
-//Mutex::Mutex cartAccess;
-//Mutex::Mutex polAccess;
-/*
+pros::Mutex cartAccess;
+pros::Mutex polAccess;
+
+cartPosition* absolutePos = new cartPosition();
+polarPosition* localPos = new polarPosition();
+
 bool setCartCoord(int x, int y, int ang)  {
-  if(cartAccess.take()) {
-    cartAccess.take();
-    cartX = x;
-    cartY = y;
-    cartAngle = ang;
+  if(cartAccess.take(MAX_DELAY)) {
+    ((cartPosition*)absolutePos)->cartX = x;
+    ((cartPosition*)absolutePos)->cartY = y;
+    ((cartPosition*)absolutePos)->cartAngle = ang;
     cartAccess.give();
     return true;
   }
@@ -33,17 +37,24 @@ bool setCartCoord(int x, int y, int ang)  {
 }
 
 bool setPolCoord(int r, int o, int ang)  {
-  if(polAccess.take()) {
-    cartAccess.take();
-    polR = r;
-    pol0 = o;
-    polAngle = ang;
+  if(polAccess.take(MAX_DELAY)) {
+    ((polarPosition*)localPos)->polR = r;
+    ((polarPosition*)localPos)->pol0 = o;
+    ((polarPosition*)localPos)->polAngle = ang;
     polAccess.give();
     return true;
   }
   else  {
     return false;
   }
+}
+
+float degreeToRadian(float degrees) {
+  return degrees*PI/180;
+}
+
+float radianToDegree(float radians) {
+  return radians*180/PI;
 }
 
 void trackCoord3() {
@@ -73,25 +84,25 @@ void trackCoord3() {
 
     if(deltaL*deltaR >= 0)  {
       if(std::fabs(deltaL) < std::fabs(deltaR)) {
-        arcL = std::fabs(chassisWidth*deltaL/(deltaL-deltaR));
-        arcAng = 360*deltaL/(-2*PI*chassisWidth*deltaL/(deltaL-deltaR));
-        arcCenter = arcL+chassisWidth/2;
+        arcL = std::fabs(CHASSIS_WIDTH*deltaL/(deltaL-deltaR));
+        arcAng = 360*deltaL/(-2*PI*CHASSIS_WIDTH*deltaL/(deltaL-deltaR));
+        arcCenter = arcL+CHASSIS_WIDTH/2;
         leftCurve = 1;
       }
       else  {
-        arcR = std::fabs(chassisWidth*deltaR/(deltaR-deltaL));
-        arcAng = 360*deltaR/(-2*PI*chassisWidth*deltaR/(deltaR-deltaL));
-        arcCenter = arcR+chassisWidth/2;
+        arcR = std::fabs(CHASSIS_WIDTH*deltaR/(deltaR-deltaL));
+        arcAng = 360*deltaR/(-2*PI*CHASSIS_WIDTH*deltaR/(deltaR-deltaL));
+        arcCenter = arcR+CHASSIS_WIDTH/2;
         leftCurve = -1;
       }
     }
     else {
-      arcL = chassisWidth*std::fabs(deltaL)/(std::fabs(deltaL)+std::fabs(deltaR));
-      arcR = chassisWidth*std::fabs(deltaR)/(std::fabs(deltaL)+std::fabs(deltaR));
+      arcL = CHASSIS_WIDTH*std::fabs(deltaL)/(std::fabs(deltaL)+std::fabs(deltaR));
+      arcR = CHASSIS_WIDTH*std::fabs(deltaR)/(std::fabs(deltaL)+std::fabs(deltaR));
       if(arcL > arcR) {
         arcAng = 0;
       }
-      arcCenter = std::std::fabs(arcL-chassisWidth/2);
+      arcCenter = std::std::fabs(arcL-CHASSIS_WIDTH/2);
       else{
 
       }
@@ -125,28 +136,28 @@ void trackCoord2()  {
 
     if(deltaL*deltaR >= 0)  {
       if(std::fabs(deltaL) < std::fabs(deltaR)) {
-        arcL = std::fabs(chassisWidth*deltaL/(deltaL-deltaR));
-        arcAng = 360*deltaL/(-2*PI*chassisWidth*deltaL/(deltaL-deltaR));
-        arcCenter = arcL+chassisWidth/2;
+        arcL = std::fabs(CHASSIS_WIDTH*deltaL/(deltaL-deltaR));
+        arcAng = 360*deltaL/(-2*PI*CHASSIS_WIDTH*deltaL/(deltaL-deltaR));
+        arcCenter = arcL+CHASSIS_WIDTH/2;
         leftCurve = 1;
       }
       else  {
-        arcR = std::fabs(chassisWidth*deltaR/(deltaR-deltaL));
-        arcAng = 360*deltaR/(-2*PI*chassisWidth*deltaR/(deltaR-deltaL));
-        arcCenter = arcR+chassisWidth/2;
+        arcR = std::fabs(CHASSIS_WIDTH*deltaR/(deltaR-deltaL));
+        arcAng = 360*deltaR/(-2*PI*CHASSIS_WIDTH*deltaR/(deltaR-deltaL));
+        arcCenter = arcR+CHASSIS_WIDTH/2;
         leftCurve = -1;
       }
     }
     else {
-      arcL = chassisWidth*std::fabs(deltaL)/(std::fabs(deltaL)+std::fabs(deltaR));
-      arcR = chassisWidth*std::fabs(deltaR)/(std::fabs(deltaL)+std::fabs(deltaR));
+      arcL = CHASSIS_WIDTH*std::fabs(deltaL)/(std::fabs(deltaL)+std::fabs(deltaR));
+      arcR = CHASSIS_WIDTH*std::fabs(deltaR)/(std::fabs(deltaL)+std::fabs(deltaR));
       if(arcL > arcR) {
         arcAng = 0;
       }
-      arcCenter = std::fabs(arcL-chassisWidth/2);
+      arcCenter = std::fabs(arcL-CHASSIS_WIDTH/2);
 
-    setPolCoord(2*fsin(90-std::fabs(arcAng)/2)*arcCenter, (90-std::fabs(arcAng)/2)*arcAng/std::fabs(arcAng), int ang);
+    setPolCoord(2*sin(degreeToRadian(90-std::fabs(arcAng)/2))*arcCenter, (90-std::fabs(arcAng)/2)*arcAng/std::fabs(arcAng), ang);
     }
+    Task::delay(20);
   }
 }
-*/
