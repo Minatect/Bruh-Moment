@@ -4,11 +4,11 @@ void turnRL(int dir, int degrees, float factor)
 {
     setDriveBrakes(COAST);
 
-		float target = degrees*65/28;
+		float target = degrees*CHASSIS_WIDTH/WHEEL_D*DRIVE_RATIO;
 
     float kP = .5;//.3; // .25
-    float kI = .01;//.0005;
-    float kD = 1.2;//1;
+    float kI = .001;//.0005;
+    float kD = 1.5;//1;
 
     float errorZone = 100; // target * .1;
     float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;

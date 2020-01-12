@@ -5,7 +5,7 @@ void goRL(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*257/(3.25*PI);
+		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PI);
     float kP = 0.5;//.3; // .25
     float kI = 0.001;//.0005;
     float kD = 1.5;//1;

@@ -1,7 +1,7 @@
 #include "main.h"
 
 void red_single() {
-  angle.set_brake_mode(HOLD);
+  /*  angle.set_brake_mode(HOLD);
   angState = false;
   deploy();
   //Task intakeTower (intake6, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "intakeTower");
@@ -19,5 +19,5 @@ void red_single() {
   //readyStack.suspend();
   unload();
   gotime(-4000,1);
-  angState = false;
+  angState = false; */
 }

@@ -7,7 +7,7 @@ void skills_auton() {
 //  Task intakeTower (intake6, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "intakeTower");
 //  intakeTower.suspend();
 
-  angle.set_brake_mode(HOLD);
+/*  angle.set_brake_mode(HOLD);
   angState = false;
   //deploy();
   //gotime(-5000, 0.5);
@@ -43,5 +43,5 @@ void skills_auton() {
   gotime(5000,0.9);
   //readyStack.suspend();
   unload();
-  gotime(-4000,1);
+  gotime(-4000,1);  */
 }

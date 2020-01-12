@@ -59,12 +59,26 @@ using namespace pros::literals;
 #define BRAKE E_MOTOR_BRAKE_BRAKE
 #define HOLD E_MOTOR_BRAKE_HOLD
 #define PI 3.1415926535
+#define CHASSIS_WIDTH 12
+#define DRIVE_RATIO 60/84
+#define WHEEL_D 3.25
+
+#define LF 15
+#define LB 16
+#define RF 7
+#define RB 6
+#define INTAKE_R 8
+#define INTAKE_L 3
+#define ANGLE 4
+#define ARM 5
+
 
 #include "gui.h"
 #include "functions.h"
 #include "auton.h"
 #include "compfunc.h"
 #include "autoangle.h"
+#include "drivercontrol.h"
 
 
 extern Motor driveLF;
@@ -75,6 +89,7 @@ extern Motor driveRB;
 extern Motor intakeR;
 extern Motor intakeL;
 extern Motor angle;
+extern Motor arm;
 
 extern ADIDigitalIn unloadState;
 extern ADIDigitalIn liftState;
@@ -82,7 +97,9 @@ extern ADIDigitalIn towerState;
 
 extern Controller master;
 
-
+extern bool angleState;
+extern bool angleUpAllow;
+extern bool angleDownAllow;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

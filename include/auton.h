@@ -1,6 +1,8 @@
 #ifndef AUTON_H
 #define AUTON_H
 
+void auton();
+
 void blue_single(void);
 
 void blue_double(void);

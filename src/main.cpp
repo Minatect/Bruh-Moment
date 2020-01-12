@@ -1,15 +1,15 @@
 #include "main.h"
 
 
-Motor driveLF (15, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor driveLB (16, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor driveRF (7, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor driveRB (6, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveLF (LF, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveLB (LB, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor driveRF (RF, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor driveRB (RB, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 
-Motor intakeR (8, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
-Motor intakeL (3, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
-Motor angle (4, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
-Motor arm (5, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor intakeR (INTAKE_R, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor intakeL (INTAKE_L, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
+Motor angle (ANGLE, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
+Motor arm (ARM, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 
 
 ADIDigitalIn liftState (5);
@@ -53,7 +53,10 @@ void initialize() {
   angle.set_brake_mode(HOLD);
   angle.tare_position();
 
-	Task auto_angle (angleUp, (void), TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Auto Angle");
+	//angleCurrentState* argument = new angleCurrentState();
+	//argument->startLoop = false;
+
+	pros::Task autoangleup(angleUp, nullptr, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
 
 	pros::lcd::initialize();
 	gui();
@@ -91,35 +94,7 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	//goRL(1,48,35,1);
-	switch(auton_sel) {
-    case 1:
-      red_single();
-    break;
-
-    case 2:
-      red_double();
-    break;
-
-		case 3:
-      blue_single();
-    break;
-
-		case 4:
-      blue_double();
-    break;
-
-		case 5:
-      //skills_auton();
-    break;
-
-		case 6:
-      // auton2();
-    break;
-    default:
-      // empty_auton();
-    break;
-  }
+	auton();
 }
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -135,71 +110,5 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-
-	while(true)	{
-		driveL(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));	//drive power
-		driveR(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
-
-  /*  if(master.get_digital(E_CONTROLLER_DIGITAL_B))  {
-      driveL(-4500);
-      driveR(-4500);
-      delay(1000);
-      returnTray();
-      driveL(0);
-      driveR(0);
-    }	*/
-
-		if(master.get_digital(E_CONTROLLER_DIGITAL_L1))	{	//intake activation
-			intakeL.move_voltage(10000);
-			intakeR.move_voltage(10000);
-		}
-		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2))	{
-			intakeL.move_voltage(-12000);
-			intakeR.move_voltage(-12000);
-		}
-		else	{
-			intakeL.move_voltage(0);
-			intakeR.move_voltage(0);
-		}
-
-    /*if(master.get_digital(E_CONTROLLER_DIGITAL_A))  {	//unload tray
-      unload();
-    }*/
-
-		if(liftState.get_value())	{
-			angled = !angled;
-			angle.move_voltage(0);
-		}
-
-    if(master.get_digital(E_CONTROLLER_DIGITAL_Y) && angled)	{	//retract tray
-      angle.move_voltage(-6000);
-    }
-    else if(master.get_digital(E_CONTROLLER_DIGITAL_X))	{	//manual extension of tray
-      angle.move_voltage(6000);
-    }
-    else  {
-      angle.move_voltage(0);
-    }
-
-		if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !angled)	{
-			//angleUp();
-			angleUpAllow = true;
-		}
-		else if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && angled)	{
-			//angleDown();
-			angleDownAllow = true;
-		}
-
-
-		if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{
-			arm.move_voltage(12000);
-		}
-		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2))	{
-			arm.move_voltage(-12000);
-		}
-		else	{
-			arm.move_voltage(0);
-		}
-		pros::delay(20);
-	}
+	driver();
 }

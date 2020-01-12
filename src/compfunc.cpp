@@ -25,14 +25,14 @@ void intakePow(float power) {
 //int ang = 840;
 bool angState = true;
 
-void unload() {
+/*void unload() {
   if(angle.is_stopped() && angState)  {
       setDriveBrakes(HOLD);
       angle.set_brake_mode(BRAKE);
       while(angle.get_position()>-800) {
         angle.move_voltage(-(12000+12000/1500*angle.get_position()));
-        /*if(angle.get_position()<)
-        angle.move_voltage(-7000); */
+        if(angle.get_position()<)
+        angle.move_voltage(-7000);
         delay(20);
       }
       angle.move_voltage(0);
@@ -40,7 +40,7 @@ void unload() {
       angle.set_brake_mode(HOLD);
       setDriveBrakes(COAST);
   }
-}
+}*/
 /*void unload(int ang) {
   if(angle.is_stopped() && angState)  {
       while(angle.get_position()>-ang+150)  {
@@ -51,7 +51,7 @@ void unload() {
       angState = false;
   }
 }*/
-void returnTray() {
+/*void returnTray() {
   if(angle.is_stopped() && !angState)  {
     while(liftState.get_value()==0) {
       angle.move_voltage(12000);
@@ -61,7 +61,7 @@ void returnTray() {
     angState = true;
     angle.tare_position();
   }
-}
+}*/
 
 void deploy() {
   angle.tare_position();

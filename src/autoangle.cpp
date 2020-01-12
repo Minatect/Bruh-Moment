@@ -1,10 +1,11 @@
 #include "main.h"
 
-bool angled = false;
-bool angleUpAllow = false;
-bool angleDownAllow = false;
 
-void angleUp()  {
+bool angleState = false;
+bool angleDownAllow = false;
+bool angleUpAllow = false;
+
+void angleUp(void*)  {
   while(angleUpAllow)  {
     float factor = 60;
     float target = 575; //degrees the motor travels
@@ -27,12 +28,12 @@ void angleUp()  {
     int exitDelay = 400; // millis to check exit
     bool settled = false;
 
-    // zero motors fix if this is not correct method
 
 
 
 
-    while(!settled && !angled)
+
+    while(!settled && !angleState)
     //while(std::abs(LENCO) < target * .98) // left encoder  < target
     {
         error = target - std::abs(angle.get_position());
@@ -80,19 +81,22 @@ void angleUp()  {
 
     angle.move_voltage(0);
     angle.set_brake_mode(HOLD);
-    angled = true;
+    angleState = true;
     angleUpAllow = false;
+    Task::delay(50);
   }
 }
 
 void angleDown()  {
   while(angleDownAllow) {
-    while(!(liftState.get_value()) && angled) {
+    while(liftState.get_value() == 0 && angleState) {
       angle.move_voltage(-12000);
+      Task::delay(20);
     }
     angle.move_voltage(0);
     angle.tare_position();
-    angled = false;
+    angleState = false;
     angleDownAllow = false;
+    Task::delay(50);
   }
 }

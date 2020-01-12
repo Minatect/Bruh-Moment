@@ -1,12 +1,14 @@
 #ifndef AUTOANGLE_H
 #define AUTOANGLE_H
 
-void angleUp();
+
+
+void angleUp(void*);
 
 void angleDown();
 
-bool angled;
-bool angleUpAllow;
-bool angleDownAllow;
+void angleUpTest(void* argument);
+
+
 
 #endif
