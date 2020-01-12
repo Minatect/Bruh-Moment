@@ -1,5 +1,7 @@
 #include "main.h"
 
+bool intakeTimeAllow = false;
+
 void gotime(float power, float time) {
   driveL(power);
   driveR(power);
@@ -8,12 +10,16 @@ void gotime(float power, float time) {
   driveR(0);
 }
 
-void intaketime(float time, float voltage)  {
-  intakeL.move_voltage(voltage);
-  intakeR.move_voltage(voltage);
-  delay(1000*time);
-  intakeL.move_voltage(0);
-  intakeR.move_voltage(0);
+void intaketime(void* intakeTimeVar)  {
+  while(intakeTimeAllow)  {
+    intakeL.move_voltage(((intakeTimeVariable*)intakeTimeVar)->voltage);
+    intakeR.move_voltage(((intakeTimeVariable*)intakeTimeVar)->voltage);
+    delay(1000*(((intakeTimeVariable*)intakeTimeVar)->time));
+    intakeL.move_voltage(0);
+    intakeR.move_voltage(0);
+    intakeTimeAllow = false;
+    Task::delay(100);
+  }
 }
 
 void intakePow(float power) {
@@ -22,10 +28,10 @@ void intakePow(float power) {
 }
 
 
-//int ang = 840;
+/*int ang = 840;
 bool angState = true;
 
-/*void unload() {
+void unload() {
   if(angle.is_stopped() && angState)  {
       setDriveBrakes(HOLD);
       angle.set_brake_mode(BRAKE);
@@ -61,7 +67,7 @@ bool angState = true;
     angState = true;
     angle.tare_position();
   }
-}*/
+}
 
 void deploy() {
   angle.tare_position();
@@ -88,4 +94,4 @@ void readyIntake()  {
     delay(20);
   }
   intakePow(0);
-}
+} */

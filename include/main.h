@@ -95,11 +95,22 @@ extern ADIDigitalIn unloadState;
 extern ADIDigitalIn liftState;
 extern ADIDigitalIn towerState;
 
+extern ADIEncoder leftEncoder;
+extern ADIEncoder rightEncoder;
+
 extern Controller master;
 
 extern bool angleState;
 extern bool angleUpAllow;
 extern bool angleDownAllow;
+
+extern bool intakeTimeAllow;
+
+extern bool track;
+
+extern intakeTimeVariable* intakeTime;
+
+extern Task intaketimetask;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

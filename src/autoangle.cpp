@@ -6,7 +6,7 @@ bool angleDownAllow = false;
 bool angleUpAllow = false;
 
 void angleUp(void*)  {
-  if(angleUpAllow)  {
+  while(angleUpAllow)  {
     float factor = 60;
     float target = 575; //degrees the motor travels
 
@@ -83,12 +83,12 @@ void angleUp(void*)  {
     angle.set_brake_mode(HOLD);
     angleState = true;
     angleUpAllow = false;
-    //Task::delay(50);
+    Task::delay(100);
   }
 }
 
 void angleDown(void*)  {
-  if(angleDownAllow) {
+  while(angleDownAllow) {
     while(liftState.get_value() == 0 && angleState) {
       angle.move_voltage(-12000);
       Task::delay(20);
@@ -97,6 +97,15 @@ void angleDown(void*)  {
     angle.tare_position();
     angleState = false;
     angleDownAllow = false;
-    //Task::delay(50);
+    Task::delay(100);
   }
+}
+
+void autoStack()  {
+  angleDownAllow = true;
+  Task::delay(200);
+  ((intakeTimeVariable*)intakeTime)->voltage = 8000;
+	((intakeTimeVariable*)intakeTime)->time = 0.5;
+  intakeTimeAllow = true;
+  goRL(-1, 10, 27, 1);
 }

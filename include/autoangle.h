@@ -6,5 +6,6 @@ void angleUp(void*);
 
 void angleDown(void*);
 
+void autoStack();
 
 #endif

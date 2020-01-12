@@ -56,9 +56,16 @@ void initialize() {
 	//angleCurrentState* argument = new angleCurrentState();
 	//argument->startLoop = false;
 
-	pros::Task autoangleup(angleUp, nullptr, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
-	pros::Task autoangledown(angleDown, nullptr, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "Auto Angle Down");
+	intakeTimeVariable* intakeTime = new intakeTimeVariable();
+	intakeTime->voltage = -12000;
+	intakeTime->time = 0.0;
 
+	pros::Task autoangleup(angleUp, nullptr, TASK_PRIORITY_DEFAULT,
+													TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
+	pros::Task autoangledown(angleDown, nullptr, TASK_PRIORITY_DEFAULT,
+													TASK_STACK_DEPTH_DEFAULT, "Auto Angle Down");
+	pros::Task intaketimetask(intaketime,(intakeTimeVariable*) intakeTime, TASK_PRIORITY_DEFAULT,
+													TASK_STACK_DEPTH_DEFAULT, "Time Based Intake");
 
 	//pros::lcd::initialize();
 	gui();
