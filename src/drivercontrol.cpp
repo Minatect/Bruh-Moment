@@ -20,11 +20,11 @@ void driver() {
 		}
 
 
-		if(liftState.get_value() == 1)	{ //update lift state of tray
+		/*if(liftState.get_value() == 1)	{ //update lift state of tray
 			angle.move_voltage(0);
       angle.tare_position();
       angleState = false;
-		}
+		}*/
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_Y) && angleState)	{	//manual retract tray
       angle.move_voltage(-6000);
@@ -37,18 +37,18 @@ void driver() {
     }
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !angleState)	{ //activate angle up task
-			//angleUp();
-			angleUpAllow = true;
+			angleUp();
+			//angleUpAllow = true;
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && angleState)	{  //activate angle down task
-			//angleDown();
-			angleDownAllow = true;
+			angleDown();
+			//angleDownAllow = true;
 		}
 
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_A) && angleState)  { //automatically withdraw tray and back out
+    /*if(master.get_digital(E_CONTROLLER_DIGITAL_A) && angleState)  { //automatically withdraw tray and back out
       autoStack();
-    }
+    }*/
 
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{

@@ -105,12 +105,20 @@ extern bool angleUpAllow;
 extern bool angleDownAllow;
 
 extern bool intakeTimeAllow;
+extern int intakeTimeVoltage;
+extern float intakeTimeTime;
 
 extern bool track;
 
-extern intakeTimeVariable* intakeTime;
 
-extern Task intaketimetask;
+typedef struct  {
+
+  intakeTimeVariable* intakeTime;
+  bool* intakeTimeAllow;
+
+
+} controlBlock;
+
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

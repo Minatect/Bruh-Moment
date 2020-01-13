@@ -5,15 +5,17 @@ bool angleState = false;
 bool angleDownAllow = false;
 bool angleUpAllow = false;
 
-void angleUp(void*)  {
-  while(angleUpAllow)  {
+
+
+void angleUp()  {
+  //while(angleUpAllow)  {
     float factor = 60;
-    float target = 575; //degrees the motor travels
+    float target = 580; //degrees the motor travels
 
     //angle.set_brake_mode(COAST);
-    float kP = .5;//.3; // .25
-    float kI = 0.025;//.0005;
-    float kD = 1;//1;
+    float kP = .5;
+    float kI = 0.0275;//0.025;
+    float kD = 1.1;//1;
 
     float errorZone = 100; // target * .1;
     float error, errorTot, errorLast;
@@ -80,32 +82,34 @@ void angleUp(void*)  {
     }
 
     angle.move_voltage(0);
-    angle.set_brake_mode(HOLD);
+    //angle.set_brake_mode(HOLD);
     angleState = true;
-    angleUpAllow = false;
-    Task::delay(100);
-  }
+    //angleUpAllow = false;
+    //Task::delay(100);
+  //}
 }
 
-void angleDown(void*)  {
-  while(angleDownAllow) {
-    while(liftState.get_value() == 0 && angleState) {
+void angleDown()  {
+  //while(angleDownAllow) {
+  if(angleState) {
+    while(liftState.get_value() == 0) {
       angle.move_voltage(-12000);
       Task::delay(20);
     }
     angle.move_voltage(0);
     angle.tare_position();
     angleState = false;
-    angleDownAllow = false;
-    Task::delay(100);
+    //angleDownAllow = false;
+    //Task::delay(100);
+  //}
   }
 }
 
 void autoStack()  {
   angleDownAllow = true;
-  Task::delay(200);
-  ((intakeTimeVariable*)intakeTime)->voltage = 8000;
-	((intakeTimeVariable*)intakeTime)->time = 0.5;
+  Task::delay(100);
+  intakeTimeVoltage = 8000;
+	intakeTimeTime = 0.5;
   intakeTimeAllow = true;
   goRL(-1, 10, 27, 1);
 }

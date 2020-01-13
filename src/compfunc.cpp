@@ -2,6 +2,10 @@
 
 bool intakeTimeAllow = false;
 
+int intakeTimeVoltage;
+float intakeTimeTime;
+
+
 void gotime(float power, float time) {
   driveL(power);
   driveR(power);
@@ -10,11 +14,11 @@ void gotime(float power, float time) {
   driveR(0);
 }
 
-void intaketime(void* intakeTimeVar)  {
+void intaketime(void*)  {
   while(intakeTimeAllow)  {
-    intakeL.move_voltage(((intakeTimeVariable*)intakeTimeVar)->voltage);
-    intakeR.move_voltage(((intakeTimeVariable*)intakeTimeVar)->voltage);
-    delay(1000*(((intakeTimeVariable*)intakeTimeVar)->time));
+    intakeL.move_voltage(intakeTimeVoltage);
+    intakeR.move_voltage(intakeTimeVoltage);
+    delay(1000*intakeTimeTime);
     intakeL.move_voltage(0);
     intakeR.move_voltage(0);
     intakeTimeAllow = false;

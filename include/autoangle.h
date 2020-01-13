@@ -2,9 +2,9 @@
 #define AUTOANGLE_H
 
 
-void angleUp(void*);
+void angleUp();
 
-void angleDown(void*);
+void angleDown();
 
 void autoStack();
 

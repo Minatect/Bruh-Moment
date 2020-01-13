@@ -8,13 +8,14 @@ typedef struct  {
 
 
 
+
+
 void gotime(float power, float time);
 
 void intaketime(void* intakeTimeVar);
 
 void intakePow(float power);
 
-extern bool angState;
 
 void unload();
 
