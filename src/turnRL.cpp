@@ -111,8 +111,9 @@ void turnRL(int dir, int degrees, float factor)
 }
 
 
-void turnRLAsync(turnRLVariable* turnRLVar)
+void turnRLAsync(void* controlblock)
 {
+  controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   float kP = .5;//.3; // .25
   float kI = .001;//.0005;
@@ -132,10 +133,13 @@ void turnRLAsync(turnRLVariable* turnRLVar)
 
   int accelCount;
   float accelTime = 0.25;
-  if(turnRLVar->turnRLAllow)  {
-    dir = turnRLVar->dir;
-    factor = turnRLVar->factor;
-    degrees = turnRLVar->degrees;
+
+
+
+  if(cb->turnRL->turnRLAllow)  {
+    dir = cb->turnRL->dir;
+    factor = cb->turnRL->factor;
+    degrees = cb->turnRL->degrees;
     target = degrees*CHASSIS_WIDTH/WHEEL_D*DRIVE_RATIO;
 
     targetMin = target - 15;
@@ -223,7 +227,7 @@ void turnRLAsync(turnRLVariable* turnRLVar)
 
     driveL(0);
     driveR(0);
-
 		driveReset();
+    cb->turnRL->turnRLAllow = false;
   }
 }

@@ -12,14 +12,15 @@ void gotime(float power, float time) {
   driveR(0);
 }
 
-void intakeTimeAsync(void* intakeTimeVar)  {
-  if(((intakeTimeVariable*)intakeTimeVar)->intakeTimeAllow)  {
-    intakeL.move_voltage(((intakeTimeVariable*)intakeTimeVar)->voltage);
-    intakeR.move_voltage(((intakeTimeVariable*)intakeTimeVar)->voltage);
-    Task::delay(1000*(((intakeTimeVariable*)intakeTimeVar)->time));
+void intakeTimeAsync(void* controlblock)  {
+  controlBlock* cb=(controlBlock*)controlblock;
+  if(cb->intakeTime->intakeTimeAllow)  {
+    intakeL.move_voltage(cb->intakeTime->voltage);
+    intakeR.move_voltage(cb->intakeTime->voltage);
+    Task::delay(1000*(cb->intakeTime->time));
     intakeL.move_voltage(0);
     intakeR.move_voltage(0);
-    ((intakeTimeVariable*)intakeTimeVar)->intakeTimeAllow = false;
+    cb->intakeTime->intakeTimeAllow = false;
   }
 }
 
@@ -29,13 +30,14 @@ void intakePow(float power) {
 }
 
 
-void autoStack(void* controlBlockVar)  {
-  if(((autoAngleVariable*)controlBlockVar)->autoStackAllow) {
-    ((autoAngleVariable*)controlBlockVar)->angleDownAllow = true;
+void autoStack(void* controlblock)  {
+  controlBlock* cb=(controlBlock*)controlblock;
+  if(cb->autoAngle->autoStackAllow) {
+    cb->autoAngle->angleDownAllow = true;
     Task::delay(100);
-    ((intakeTimeVariable*)controlBlockVar)->time = 0.5;
-    ((intakeTimeVariable*)controlBlockVar)->voltage = 6000;
-    ((intakeTimeVariable*)controlBlockVar)->intakeTimeAllow = true;
+    cb->intakeTime->time = 0.5;
+    cb->intakeTime->voltage = 6000;
+    cb->intakeTime->intakeTimeAllow = true;
     goRL(-1, 10, 27, 1);
   }
 }

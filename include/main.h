@@ -116,12 +116,14 @@ extern currentPosition* currentPos;
 typedef struct  {
   intakeTimeVariable* intakeTime;
   autoAngleVariable* autoAngle;
+  turnRLVariable* turnRL;
+  goRLVariable* goRL;
 
 
-  cartPosition* localCartPos;
+  /*cartPosition* localCartPos;
   polarPosition* localPolarPos;
   arcPosition* arcSize;
-  currentPosition* currentPos;
+  currentPosition* currentPos;  */
 } controlBlock;
 
 //extern controlBlock* control_block;
@@ -138,7 +140,7 @@ void autonomous(void);
 void initialize(void);
 void disabled(void);
 void competition_initialize(void);
-void opcontrol(void);
+void opcontrol(controlBlock* cb);
 #ifdef __cplusplus
 }
 #endif

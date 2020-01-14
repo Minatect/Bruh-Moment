@@ -40,4 +40,8 @@ void turnRL(int dir, int degrees, float factor);
 
 void goVelL(int dir, float speed, float factor);
 
+void goRLAsync(void* controlblock);
+
+void turnRLAsync(void* controlblock);
+
 #endif

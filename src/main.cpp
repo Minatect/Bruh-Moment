@@ -21,6 +21,7 @@ ADIEncoder rightEncoder (3,4,true);
 
 Controller master (E_CONTROLLER_MASTER);
 
+controlBlock* control_block = (controlBlock*)calloc(1, sizeof (controlBlock));
 
 
 /**
@@ -47,9 +48,10 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-  initial();
+  initial(control_block);
 }
 
+//extern controlBlock* control_block;
 /**
  * Runs while the robot is in the disabled state of Field Management System or
  * the VEX Competition Switch, following either autonomous or opcontrol. When

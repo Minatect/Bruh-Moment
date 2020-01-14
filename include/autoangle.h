@@ -12,9 +12,9 @@ void angleUp();
 
 void angleDown();
 
-void angleUpAsync(void* autoAngVar);
+void angleUpAsync(void* controlblock);
 
-void angleDownAsync(void* autoAngVar);
+void angleDownAsync(void* controlblock);
 
 
 #endif

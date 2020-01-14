@@ -102,7 +102,8 @@ void angleDown()  {
 }
 
 
-void angleUpAsync(void* autoAngVar)  {
+void angleUpAsync(void* controlblock)  {
+  controlBlock* cb=(controlBlock*)controlblock;
   float factor = 60;
   float target = 580; //degrees the motor travels
 
@@ -119,14 +120,14 @@ void angleUpAsync(void* autoAngVar)  {
   float pTime; // pause time
   int exitDelay = 400; // millis to check exit
 
-  if(((autoAngleVariable*)autoAngVar)->angleUpAllow)  {
+  if(cb->autoAngle->angleUpAllow)  {
     targetMin = target - 15;
     targetMax = target + 10;
     ft = true;
     ogPass = false;
     settled = false;
 
-    while(!settled && !((autoAngleVariable*)autoAngVar)->angleState)
+    while(!settled && !cb->autoAngle->angleState)
     //while(std::abs(LENCO) < target * .98) // left encoder  < target
     {
         error = target - std::abs(angle.get_position());
@@ -173,13 +174,14 @@ void angleUpAsync(void* autoAngVar)  {
     }
 
     angle.move_voltage(0);
-    ((autoAngleVariable*)autoAngVar)->angleState = true;
-    ((autoAngleVariable*)autoAngVar)->angleUpAllow = false;
+    cb->autoAngle->angleState = true;
+    cb->autoAngle->angleUpAllow = false;
   }
 }
 
-void angleDownAsync(void* autoAngVar)  {
-  if(((autoAngleVariable*)autoAngVar)->angleDownAllow && ((autoAngleVariable*)autoAngVar)->angleState) {
+void angleDownAsync(void* controlblock)  {
+  controlBlock* cb=(controlBlock*)controlblock;
+  if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState) {
     while(liftState.get_value() == 0) {
       angle.move_voltage(-12000);
       Task::delay(20);

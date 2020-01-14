@@ -8,15 +8,12 @@ float time;
 bool intakeTimeAllow;
 } intakeTimeVariable;
 
-
-
-
 void gotime(float power, float time);
 
-void intakeTimeAsync(void* intakeTimeVar);
+void intakeTimeAsync(void* controlblock);
 
 void intakePow(float power);
 
-void autoStack(void* controlBlockVar);
+void autoStack(void* controlblock);
 
 #endif

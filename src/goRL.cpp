@@ -60,37 +60,32 @@ void goRL(int dir, float distance, float factor, float speed)
         dTermR = kD * (errorR - errorLastR);
         errorLastR = errorR;
 
-        powerL = ((pTermL + iTermL + dTermL) * factor) * dir;
-				powerR = ((pTermR + iTermR + dTermR) * factor) * dir;
+        powerL = ((pTermL + iTermL + dTermL) * factor);
+				powerR = ((pTermR + iTermR + dTermR) * factor);
+
         if(powerL/powerR>1.1) {
           powerR=powerL;
         }
         else if(powerR/powerL>1.1) {
           powerL=powerR;
         }
-        if(powerR>=12000*speed) {
-          powerR=12000*speed;
+
+        if(fabs(powerR)>12000*speed)  {
+          powerR = 12000*speed;
         }
-        if(powerL>=12000*speed) {
-          powerL=12000*speed;
-        }
-        if(powerR<=-12000*speed) {
-          powerR=-12000*speed;
-        }
-        if(powerL<=-12000*speed) {
-          powerL=-12000*speed;
+        if(fabs(powerL)>12000*speed)  {
+          powerL = 12000*speed;
         }
 
-        if(count == 1)  {
-          accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
-        }
-        if(count <= accelCount) {
-          powerL = powerL*count/accelCount;
-          powerR = powerR*count/accelCount;
+        //if(count == 1)  accelCount = accelTime*50; //amount of cycles to reach target speed
+
+        if(count <= accelTime*50) {
+          powerL = speed*12000*(-2*powf(count/(accelTime*50),3)+3*powf(count/(accelTime*50),2));
+          powerR = speed*12000*(-2*powf(count/(accelTime*50),3)+3*powf(count/(accelTime*50),2));
         }
 
-				driveL(powerL);
-        driveR(powerR);
+				driveL(dir*powerL);
+        driveR(dir*powerR);
 
         if(std::abs(AVGENC()) > targetMin && ft)
         {
@@ -121,8 +116,9 @@ void goRL(int dir, float distance, float factor, float speed)
 }
 
 
-void goRLAsync(goRLVariable* goRLVar)
+void goRLAsync(void* controlblock)
 {
+  controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   float kP = 0.5;//.3; // .25
   float kI = 0.001;//.0005;
@@ -144,13 +140,14 @@ void goRLAsync(goRLVariable* goRLVar)
   float pTime; // pause time
   int exitDelay = 400; // millis to check exit
 
-  if(goRLVar->goRLAllow) {
+
+  if(cb->goRL->goRLAllow) {
 
 
-    dir = goRLVar->dir;
-    distance = goRLVar->distance;
-    factor = goRLVar->factor;
-    speed = goRLVar->speed;
+    dir = cb->goRL->dir;
+    distance = cb->goRL->distance;
+    factor = cb->goRL->factor;
+    speed = cb->goRL->speed;
 
   	target = distance*360*DRIVE_RATIO/(WHEEL_D*PI);
     targetMin = target - 30;
@@ -250,6 +247,6 @@ void goRLAsync(goRLVariable* goRLVar)
     driveR(0);
 
 		driveReset();
-    Task::delay(100);
+    cb->goRL->goRLAllow = false;
   }
 }
