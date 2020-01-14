@@ -1,34 +1,15 @@
 #include "main.h"
 
-typedef struct {
-float cartX = 0;
-float cartY = 0;
-float cartAngle = 0;
-} cartPosition;
-
-
-
-typedef struct {
-float polR = 0;
-float pol0 = 0;
-float polAngle = 0;
-} polarPosition;
-
-
-bool track = true;
 
 
 pros::Mutex absoluteAccess;
 pros::Mutex localCartAccess;
 pros::Mutex localPolarAccess;
 
-cartPosition* absolutePos = new cartPosition();
-cartPosition* localCartPos = new cartPosition();
-polarPosition* localPolarPos = new polarPosition();
-
-bool setCartCoord(float x, float y, float ang)  {
+/*
+bool setCartCoord(float x, float y, float ang, void* )  {
   if(absoluteAccess.take(TIMEOUT_MAX)) {
-    absolutePos->cartX = x;
+    ((cartPosition*)control_block)->cartX = x;
     absolutePos->cartY = y;
     absolutePos->cartAngle = ang;
     absoluteAccess.give();
@@ -63,6 +44,7 @@ bool setLocalPolCoord(float r, float o, float ang)  {
     return false;
   }
 }
+*/
 
 float degreeToRadian(float degrees) {
   return degrees*PI/180;
@@ -72,14 +54,25 @@ float radianToDegree(float radians) {
   return radians*180/PI;
 }
 
-bool polarToCart(void* polarPosition) {
+void localPolarToCart(void* controlblock) {
+  ((cartPosition*)controlblock)->X = (((polarPosition*)controlblock)->R)*cos(degreeToRadian(((polarPosition*)controlblock)->O));
+  ((cartPosition*)controlblock)->Y = (((polarPosition*)controlblock)->R)*sin(degreeToRadian(((polarPosition*)controlblock)->O));
+  ((cartPosition*)controlblock)->angle = ((polarPosition*)controlblock)->angle;
+}
 
-
+void localArcToPolar(void* controlblock)  {
+  ((polarPosition*)controlblock)->O = 0.5*((arcPosition*)controlblock)->radius/fabs(((arcPosition*)controlblock)->radius)*(180-fabs(((arcPosition*)controlblock)->sweep));
+  ((polarPosition*)controlblock)->R = 2*((arcPosition*)controlblock)->radius*cos(fabs(((arcPosition*)controlblock)->sweep)/2);
+  if(((arcPosition*)controlblock)->right) {
+    ((polarPosition*)controlblock)->angle = 90*(2+fabs(((arcPosition*)controlblock)->sweep)/((arcPosition*)controlblock)->sweep)-((arcPosition*)controlblock)->sweep;
+  }
+  else  {
+    ((polarPosition*)controlblock)->angle = 90*(2-fabs(((arcPosition*)controlblock)->sweep)/((arcPosition*)controlblock)->sweep)+((arcPosition*)controlblock)->sweep;
+  }
 }
 
 
-void trackCoord2()  {
-  float prevEncL, prevEncR;
+void trackCoord2(void* controlblock)  {
   float currentEncL, currentEncR;
   float deltaL,deltaR;
   float arcL, arcR, arcCenter;
@@ -89,15 +82,15 @@ void trackCoord2()  {
   leftEncoder.reset();
   rightEncoder.reset();
 
-  prevEncL = 0;
-  prevEncR = 0;
+  float prevEncL = 0;
+  float prevEncR = 0;
 
-  while(track)  {
+  while(currentPos->track)  {
     currentEncL = leftEncoder.get_value();
     currentEncR = rightEncoder.get_value();
 
     deltaL = 2.75*PI/900*(currentEncL - prevEncL);
-    deltaR = 2.75*PI/900*currentEncR - prevEncR;
+    deltaR = 2.75*PI/900*(currentEncR - prevEncR);
 
     if(deltaL*deltaR >= 0)  {
       if(std::fabs(deltaL) < std::fabs(deltaR)) {
@@ -121,7 +114,7 @@ void trackCoord2()  {
       }
       arcCenter = std::fabs(arcL-CHASSIS_WIDTH/2);
 
-    setLocalPolCoord(2*sin(degreeToRadian(90-std::fabs(arcAng)/2))*arcCenter, (90-std::fabs(arcAng)/2)*arcAng/std::fabs(arcAng), arcAng);
+    //setLocalPolCoord(2*sin(degreeToRadian(90-std::fabs(arcAng)/2))*arcCenter, (90-std::fabs(arcAng)/2)*arcAng/std::fabs(arcAng), arcAng);
     }
     Task::delay(20);
   }

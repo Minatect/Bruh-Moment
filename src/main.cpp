@@ -22,6 +22,7 @@ ADIEncoder rightEncoder (3,4,true);
 Controller master (E_CONTROLLER_MASTER);
 
 
+
 /**
  * A callback function for LLEMU's center button.
  *
@@ -46,29 +47,7 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-  //task_t velL = task_create(govelL(),, )
-  setDriveBrakes(COAST);
-  intakeL.set_brake_mode(HOLD);
-  intakeR.set_brake_mode(HOLD);
-  angle.set_brake_mode(HOLD);
-  angle.tare_position();
-
-	//angleCurrentState* argument = new angleCurrentState();
-	//argument->startLoop = false;
-	//intakeTime = (intakeTimeVariable*)calloc(1,sizeof (intakeTimeVariable));
-	//intakeTime->voltage = -12000;
-	//intakeTime->time = 0.0;
-
-	//pros::Task autoangleup(angleUp, nullptr, TASK_PRIORITY_DEFAULT,
-	//												TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
-	//pros::Task autoangledown(angleDown, nullptr, TASK_PRIORITY_DEFAULT,
-	//												TASK_STACK_DEPTH_DEFAULT, "Auto Angle Down");
-	//pros::Task intaketimetask(intaketime, nullptr, TASK_PRIORITY_DEFAULT,
-		//											TASK_STACK_DEPTH_DEFAULT, "Time Based Intake");
-
-	//pros::lcd::initialize();
-
-	gui();
+  initial();
 }
 
 /**
@@ -119,5 +98,5 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	driver();
+	driver(control_block);
 }

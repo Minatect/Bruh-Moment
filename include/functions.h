@@ -1,6 +1,21 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+typedef struct  {
+  int dir;
+  float degrees;
+  float factor;
+  bool turnRLAllow;
+} turnRLVariable;
+
+typedef struct  {
+  int dir;
+  float distance;
+  float factor;
+  float speed;
+  bool goRLAllow;
+} goRLVariable;
+
 void setDriveBrakes(pros::motor_brake_mode_e_t mode);
 
 void driveL(float power);

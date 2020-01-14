@@ -79,6 +79,8 @@ using namespace pros::literals;
 #include "compfunc.h"
 #include "autoangle.h"
 #include "drivercontrol.h"
+#include "initialize.h"
+#include "odom.h"
 
 
 extern Motor driveLF;
@@ -100,25 +102,29 @@ extern ADIEncoder rightEncoder;
 
 extern Controller master;
 
-extern bool angleState;
-extern bool angleUpAllow;
-extern bool angleDownAllow;
 
-extern bool intakeTimeAllow;
-extern int intakeTimeVoltage;
-extern float intakeTimeTime;
 
-extern bool track;
+extern intakeTimeVariable* intakeTime;
+extern autoAngleVariable* autoAngle;
 
+
+extern cartPosition* localCartPos;
+extern polarPosition* localPolarPos;
+extern arcPosition* arcSize;
+extern currentPosition* currentPos;
 
 typedef struct  {
-
   intakeTimeVariable* intakeTime;
-  bool* intakeTimeAllow;
+  autoAngleVariable* autoAngle;
 
 
+  cartPosition* localCartPos;
+  polarPosition* localPolarPos;
+  arcPosition* arcSize;
+  currentPosition* currentPos;
 } controlBlock;
 
+//extern controlBlock* control_block;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure

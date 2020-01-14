@@ -1,49 +1,49 @@
 #include "main.h"
 
-void driver() {
+void driver(void* controlblock) {
   while(true)	{
 		driveL(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));	//left drive power
 		driveR(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3)); //right drive power
 
 
 		if(master.get_digital(E_CONTROLLER_DIGITAL_L1))	{	//back out cubes
-			intakeL.move_voltage(10000);
-			intakeR.move_voltage(10000);
+			intakePow(12000);
 		}
 		else if(master.get_digital(E_CONTROLLER_DIGITAL_L2))	{ //intake cubes
-			intakeL.move_voltage(-12000);
-			intakeR.move_voltage(-12000);
+			intakePow(-12000);
 		}
 		else	{
-			intakeL.move_voltage(0);
-			intakeR.move_voltage(0);
+			intakePow(0);
 		}
 
 
-		/*if(liftState.get_value() == 1)	{ //update lift state of tray
+		if(liftState.get_value() == 1 && ((autoAngleVariable*)controlblock)->angleState && !(((autoAngleVariable*)controlblock)->angleDownAllow))	{ //update lift state of tray
 			angle.move_voltage(0);
       angle.tare_position();
-      angleState = false;
-		}*/
+      ((autoAngleVariable*)controlblock)->angleState = false;
+		}
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_Y) && angleState)	{	//manual retract tray
+    if(master.get_digital(E_CONTROLLER_DIGITAL_Y) && !(((autoAngleVariable*)controlblock)->angleDownAllow) && !(((autoAngleVariable*)controlblock)->angleUpAllow) && liftState.get_value() == 0)	{	//manual retract tray
       angle.move_voltage(-6000);
     }
-    else if(master.get_digital(E_CONTROLLER_DIGITAL_X))	{	//manual extension of tray
+    else if(master.get_digital(E_CONTROLLER_DIGITAL_X) && !(((autoAngleVariable*)controlblock)->angleDownAllow) && !(((autoAngleVariable*)controlblock)->angleUpAllow))	{	//manual extension of tray
       angle.move_voltage(6000);
     }
     else  {
       angle.move_voltage(0);
     }
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !angleState)	{ //activate angle up task
-			angleUp();
-			//angleUpAllow = true;
+		if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !(((autoAngleVariable*)controlblock)->angleState))	{ //activate angle up task
+			//angleUp();
+			((autoAngleVariable*)controlblock)->angleUpAllow = true;
 		}
-		else if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && angleState)	{  //activate angle down task
-			angleDown();
-			//angleDownAllow = true;
+		else if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && (((autoAngleVariable*)controlblock)->angleState))	{  //activate angle down task
+			//angleDown();
+			((autoAngleVariable*)controlblock)->angleDownAllow = true;
 		}
+    else if(master.get_digital(E_CONTROLLER_DIGITAL_A) && (((autoAngleVariable*)controlblock)->angleState))  {
+      ((autoAngleVariable*)controlblock)->autoStackAllow = true;
+    }
 
 
     /*if(master.get_digital(E_CONTROLLER_DIGITAL_A) && angleState)  { //automatically withdraw tray and back out
