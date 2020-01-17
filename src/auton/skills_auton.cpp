@@ -1,6 +1,7 @@
 #include "main.h"
 
-void skills_auton() {
+void skills_auton(void* controlblock) {
+  controlBlock* cb = (controlBlock*)controlblock;
 //  Task readyStack (readyIntake, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "readyStack");
 //  readyStack.suspend();
 

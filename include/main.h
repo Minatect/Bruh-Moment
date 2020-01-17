@@ -59,7 +59,7 @@ using namespace pros::literals;
 #define BRAKE E_MOTOR_BRAKE_BRAKE
 #define HOLD E_MOTOR_BRAKE_HOLD
 #define PI 3.1415926535
-#define CHASSIS_WIDTH 12
+#define CHASSIS_WIDTH 10
 #define DRIVE_RATIO 60/84
 #define WHEEL_D 3.25
 
@@ -81,6 +81,7 @@ using namespace pros::literals;
 #include "drivercontrol.h"
 #include "initialize.h"
 #include "odom.h"
+#include "armcontrol.h"
 
 
 extern Motor driveLF;
@@ -106,6 +107,8 @@ extern Controller master;
 
 extern intakeTimeVariable* intakeTime;
 extern autoAngleVariable* autoAngle;
+extern moveVariable* moveVar;
+extern armVariable* armVar;
 
 
 extern cartPosition* localCartPos;
@@ -116,9 +119,8 @@ extern currentPosition* currentPos;
 typedef struct  {
   intakeTimeVariable* intakeTime;
   autoAngleVariable* autoAngle;
-  turnRLVariable* turnRL;
-  goRLVariable* goRL;
-
+  moveVariable* moveVar;
+  armVariable*  armVar;
 
   /*cartPosition* localCartPos;
   polarPosition* localPolarPos;
@@ -140,7 +142,7 @@ void autonomous(void);
 void initialize(void);
 void disabled(void);
 void competition_initialize(void);
-void opcontrol(controlBlock* cb);
+void opcontrol(void);
 #ifdef __cplusplus
 }
 #endif

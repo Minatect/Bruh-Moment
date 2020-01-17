@@ -9,7 +9,7 @@ Motor driveRB (RB, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 Motor intakeR (INTAKE_R, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
 Motor intakeL (INTAKE_L, E_MOTOR_GEARSET_18, true, E_MOTOR_ENCODER_DEGREES);
 Motor angle (ANGLE, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
-Motor arm (ARM, E_MOTOR_GEARSET_18, false, E_MOTOR_ENCODER_DEGREES);
+Motor arm (ARM, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
 
 
 ADIDigitalIn liftState (5);
@@ -22,6 +22,7 @@ ADIEncoder rightEncoder (3,4,true);
 Controller master (E_CONTROLLER_MASTER);
 
 controlBlock* control_block = (controlBlock*)calloc(1, sizeof (controlBlock));
+
 
 
 /**
@@ -84,7 +85,7 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	auton();
+	auton(control_block);
 }
 /**
  * Runs the operator control code. This function will be started in its own task

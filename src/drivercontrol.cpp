@@ -19,18 +19,19 @@ void driver(void* controlblock) {
 
 
     if(!(cb->autoAngle->angleUpAllow) && !cb->autoAngle->angleDownAllow
-        && !cb->autoAngle->autoStackAllow) {
+        && !cb->autoAngle->autoStackAllow && !cb->armVar->armUp) {
 
           if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !cb->autoAngle->angleState)	{ //activate angle up task
-      			//angleUp();
+      			//angleUp(cb);
       			cb->autoAngle->angleUpAllow = true;
       		}
           else if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState)	{  //activate angle down task
-      			//angleDown();
+      			//angleDown(cb);
       			cb->autoAngle->angleDownAllow = true;
       		}
-          else if(master.get_digital(E_CONTROLLER_DIGITAL_A) && cb->autoAngle->angleState)  {
+          else if(master.get_digital(E_CONTROLLER_DIGITAL_B) && !cb->autoAngle->angleState)  {
             cb->autoAngle->autoStackAllow = true;
+            //autoStack(cb);
           }
 
 
@@ -45,24 +46,32 @@ void driver(void* controlblock) {
           }
 
 
-          if(liftState.get_value() == 1)  {
-            angle.move_voltage(0);
-            angle.tare_position();
-            cb->autoAngle->angleState = false;
-          }
+          /*if(liftState.get_value() == 0 && cb->autoAngle->angleState ==false) {
+            cb->autoAngle->angleState = true;
+          }*/
+    }
+
+    if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R1)
+      && !cb->autoAngle->angleState && !cb->armVar->armIsMoving) {
+      armUpAsync(cb);
+    } else if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R2)
+      && cb->autoAngle->angleState && !cb->armVar->armIsMoving)  {
+      armDownAsync(cb);
     }
 
 
-		if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{
+		if(!master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R1) && !cb->armVar->armIsMoving)	{
 			arm.move_voltage(12000);
 		}
-		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2))	{
+		else if(!master.get_digital(E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R2) && !cb->armVar->armIsMoving)	{
 			arm.move_voltage(-12000);
 		}
 		else	{
 			arm.move_voltage(0);
 		}
-
+    if(master.get_digital(E_CONTROLLER_DIGITAL_LEFT)) {
+      deployAsync(cb);
+    }
 
 		pros::delay(20);
 	}

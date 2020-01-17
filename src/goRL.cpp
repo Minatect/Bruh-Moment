@@ -77,9 +77,9 @@ void goRL(int dir, float distance, float factor, float speed)
           powerL = 12000*speed;
         }
 
-        //if(count == 1)  accelCount = accelTime*50; //amount of cycles to reach target speed
+        if(count == 1)  accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
 
-        if(count <= accelTime*50) {
+        if(count <= accelCount) {
           powerL = speed*12000*(-2*powf(count/(accelTime*50),3)+3*powf(count/(accelTime*50),2));
           powerR = speed*12000*(-2*powf(count/(accelTime*50),3)+3*powf(count/(accelTime*50),2));
         }
@@ -140,113 +140,110 @@ void goRLAsync(void* controlblock)
   float pTime; // pause time
   int exitDelay = 400; // millis to check exit
 
+  while(true) {
+    if(cb->moveVar->goRLAllow && !cb->moveVar->robotIsMoving) {
+      cb->moveVar->robotIsMoving = true;
+      dir = cb->moveVar->goDir;
+      distance = cb->moveVar->goDistance;
+      factor = cb->moveVar->goFactor;
+      speed = cb->moveVar->goSpeed;
 
-  if(cb->goRL->goRLAllow) {
+    	target = distance*360*DRIVE_RATIO/(WHEEL_D*PI);
+      targetMin = target - 30;
+      targetMax = target + 30;
+      ft = true;
+      ogPass = false;
+      settled = false;
+
+      count = 0;
+
+  		driveReset();
+
+      while(!settled)
+      //while(std::abs(LENCO) < target * .98) // left encoder  < target
+      {
+          count++;
+          errorL = target - std::abs(LENCO());
+  				errorR = target - std::abs(RENCO());
+          // errorTot += error;
+
+          if (errorL < errorZone) {
+              errorTotL += errorL;
+          } else {
+              errorTotL = 0;
+          }
+  				if (errorR < errorZone) {
+              errorTotR += errorR;
+          } else {
+              errorTotR = 0;
+          }
+
+          pTermL = errorL * kP;
+  				pTermR = errorR * kP;
+
+          iTermL = kI * errorTotL;
+          dTermL = kD * (errorL - errorLastL);
+          errorLastL = errorL;
+  				iTermR = kI * errorTotR;
+          dTermR = kD * (errorR - errorLastR);
+          errorLastR = errorR;
+
+          powerL = ((pTermL + iTermL + dTermL) * factor);
+  				powerR = ((pTermR + iTermR + dTermR) * factor);
+          if(powerL/powerR>1.1) {
+            powerR=powerL;
+          }
+          else if(powerR/powerL>1.1) {
+            powerL=powerR;
+          }
+
+          if(fabs(powerR)>12000*speed)  {
+            powerR = 12000*speed;
+          }
+          if(fabs(powerL)>12000*speed)  {
+            powerL = 12000*speed;
+          }
+
+          if(count == 1)  {
+            accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
+          }
+          if(count <= accelCount) {
+            powerL = powerL*count/accelCount;
+            powerR = powerR*count/accelCount;
+          }
+
+  				driveL(powerL * dir);
+          driveR(powerR * dir);
+
+          if(std::abs(AVGENC()) > targetMin && ft)
+          {
+              pTime = pros::millis();
+              ft = false;
+              ogPass = true;
+          }
+          if(pros::millis() > pTime + exitDelay && ogPass)
+          {
+              if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
+              {
+                  settled = true;
+              }
+              else
+              {
+                  pTime = pros::millis();
+              }
+          }
+
+          pros::Task::delay(20);
+      }
 
 
-    dir = cb->goRL->dir;
-    distance = cb->goRL->distance;
-    factor = cb->goRL->factor;
-    speed = cb->goRL->speed;
+      driveL(0);
+      driveR(0);
 
-  	target = distance*360*DRIVE_RATIO/(WHEEL_D*PI);
-    targetMin = target - 30;
-    targetMax = target + 30;
-    ft = true;
-    ogPass = false;
-    settled = false;
-
-    count = 0;
-
-		driveReset();
-
-    while(!settled)
-    //while(std::abs(LENCO) < target * .98) // left encoder  < target
-    {
-        count++;
-        errorL = target - std::abs(LENCO());
-				errorR = target - std::abs(RENCO());
-        // errorTot += error;
-
-        if (errorL < errorZone) {
-            errorTotL += errorL;
-        } else {
-            errorTotL = 0;
-        }
-				if (errorR < errorZone) {
-            errorTotR += errorR;
-        } else {
-            errorTotR = 0;
-        }
-
-        pTermL = errorL * kP;
-				pTermR = errorR * kP;
-
-        iTermL = kI * errorTotL;
-        dTermL = kD * (errorL - errorLastL);
-        errorLastL = errorL;
-				iTermR = kI * errorTotR;
-        dTermR = kD * (errorR - errorLastR);
-        errorLastR = errorR;
-
-        powerL = ((pTermL + iTermL + dTermL) * factor) * dir;
-				powerR = ((pTermR + iTermR + dTermR) * factor) * dir;
-        if(powerL/powerR>1.1) {
-          powerR=powerL;
-        }
-        else if(powerR/powerL>1.1) {
-          powerL=powerR;
-        }
-        if(powerR>=12000*speed) {
-          powerR=12000*speed;
-        }
-        if(powerL>=12000*speed) {
-          powerL=12000*speed;
-        }
-        if(powerR<=-12000*speed) {
-          powerR=-12000*speed;
-        }
-        if(powerL<=-12000*speed) {
-          powerL=-12000*speed;
-        }
-
-        if(count == 1)  {
-          accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
-        }
-        if(count <= accelCount) {
-          powerL = powerL*count/accelCount;
-          powerR = powerR*count/accelCount;
-        }
-
-				driveL(powerL);
-        driveR(powerR);
-
-        if(std::abs(AVGENC()) > targetMin && ft)
-        {
-            pTime = pros::millis();
-            ft = false;
-            ogPass = true;
-        }
-        if(pros::millis() > pTime + exitDelay && ogPass)
-        {
-            if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
-            {
-                settled = true;
-            }
-            else
-            {
-                pTime = pros::millis();
-            }
-        }
-
-        pros::Task::delay(20);
+  		driveReset();
+      cb->moveVar->robotIsMoving = false;
     }
-
-
-    driveL(0);
-    driveR(0);
-
-		driveReset();
-    cb->goRL->goRLAllow = false;
+    if(cb->moveVar->goRLAllow) cb->moveVar->goRLAllow = false;
+    Task::delay(20);
   }
 }

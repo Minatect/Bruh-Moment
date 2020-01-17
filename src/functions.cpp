@@ -43,3 +43,18 @@ void driveReset()	{
 	driveLB.tare_position();
 	driveRB.tare_position();
 }
+
+void robotSettled(void* controlblock)	{
+	controlBlock* cb = (controlBlock*)controlblock;
+	while(cb->moveVar->robotIsMoving)	Task::delay(20);
+}
+
+void angleSettled(void* controlblock)	{
+	controlBlock* cb = (controlBlock*)controlblock;
+	while(cb->autoAngle->angleIsMoving) Task::delay(20);
+}
+
+void armSettled(void* controlblock)	{
+	controlBlock* cb = (controlBlock*)controlblock;
+	while(cb->armVar->armIsMoving) Task::delay(20);
+}

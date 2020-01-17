@@ -2,15 +2,24 @@
 #define AUTOANGLE_H
 
 typedef struct {
+  float factor;
+  float target;
   bool angleState;
   bool angleDownAllow;
   bool angleUpAllow;
   bool autoStackAllow;
+  bool angleIsMoving;
 } autoAngleVariable;
 
-void angleUp();
+extern float angleDistance;
 
-void angleDown();
+extern float angleFactor;
+
+void angleUp(void* controlblock);
+
+void angleDown(void* controlblock);
+
+void angleUpCustom(void* controlblock);
 
 void angleUpAsync(void* controlblock);
 

@@ -135,99 +135,101 @@ void turnRLAsync(void* controlblock)
   float accelTime = 0.25;
 
 
+  while(true) {
+    if(cb->moveVar->turnRLAllow && !cb->moveVar->robotIsMoving)  {
+      cb->moveVar->robotIsMoving = true;
+      dir = cb->moveVar->turnDir;
+      factor = cb->moveVar->turnFactor;
+      degrees = cb->moveVar->turnDegrees;
+      target = degrees*CHASSIS_WIDTH/WHEEL_D*DRIVE_RATIO;
 
-  if(cb->turnRL->turnRLAllow)  {
-    dir = cb->turnRL->dir;
-    factor = cb->turnRL->factor;
-    degrees = cb->turnRL->degrees;
-    target = degrees*CHASSIS_WIDTH/WHEEL_D*DRIVE_RATIO;
+      targetMin = target - 15;
+      targetMax = target + 15;
+      ft = true;
+      ogPass = false;
+      settled = false;
 
-    targetMin = target - 15;
-    targetMax = target + 15;
-    ft = true;
-    ogPass = false;
-    settled = false;
-
-    count = 0;
+      count = 0;
 
 
-    driveReset();
+      driveReset();
 
-    while(!settled)
-    //while(std::abs(LENCO) < target * .98) // left encoder  < target
-    {
-        count++;
-        errorL = target - std::abs(LENCO());
-				errorR = target - std::abs(RENCO());
-        // errorTot += error;
+      while(!settled)
+      //while(std::abs(LENCO) < target * .98) // left encoder  < target
+      {
+          count++;
+          errorL = target - std::abs(LENCO());
+  				errorR = target - std::abs(RENCO());
+          // errorTot += error;
 
-        if (errorL < errorZone) {
-            errorTotL += errorL;
-        } else {
-            errorTotL = 0;
-        }
-				if (errorR < errorZone) {
-            errorTotR += errorR;
-        } else {
-            errorTotR = 0;
-        }
+          if (errorL < errorZone) {
+              errorTotL += errorL;
+          } else {
+              errorTotL = 0;
+          }
+  				if (errorR < errorZone) {
+              errorTotR += errorR;
+          } else {
+              errorTotR = 0;
+          }
 
-        pTermL = errorL * kP;
-				pTermR = errorR * kP;
+          pTermL = errorL * kP;
+  				pTermR = errorR * kP;
 
-        iTermL = kI * errorTotL;
-        dTermL = kD * (errorL - errorLastL);
-        errorLastL = errorL;
-				iTermR = kI * errorTotR;
-        dTermR = kD * (errorR - errorLastR);
-        errorLastR = errorR;
+          iTermL = kI * errorTotL;
+          dTermL = kD * (errorL - errorLastL);
+          errorLastL = errorL;
+  				iTermR = kI * errorTotR;
+          dTermR = kD * (errorR - errorLastR);
+          errorLastR = errorR;
 
-        powerL = ((pTermL + iTermL + dTermL) * factor) * dir;
-				powerR = ((pTermR + iTermR + dTermR) * factor) * dir;
+          powerL = ((pTermL + iTermL + dTermL) * factor) * dir;
+  				powerR = ((pTermR + iTermR + dTermR) * factor) * dir;
 
-        if(powerL/powerR>1.1) {
-          powerR=powerL;
-        }
-        else if(powerR/powerL>1.1) {
-          powerL=powerR;
-        }
+          if(powerL/powerR>1.1) {
+            powerR=powerL;
+          }
+          else if(powerR/powerL>1.1) {
+            powerL=powerR;
+          }
 
-        if(count == 1)  {
-          accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
-        }
-        if(count <= accelCount) {
-          powerL = powerL*count/accelCount;
-          powerR = powerR*count/accelCount;
-        }
+          if(count == 1)  {
+            accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
+          }
+          if(count <= accelCount) {
+            powerL = powerL*count/accelCount;
+            powerR = powerR*count/accelCount;
+          }
 
-				driveL(powerL);
-        driveR(-powerR);
+  				driveL(powerL);
+          driveR(-powerR);
 
-        if(std::abs(AVGENC()) > targetMin && ft)
-        {
-            pTime = pros::millis();
-            ft = false;
-            ogPass = true;
-        }
-        if(pros::millis() > pTime + exitDelay && ogPass)
-        {
-            if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
-            {
-                settled = true;
-            }
-            else
-            {
-                pTime = pros::millis();
-            }
-        }
+          if(std::abs(AVGENC()) > targetMin && ft)
+          {
+              pTime = pros::millis();
+              ft = false;
+              ogPass = true;
+          }
+          if(pros::millis() > pTime + exitDelay && ogPass)
+          {
+              if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
+              {
+                  settled = true;
+              }
+              else
+              {
+                  pTime = pros::millis();
+              }
+          }
 
-        pros::Task::delay(20);
+          pros::Task::delay(20);
+      }
+      driveL(0);
+      driveR(0);
+  		driveReset();
+      cb->moveVar->robotIsMoving = false;
     }
-
-
-    driveL(0);
-    driveR(0);
-		driveReset();
-    cb->turnRL->turnRLAllow = false;
+    if(cb->moveVar->turnRLAllow) cb->moveVar->turnRLAllow = false;
+    Task::delay(20);
   }
 }

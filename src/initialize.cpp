@@ -19,24 +19,36 @@ void initial(void* controlblock)  {
 	intakeTime->time = 0.0;
   intakeTime->intakeTimeAllow = false;
 
-  autoAngleVariable* autoAngle = (autoAngleVariable*)calloc(1,sizeof (autoAngleVariable));
+  autoAngleVariable* autoAngle = new autoAngleVariable();
+  autoAngle = (autoAngleVariable*)calloc(1,sizeof (autoAngleVariable));
   autoAngle->angleState = false;
   autoAngle->angleDownAllow = false;
   autoAngle->angleUpAllow = false;
   autoAngle->autoStackAllow = false;
+  autoAngle->factor = angleFactor;
+  autoAngle->target = angleDistance;
+  autoAngle->angleIsMoving = false;
 
-  turnRLVariable* turnRL = (turnRLVariable*)calloc(1, sizeof (turnRLVariable));
-  turnRL->dir = 1;
-  turnRL->degrees = 0;
-  turnRL->factor = 128;
-  turnRL->turnRLAllow = false;
+  moveVariable* moveVar = (moveVariable*)calloc(1, sizeof (moveVariable));
+  moveVar->goDir = 1;
+  moveVar->goDistance = 0;
+  moveVar->goFactor = 27;
+  moveVar->goSpeed = 1;
+  moveVar->goRLAllow = false;
+  moveVar->turnDir = 1;
+  moveVar->turnFactor = 90;
+  moveVar->turnDegrees = 0;
+  moveVar->turnRLAllow = false;
+  moveVar->robotIsMoving = false;
 
-  goRLVariable* goRL = (goRLVariable*)calloc(1, sizeof (goRLVariable));
-  goRL->dir = 1;
-  goRL->distance = 0;
-  goRL->factor = 27;
-  goRL->speed = 1;
-  goRL->goRLAllow = false;
+  armVariable* armVar = (armVariable*)calloc(1, sizeof (armVariable));
+  armVar->armUp = false;
+  armVar->armMoving = false;
+  armVar->armDir = 1;
+  armVar->armAngle = 0;
+  armVar->armFactor = 100;
+  armVar->armIsMoving = false;
+  armVar->armMoveAllow = false;
 
 
   /*cartPosition* localCartPos = new cartPosition();
@@ -48,8 +60,8 @@ void initial(void* controlblock)  {
 
   cb->autoAngle = autoAngle;
   cb->intakeTime = intakeTime;
-  cb->turnRL = turnRL;
-  cb->goRL = goRL;
+  cb->moveVar = moveVar;
+  cb->armVar = armVar;
 
 
 	pros::Task angleuptask(angleUpAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
@@ -58,13 +70,16 @@ void initial(void* controlblock)  {
 													TASK_STACK_DEPTH_DEFAULT, "Auto Angle Down");
 	pros::Task intaketimetask(intakeTimeAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Time Based Intake");
-  pros::Task autostacktask(autoStack,(void*) cb, TASK_PRIORITY_DEFAULT,
+  pros::Task autostacktask(autoStackAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Auto Back out of Stack");
   pros::Task goRLtask(goRLAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
                         	TASK_STACK_DEPTH_DEFAULT, "Async Go PID");
   pros::Task turnRLtask(turnRLAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
                           TASK_STACK_DEPTH_DEFAULT, "Async Turn PID");
-
+  pros::Task anglecheck(angleState, (void*) cb, TASK_PRIORITY_DEFAULT,
+                          TASK_STACK_DEPTH_DEFAULT, "Angle State Check");
+  pros::Task armmovetask(armMove, (void*) cb, TASK_PRIORITY_DEFAULT,
+                          TASK_STACK_DEPTH_DEFAULT, "Async Move Arm");
 
 
 	pros::lcd::initialize();

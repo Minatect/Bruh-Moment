@@ -1,16 +1,16 @@
 #ifndef AUTON_H
 #define AUTON_H
 
-void auton();
+void auton(void* controlblock);
 
-void blue_single(void);
+void blue_single(void* controlblock);
 
-void blue_double(void);
+void blue_double(void* controlblock);
 
-void red_single(void);
+void red_single(void* controlblock);
 
-void red_double(void);
+void red_double(void* controlblock);
 
-void skills_auton(void);
+void skills_auton(void* controlblock);
 
 #endif

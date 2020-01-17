@@ -1,20 +1,19 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-typedef struct  {
-  int dir;
-  float degrees;
-  float factor;
-  bool turnRLAllow;
-} turnRLVariable;
 
 typedef struct  {
-  int dir;
-  float distance;
-  float factor;
-  float speed;
+  int goDir;
+  float goDistance;
+  float goFactor;
+  float goSpeed;
   bool goRLAllow;
-} goRLVariable;
+  int turnDir;
+  float turnDegrees;
+  float turnFactor;
+  bool turnRLAllow;
+  bool robotIsMoving;
+} moveVariable;
 
 void setDriveBrakes(pros::motor_brake_mode_e_t mode);
 
@@ -43,5 +42,11 @@ void goVelL(int dir, float speed, float factor);
 void goRLAsync(void* controlblock);
 
 void turnRLAsync(void* controlblock);
+
+void robotSettled(void* controlblock);
+
+void angleSettled(void* controlblock);
+
+void armSettled(void* controlblock);
 
 #endif

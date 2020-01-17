@@ -1,131 +1,36 @@
 #include "main.h"
 
 
-bool angleState = false;
+//bool angleState = false;
 bool angleDownAllow = false;
 bool angleUpAllow = false;
 
+float angleDistance = 570;
+float angleFactor = 90;
 
-
-
-void angleUp()  {
+void angleUp(void* controlblock)  {
+  controlBlock* cb = (controlBlock*)controlblock;
   //while(angleUpAllow)  {
-    float factor = 60;
-    float target = 580; //degrees the motor travels
+    float factor = 90;
+    float target = 560; //degrees the motor travels
 
     //angle.set_brake_mode(COAST);
     float kP = .5;
-    float kI = 0.0275;//0.025;
-    float kD = 1.1;//1;
+    float kI = 0.02;//0.025;
+    float kD = 1.75;//1;
 
     float errorZone = 100; // target * .1;
     float error, errorTot, errorLast;
     float pTerm, iTerm, dTerm;
     float power;
 
-    float targetMin = target - 15;
-    float targetMax = target + 10;
+    float targetMin = target - 25;
+    float targetMax = target + 15;
     bool ft = true;
     bool ogPass = false;
     float pTime; // pause time
-    int exitDelay = 400; // millis to check exit
+    int exitDelay = 200; // millis to check exit
     bool settled = false;
-
-    while(!settled && !angleState)
-    //while(std::abs(LENCO) < target * .98) // left encoder  < target
-    {
-        error = target - std::abs(angle.get_position());
-        // errorTot += error;
-
-        if (error < errorZone) {
-            errorTot += error;
-        } else {
-            errorTot = 0;
-        }
-
-        pTerm = error * kP;
-
-
-        iTerm = kI * errorTot;
-        dTerm = kD * (error - errorLast);
-        errorLast = error;
-
-        power = ((pTerm + iTerm + dTerm) * factor) * 1;
-
-        angle.move_voltage(power);
-
-
-        if(std::abs(angle.get_position()) > targetMin && ft)
-        {
-            pTime = pros::millis();
-            ft = false;
-            ogPass = true;
-        }
-        if(pros::millis() > pTime + exitDelay && ogPass)
-        {
-            if(std::abs(angle.get_position()) > targetMin && std::abs(angle.get_position()) < targetMax)
-            {
-                settled = true;
-            }
-            else
-            {
-                pTime = pros::millis();
-            }
-        }
-
-
-        pros::Task::delay(20);
-    }
-
-    angle.move_voltage(0);
-    //angle.set_brake_mode(HOLD);
-    angleState = true;
-    //angleUpAllow = false;
-    //Task::delay(100);
-  //}
-}
-
-void angleDown()  {
-  //while(angleDownAllow) {
-  if(angleState) {
-    while(liftState.get_value() == 0) {
-      angle.move_voltage(-12000);
-      Task::delay(20);
-    }
-    angle.move_voltage(0);
-    angle.tare_position();
-    angleState = false;
-    //angleDownAllow = false;
-    //Task::delay(100);
-  //}
-  }
-}
-
-
-void angleUpAsync(void* controlblock)  {
-  controlBlock* cb=(controlBlock*)controlblock;
-  float factor = 60;
-  float target = 580; //degrees the motor travels
-
-    //angle.set_brake_mode(COAST);
-  float kP = .5;
-  float kI = 0.0275;//0.025;
-  float kD = 1.1;//1;
-
-  float errorZone = 100; // target * .1;
-  float error, errorTot, errorLast;
-  float pTerm, iTerm, dTerm;
-  float power, targetMin, targetMax;
-  bool ft, ogPass, settled;
-  float pTime; // pause time
-  int exitDelay = 400; // millis to check exit
-
-  if(cb->autoAngle->angleUpAllow)  {
-    targetMin = target - 15;
-    targetMax = target + 10;
-    ft = true;
-    ogPass = false;
-    settled = false;
 
     while(!settled && !cb->autoAngle->angleState)
     //while(std::abs(LENCO) < target * .98) // left encoder  < target
@@ -174,21 +79,210 @@ void angleUpAsync(void* controlblock)  {
     }
 
     angle.move_voltage(0);
+    //angle.set_brake_mode(HOLD);
     cb->autoAngle->angleState = true;
-    cb->autoAngle->angleUpAllow = false;
+    //angleUpAllow = false;
+    //Task::delay(100);
+  //}
+}
+
+void angleDown(void* controlblock)  {
+  //while(angleDownAllow) {
+  controlBlock* cb = (controlBlock*)controlblock;
+  if(cb->autoAngle->angleState) {
+    while(liftState.get_value() == 0) {
+      angle.move_voltage(-12000);
+      Task::delay(20);
+    }
+    angle.move_voltage(0);
+    angle.tare_position();
+    cb->autoAngle->angleState = false;
+    //angleDownAllow = false;
+    //Task::delay(100);
+  //}
+  }
+}
+
+void angleUpCustom(void* controlblock)  {
+  controlBlock* cb = (controlBlock*)controlblock;
+  //while(angleUpAllow)  {
+    float factor = cb->autoAngle->factor;
+    float target = cb->autoAngle->target; //degrees the motor travels
+
+    //angle.set_brake_mode(COAST);
+    float kP = .5;
+    float kI = 0.02;//0.025;
+    float kD = 1.4;//1;
+
+    float errorZone = 100; // target * .1;
+    float error, errorTot, errorLast;
+    float pTerm, iTerm, dTerm;
+    float power;
+
+    float targetMin = target - 25;
+    float targetMax = target + 15;
+    bool ft = true;
+    bool ogPass = false;
+    float pTime; // pause time
+    int exitDelay = 200; // millis to check exit
+    bool settled = false;
+
+    while(!settled && !cb->autoAngle->angleState)
+    //while(std::abs(LENCO) < target * .98) // left encoder  < target
+    {
+        error = target - std::abs(angle.get_position());
+        // errorTot += error;
+
+        if (error < errorZone) {
+            errorTot += error;
+        } else {
+            errorTot = 0;
+        }
+
+        pTerm = error * kP;
+
+
+        iTerm = kI * errorTot;
+        dTerm = kD * (error - errorLast);
+        errorLast = error;
+
+        power = ((pTerm + iTerm + dTerm) * factor) * 1;
+
+        angle.move_voltage(power);
+
+
+        if(std::abs(angle.get_position()) > targetMin && ft)
+        {
+            pTime = pros::millis();
+            ft = false;
+            ogPass = true;
+        }
+        if(pros::millis() > pTime + exitDelay && ogPass)
+        {
+            if(std::abs(angle.get_position()) > targetMin && std::abs(angle.get_position()) < targetMax)
+            {
+                settled = true;
+            }
+            else
+            {
+                pTime = pros::millis();
+            }
+        }
+
+
+        pros::Task::delay(20);
+    }
+
+    angle.move_voltage(0);
+    //angle.set_brake_mode(HOLD);
+    cb->autoAngle->angleState = true;
+    //angleUpAllow = false;
+    //Task::delay(100);
+  //}
+}
+
+void angleUpAsync(void* controlblock)  {
+  controlBlock* cb=(controlBlock*)controlblock;
+  float factor;
+  float target; //degrees the motor travels
+
+    //angle.set_brake_mode(COAST);
+  float kP = .5;
+  float kI = 0.02;//0.025;
+  float kD = 1.75;//1;
+
+  float errorZone = 100; // target * .1;
+  float error, errorTot, errorLast;
+  float pTerm, iTerm, dTerm;
+  float power, targetMin, targetMax;
+  bool ft, ogPass, settled;
+  float pTime; // pause time
+  int exitDelay = 400; // millis to check exit
+
+  while(true)  {
+    if(cb->autoAngle->angleUpAllow && !cb->autoAngle->angleIsMoving  && !cb->autoAngle->angleState) {
+      cb->autoAngle->angleIsMoving = true;
+
+      factor = cb->autoAngle->factor;
+      target = cb->autoAngle->target;
+      targetMin = target - 15;
+      targetMax = target + 10;
+      ft = true;
+      ogPass = false;
+      settled = false;
+
+      while(!settled)
+      //while(std::abs(LENCO) < target * .98) // left encoder  < target
+      {
+          error = target - std::abs(angle.get_position());
+          // errorTot += error;
+
+          if (error < errorZone) {
+              errorTot += error;
+          } else {
+              errorTot = 0;
+          }
+
+          pTerm = error * kP;
+
+
+          iTerm = kI * errorTot;
+          dTerm = kD * (error - errorLast);
+          errorLast = error;
+
+          power = ((pTerm + iTerm + dTerm) * factor) * 1;
+
+          angle.move_voltage(power);
+
+
+          if(std::abs(angle.get_position()) > targetMin && ft)
+          {
+              pTime = pros::millis();
+              ft = false;
+              ogPass = true;
+          }
+          if(pros::millis() > pTime + exitDelay && ogPass)
+          {
+              if(std::abs(angle.get_position()) > targetMin && std::abs(angle.get_position()) < targetMax)
+              {
+                  settled = true;
+              }
+              else
+              {
+                  pTime = pros::millis();
+              }
+          }
+
+
+          pros::Task::delay(20);
+      }
+
+      angle.move_voltage(0);
+      cb->autoAngle->factor = angleFactor;
+      cb->autoAngle->target = angleDistance;
+      //cb->autoAngle->angleState = true;
+      cb->autoAngle->angleIsMoving = false;
+    }
+    if(cb->autoAngle->angleUpAllow) cb->autoAngle->angleUpAllow = false;
+    Task::delay(20);
   }
 }
 
 void angleDownAsync(void* controlblock)  {
   controlBlock* cb=(controlBlock*)controlblock;
-  if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState) {
-    while(liftState.get_value() == 0) {
-      angle.move_voltage(-12000);
-      Task::delay(20);
+  while(true) {
+    if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving)  {
+      cb->autoAngle->angleIsMoving = true;
+      while(liftState.get_value() == 0) {
+        angle.move_voltage(-12000);
+        Task::delay(20);
+      }
+      angle.move_voltage(0);
+      angle.tare_position();
+      //cb->autoAngle->angleState = false;
+      cb->autoAngle->angleIsMoving = false;
     }
-    angleState = false;
-    angle.move_voltage(0);
-    angle.tare_position();
-    angleDownAllow = false;
+    if(cb->autoAngle->angleDownAllow) cb->autoAngle->angleDownAllow = false;
+    Task::delay(20);
   }
 }
