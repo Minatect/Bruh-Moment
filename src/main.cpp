@@ -13,7 +13,7 @@ Motor arm (ARM, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
 
 
 ADIDigitalIn liftState (5);
-ADIDigitalIn towerState (8);
+ADIDigitalIn armState (6);
 
 ADIEncoder leftEncoder (1,2,false);
 ADIEncoder rightEncoder (3,4,true);

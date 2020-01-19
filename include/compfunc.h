@@ -6,6 +6,7 @@ typedef struct  {
 int voltage;
 float time;
 bool intakeTimeAllow;
+bool intakeIsMoving;
 } intakeTimeVariable;
 
 
@@ -24,6 +25,8 @@ void autoStackAsync(void* controlblock);
 
 void driveVoltage(int voltage);
 
+void driveAngle(float angle, float power);
+
 void armUpFunc(void* controlblock);
 
 void armDownFunc(void* controlblock);
@@ -37,5 +40,7 @@ void deploy(void* controlblock);
 void deployAsync(void* controlblock);
 
 void angleState(void* controlblock);
+
+void armCheck(void* controlblock);
 
 #endif

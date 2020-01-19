@@ -96,7 +96,7 @@ extern Motor arm;
 
 extern ADIDigitalIn unloadState;
 extern ADIDigitalIn liftState;
-extern ADIDigitalIn towerState;
+extern ADIDigitalIn armState;
 
 extern ADIEncoder leftEncoder;
 extern ADIEncoder rightEncoder;

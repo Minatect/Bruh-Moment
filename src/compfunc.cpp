@@ -18,6 +18,12 @@ void driveVoltage(int voltage)  {
   driveRF.move_voltage(voltage);
   driveRB.move_voltage(voltage);
 }
+void driveAngle(float angle, float power)  {
+  driveLF.move_relative(angle, power);
+  driveLB.move_relative(angle, power);
+  driveRF.move_relative(angle, power);
+  driveRB.move_relative(angle, power);
+}
 
 void intakeTimeAsync(void* controlblock)  {
   controlBlock* cb=(controlBlock*)controlblock;
@@ -30,8 +36,12 @@ void intakeTimeAsync(void* controlblock)  {
       intakeR.move_voltage(0);
     }
     if(cb->intakeTime->intakeTimeAllow) cb->intakeTime->intakeTimeAllow = false;
-    Task::delay(20);
+    Task::delay(100);
   }
+}
+void intakeAngle(float angle, float power)  {
+  intakeL.move_relative(angle, power);
+  intakeR.move_relative(angle, power);
 }
 
 void intakeTimeDumb(int voltage, float time)  {
@@ -49,37 +59,43 @@ void intakePow(float power) {
 
 void autoStack(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
-  angleUp(cb);
-  driveVoltage(-4000);
-  intakePow(8000);
-  angleDown(cb);
-  intakePow(0);
-  Task::delay(1000);
-  driveVoltage(0);
+  cb->autoAngle->angleUpAllow = true;
+  Task::delay(100);
+  angleSettled(cb);
+
+  cb->intakeTime->voltage = 6000;
+  cb->intakeTime->time = 0.5;
+  cb->intakeTime->intakeTimeAllow = true;
+  cb->autoAngle->angleDownAllow = true;
+  goRL(-1,10,80,1);
+
+
 }
 
 void autoStackAsync(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  while(true) {
-    if(cb->autoAngle->autoStackAllow && !cb->autoAngle->angleIsMoving)  {
+  //while(true) {
+    if(!cb->autoAngle->angleIsMoving && !cb->moveVar->robotIsMoving)  {
       cb->autoAngle->angleUpAllow = true;
       angleSettled(cb);
 
       cb->moveVar->goDir = -1;
-      cb->moveVar->goDistance = 10;
-      cb->moveVar->goSpeed = 0.5;
+      cb->moveVar->goDistance = 40;
+      cb->moveVar->goSpeed = 1;
+
 
       cb->intakeTime->voltage = 8000;
       cb->intakeTime->time = 1;
 
-      cb->moveVar->goRLAllow = true;
+      //b->moveVar->goRLAllow = true;
       cb->autoAngle->angleDownAllow = true;
       cb->intakeTime->intakeTimeAllow = true;
-      robotSettled(cb);
+      goRL(-1,15,40,1);
+      //robotSettled(cb);
     }
-    cb->autoAngle->autoStackAllow = false;
-    Task::delay(20);
-  }
+    //if(cb->autoAngle->autoStackAllow) cb->autoAngle->autoStackAllow = false;
+    //Task::delay(20);
+  //}
 }
 
 void angleState(void* controlblock) {
@@ -89,7 +105,7 @@ void angleState(void* controlblock) {
       if(liftState.get_value() == 1) cb->autoAngle->angleState = false;
       else if(liftState.get_value() == 0) cb->autoAngle->angleState = true;
     }
-    Task::delay(20);
+    Task::delay(100);
   }
 }
 
@@ -175,6 +191,17 @@ void armUpAsync(void* controlblock) {
     cb->armVar->armMoveAllow = true;
     cb->autoAngle->angleUpAllow = true;
     cb->armVar->armUp = true;
+  }
+}
+
+void armCheck(void* controlblock) {
+  controlBlock* cb = (controlBlock*)controlblock;
+  while(true) {
+    if(!cb->armVar->armIsMoving)  {
+      if(armState.get_value() == 0) cb->armVar->armUp = true;
+      else if(armState.get_value() == 1) cb->armVar->armUp = false;
+    }
+    Task::delay(100);
   }
 }
 

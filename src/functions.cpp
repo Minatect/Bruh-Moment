@@ -58,3 +58,8 @@ void armSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
 	while(cb->armVar->armIsMoving) Task::delay(20);
 }
+
+void intakeSettled(void* controlblock)	{
+	controlBlock* cb = (controlBlock*)controlblock;
+	while(cb->intakeTime->intakeTimeAllow) Task::delay(20);
+}

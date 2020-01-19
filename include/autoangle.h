@@ -23,7 +23,10 @@ void angleUpCustom(void* controlblock);
 
 void angleUpAsync(void* controlblock);
 
+void angleUpDeploy(void* controlblock, float target);
+
 void angleDownAsync(void* controlblock);
 
+void angleMoveAsync(void* controlblock);
 
 #endif

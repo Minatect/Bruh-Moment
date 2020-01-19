@@ -10,8 +10,8 @@ void turnRL(int dir, int degrees, float factor)
 		float target = degrees*CHASSIS_WIDTH/WHEEL_D*DRIVE_RATIO;
 
     float kP = .5;//.3; // .25
-    float kI = .001;//.0005;
-    float kD = 1.5;//1;
+    float kI = .01;//.0005;
+    float kD = 1;//1;
 
     float errorZone = 100; // target * .1;
     float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
@@ -23,12 +23,12 @@ void turnRL(int dir, int degrees, float factor)
     bool ft = true;
     bool ogPass = false;
     float pTime; // pause time
-    int exitDelay = 100; // millis to check exit
+    int exitDelay = 400; // millis to check exit
     bool settled = false;
 
     int count = 0;
     int accelCount;
-    float accelTime = 0.25;
+    float accelTime = 0.5;
     // zero motors fix if this is not correct method
 		driveReset();
 
@@ -230,6 +230,6 @@ void turnRLAsync(void* controlblock)
       cb->moveVar->robotIsMoving = false;
     }
     if(cb->moveVar->turnRLAllow) cb->moveVar->turnRLAllow = false;
-    Task::delay(20);
+    Task::delay(100);
   }
 }
