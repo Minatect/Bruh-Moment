@@ -1,5 +1,5 @@
-#include "main.h"
 #include "gui.h"
+#include "main.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -16,27 +16,27 @@ static lv_res_t btnm_action(lv_obj_t * btnm, const char *txt) {
 
   switch (btnm_num) {
   case 1:
-    lv_label_set_text(g_sb_label, "Red Single");
+    lv_label_set_text(g_sb_label, "Red Right Auton");
     auton_sel = 1;
     break;
   case 2:
-    lv_label_set_text(g_sb_label, "Red Double");
+    lv_label_set_text(g_sb_label, "Red Left Auton");
     auton_sel = 2;
     break;
   case 3:
-    lv_label_set_text(g_sb_label, "Blue Single");
+    lv_label_set_text(g_sb_label, "Blue Right Auton");
     auton_sel = 3;
 break;
   case 4:
-    lv_label_set_text(g_sb_label, "Blue Double");
+    lv_label_set_text(g_sb_label, "Blue Left Auton");
     auton_sel = 4;
 break;
   case 5:
-    lv_label_set_text(g_sb_label, "Skills");
+    lv_label_set_text(g_sb_label, "Skills Auton1");
     auton_sel = 5;
 break;
   case 6:
-    lv_label_set_text(g_sb_label, "Placeholder 3");
+    lv_label_set_text(g_sb_label, "Skills Auton2");
     auton_sel = 6;
 break;
   }

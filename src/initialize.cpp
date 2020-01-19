@@ -103,5 +103,5 @@ void initial(void* controlblock)  {
 
 
 	pros::lcd::initialize();
-	gui();
+	gui_btnm();
 }

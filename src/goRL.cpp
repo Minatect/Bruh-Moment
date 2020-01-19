@@ -16,6 +16,8 @@ void goRL(int dir, float distance, float factor, float speed)
     float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
     float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
     float powerR, powerL;
+    float lastPowerL = 0;
+    float lastPowerR = 0;
 
     float targetMin = target - 30;
     float targetMax = target + 30;
@@ -28,6 +30,7 @@ void goRL(int dir, float distance, float factor, float speed)
     int count = 0;
     int accelCount;
     float accelTime = 0.75;
+    float maxAccel = 12000*speed/(accelTime*50);
     // zero motors fix if this is not correct method
 		driveReset();
 
@@ -77,12 +80,7 @@ void goRL(int dir, float distance, float factor, float speed)
           powerL = 12000*speed;
         }
 
-        if(count == 1)  accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
-
-        if(count <= accelCount) {
-          powerL = speed*12000*(-2*powf(count/(accelTime*50),3)+3*powf(count/(accelTime*50),2));
-          powerR = speed*12000*(-2*powf(count/(accelTime*50),3)+3*powf(count/(accelTime*50),2));
-        }
+        if()
 
 				driveL(dir*powerL);
         driveR(dir*powerR);
