@@ -28,7 +28,8 @@ typedef struct{
 } currentPosition;
 
 
-bool setCartCoord(float x, float y, float ang);
+
+bool setAbsCartCoord(float x, float y, float ang);
 
 bool setLocalCartCoord(float x, float y, float ang);
 

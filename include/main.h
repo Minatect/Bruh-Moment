@@ -72,6 +72,25 @@ using namespace pros::literals;
 #define ANGLE 4
 #define ARM 5
 
+#define BLUESINGLE_X 0
+#define BLUESINGLE_Y 0
+#define BLUESINGLE_ANGLE 0
+
+#define BLUEDOUBLE_X 0
+#define BLUEDOUBLE_Y 0
+#define BLUEDOUBLE_ANGLE 0
+
+#define REDSINGLE_X 0
+#define REDSINGLE_Y 0
+#define REDSINGLE_ANGLE 0
+
+#define REDDOUBLE_X 0
+#define REDDOUBLE_Y 0
+#define REDDOUBLE_ANGLE 0
+
+
+
+
 
 #include "gui.h"
 #include "functions.h"
@@ -116,16 +135,26 @@ extern polarPosition* localPolarPos;
 extern arcPosition* arcSize;
 extern currentPosition* currentPos;
 
+extern cartPosition* blueSingle;
+extern cartPosition* blueDouble;
+extern cartPosition* redSingle;
+extern cartPosition* redDouble;
+
 typedef struct  {
   intakeTimeVariable* intakeTime;
   autoAngleVariable* autoAngle;
   moveVariable* moveVar;
   armVariable*  armVar;
 
-  /*cartPosition* localCartPos;
+  cartPosition* localCartPos;
   polarPosition* localPolarPos;
   arcPosition* arcSize;
-  currentPosition* currentPos;  */
+  currentPosition* currentPos;
+
+  cartPosition* blueSingle;
+  cartPosition* blueDouble;
+  cartPosition* redSingle;
+  cartPosition* redDouble;
 } controlBlock;
 
 //extern controlBlock* control_block;

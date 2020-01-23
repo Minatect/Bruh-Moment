@@ -63,10 +63,28 @@ void initial(void* controlblock)  {
   armVar->armUpAllow = 0;
 
 
-  /*cartPosition* localCartPos = new cartPosition();
+  cartPosition* localCartPos = new cartPosition();
+
   polarPosition* localPolarPos = new polarPosition();
   arcPosition* arcSize = new arcPosition();
-  currentPosition* currentPos = new currentPosition();*/
+  currentPosition* currentPos = new currentPosition();
+
+  cartPosition* blueSingle = new cartPosition();
+  blueSingle->X = BLUESINGLE_X;
+  blueSingle->Y = BLUESINGLE_Y;
+  blueSingle->angle = BLUESINGLE_ANGLE;
+  cartPosition* blueDouble = new cartPosition();
+  blueDouble->X = BLUEDOUBLE_X;
+  blueDouble->Y = BLUEDOUBLE_Y;
+  blueDouble->angle = BLUEDOUBLE_ANGLE;
+  cartPosition* redSingle = new cartPosition();
+  redSingle->X = REDSINGLE_X;
+  redSingle->Y = REDSINGLE_Y;
+  redSingle->angle = REDSINGLE_ANGLE;
+  cartPosition* redDouble = new cartPosition();
+  redDouble->X = REDDOUBLE_X;
+  redDouble->Y = REDDOUBLE_Y;
+  redDouble->angle = REDDOUBLE_ANGLE;
 
 
 
