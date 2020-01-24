@@ -17,6 +17,8 @@ void turnRL(int dir, int degrees, float factor)
     float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
     float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
     float powerR, powerL;
+    float lastPowerL = 0;
+    float lastPowerR = 0;
 
     float targetMin = target - 15;
     float targetMax = target + 15;
@@ -29,6 +31,7 @@ void turnRL(int dir, int degrees, float factor)
     int count = 0;
     int accelCount;
     float accelTime = 0.5;
+    float maxAccel = 12000/(accelTime*50);
     // zero motors fix if this is not correct method
 		driveReset();
 
@@ -61,26 +64,22 @@ void turnRL(int dir, int degrees, float factor)
         dTermR = kD * (errorR - errorLastR);
         errorLastR = errorR;
 
-        powerL = ((pTermL + iTermL + dTermL) * factor) * dir;
-				powerR = ((pTermR + iTermR + dTermR) * factor) * dir;
+        powerL = ((pTermL + iTermL + dTermL) * factor);
+				powerR = ((pTermR + iTermR + dTermR) * factor);
 
         if(powerL/powerR>1.1) {
-          powerR=powerL;
+          powerL = powerR;
         }
         else if(powerR/powerL>1.1) {
-          powerL=powerR;
+          powerR = powerL;
         }
 
-        if(count == 1)  {
-          accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
-        }
-        if(count <= accelCount) {
-          powerL = powerL*count/accelCount;
-          powerR = powerR*count/accelCount;
-        }
-
-				driveL(powerL);
-        driveR(-powerR);
+        if(fabs(powerR-lastPowerR)<maxAccel)  powerR = maxAccel + lastPowerR;
+        if(fabs(powerL-lastPowerL)<maxAccel)  powerL = maxAccel + lastPowerL;
+        lastPowerR = powerR;
+        lastPowerL = powerL;
+				driveL(dir * powerL);
+        driveR(-dir * powerR);
 
         if(std::abs(AVGENC()) > targetMin && ft)
         {
@@ -232,4 +231,109 @@ void turnRLAsync(void* controlblock)
     if(cb->moveVar->turnRLAllow) cb->moveVar->turnRLAllow = false;
     Task::delay(100);
   }
+}
+
+void turnGyro(int dir, float target, float factor) {
+  setDriveBrakes(COAST);
+  resetGyro();
+  target = target*10;
+  float kP = .5;//.3; // .25
+  float kI = .0075;//.0005;
+  float kD = 2.5;//1;
+
+  float errorZone = target; // target * .1;
+  float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
+  float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
+  float powerR, powerL;
+  float lastPowerL = 0;
+  float lastPowerR = 0;
+
+  float targetMin = target - 6;
+  float targetMax = target + 6;
+  bool ft = true;
+  bool ogPass = false;
+  float pTime; // pause time
+  int exitDelay = 400; // millis to check exit
+  bool settled = false;
+
+  int count = 0;
+  int accelCount;
+  float accelTime = 1;
+  float maxAccel = 12000/(accelTime*50);
+  // zero motors fix if this is not correct method
+  driveReset();
+
+  while(!settled)
+  //while(std::abs(LENCO) < target * .98) // left encoder  < target
+  {
+      //count++;
+      errorL = target - std::abs(getGyro());
+      //errorR = target - std::abs(RENCO());
+      // errorTot += error;
+
+      if (errorL < errorZone) {
+          errorTotL += errorL;
+      } else {
+          errorTotL = 0;
+      }
+      /*if (errorR < errorZone) {
+          errorTotR += errorR;
+      } else {
+          errorTotR = 0;
+      }*/
+
+      pTermL = errorL * kP;
+      //pTermR = errorR * kP;
+
+      iTermL = kI * errorTotL;
+      dTermL = kD * (errorL - errorLastL);
+      errorLastL = errorL;
+      /*iTermR = kI * errorTotR;
+      dTermR = kD * (errorR - errorLastR);
+      errorLastR = errorR;*/
+
+      powerL = ((pTermL + iTermL + dTermL) * factor);
+      //powerR = ((pTermR + iTermR + dTermR) * factor);
+
+      /*if(powerL/powerR>1.1) {
+        powerL = powerR;
+      }
+      else if(powerR/powerL>1.1) {
+        powerR = powerL;
+      }*/
+
+      //if(fabs(powerR-lastPowerR)<maxAccel)  powerR = maxAccel + lastPowerR;
+      if(fabs(powerL-lastPowerL)<maxAccel)  powerL = maxAccel + lastPowerL;
+      //lastPowerR = powerR;
+      lastPowerL = powerL;
+      driveL(dir * powerL);
+      driveR(-dir * powerL);
+
+      if(std::abs(getGyro()) > targetMin && ft)
+      {
+          pTime = pros::millis();
+          ft = false;
+          ogPass = true;
+      }
+      if(pros::millis() > pTime + exitDelay && ogPass)
+      {
+          if(std::abs(getGyro()) > targetMin && std::abs(getGyro()) < targetMax)
+          {
+              settled = true;
+          }
+          else
+          {
+              pTime = pros::millis();
+          }
+      }
+
+      pros::Task::delay(20);
+  }
+
+
+  driveL(0);
+  driveR(0);
+
+  driveReset();
+
 }

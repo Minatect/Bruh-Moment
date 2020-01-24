@@ -30,7 +30,7 @@ void goRL(int dir, float distance, float factor, float speed)
     int count = 0;
     int accelCount;
     float accelTime = 0.75;
-    float maxAccel = 12000*speed/(accelTime*50);
+    float maxAccel = 12000/(accelTime*50);
     // zero motors fix if this is not correct method
 		driveReset();
 
@@ -80,7 +80,10 @@ void goRL(int dir, float distance, float factor, float speed)
           powerL = 12000*speed;
         }
 
-        if()
+        if(fabs(powerR-lastPowerR)<maxAccel)  powerR = maxAccel + lastPowerR;
+        if(fabs(powerL-lastPowerL)<maxAccel)  powerL = maxAccel + lastPowerL;
+        lastPowerR = powerR;
+        lastPowerL = powerL;
 
 				driveL(dir*powerL);
         driveR(dir*powerR);
@@ -121,13 +124,16 @@ void goRLAsync(void* controlblock)
   float kP = 0.5;//.3; // .25
   float kI = 0.001;//.0005;
   float kD = 1.5;//1;
-  float errorZone = 100; // target * .1;
+  float errorZone = 720*DRIVE_RATIO; // target * .1;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
   float powerR, powerL;
+  float lastPowerR = 0;
+  float lastPowerL = 0;
 
   int accelCount;
-  float accelTime = 0.5;
+  float accelTime = 0.75;
+  float maxAccel = 12000/(accelTime*50);
   // zero motors fix if this is not correct method
 
   int dir, count;
@@ -202,13 +208,11 @@ void goRLAsync(void* controlblock)
             powerL = 12000*speed;
           }
 
-          if(count == 1)  {
-            accelCount = powerL/12000*accelTime*50; //amount of cycles to reach target speed
-          }
-          if(count <= accelCount) {
-            powerL = powerL*count/accelCount;
-            powerR = powerR*count/accelCount;
-          }
+          if(fabs(powerR-lastPowerR)<maxAccel)  powerR = maxAccel + lastPowerR;
+          if(fabs(powerL-lastPowerL)<maxAccel)  powerL = maxAccel + lastPowerL;
+          lastPowerR = powerR;
+          lastPowerL = powerL;
+
 
   				driveL(powerL * dir);
           driveR(powerR * dir);
@@ -234,7 +238,8 @@ void goRLAsync(void* controlblock)
           pros::Task::delay(20);
       }
 
-
+      lastPowerL = 0;
+      lastPowerR = 0;
       driveL(0);
       driveR(0);
 

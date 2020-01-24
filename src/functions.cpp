@@ -37,6 +37,19 @@ float RVEL()  {
   return (driveRF.get_actual_velocity()+driveRB.get_actual_velocity())/2;
 }
 
+float getGyro()	{
+	return (leftGyro.get_value()+rightGyro.get_value())/2;
+}
+void resetGyro()	{
+	leftGyro.reset();
+	rightGyro.reset();
+}
+
+float sgn(float input)	{
+	if(input == 0) return 1;
+	else return input/fabs(input);
+}
+
 void driveReset()	{
 	driveLF.tare_position();
 	driveRF.tare_position();

@@ -113,9 +113,11 @@ extern Motor intakeL;
 extern Motor angle;
 extern Motor arm;
 
-extern ADIDigitalIn unloadState;
+
 extern ADIDigitalIn liftState;
-extern ADIDigitalIn armState;
+extern ADIAnalogIn trayLine;
+extern ADIGyro leftGyro;
+extern ADIGyro rightGyro;
 
 extern ADIEncoder leftEncoder;
 extern ADIEncoder rightEncoder;
@@ -128,7 +130,7 @@ extern intakeTimeVariable* intakeTime;
 extern autoAngleVariable* autoAngle;
 extern moveVariable* moveVar;
 extern armVariable* armVar;
-
+extern intakeToPointVar* intakePoint;
 
 extern cartPosition* localCartPos;
 extern polarPosition* localPolarPos;
@@ -145,6 +147,7 @@ typedef struct  {
   autoAngleVariable* autoAngle;
   moveVariable* moveVar;
   armVariable*  armVar;
+  intakeToPointVar* intakePoint;
 
   cartPosition* localCartPos;
   polarPosition* localPolarPos;

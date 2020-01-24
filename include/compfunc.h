@@ -7,7 +7,14 @@ int voltage;
 float time;
 bool intakeTimeAllow;
 bool intakeIsMoving;
+int sensorThreshold;
+bool intakePoint;
 } intakeTimeVariable;
+
+typedef struct {
+  int sensorThreshold;
+  bool intakePoint;
+} intakeToPointVar;
 
 
 
@@ -42,5 +49,7 @@ void deployAsync(void* controlblock);
 void angleState(void* controlblock);
 
 void armCheck(void* controlblock);
+
+void intakeToPoint(void* controlblock);
 
 #endif

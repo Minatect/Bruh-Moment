@@ -10,9 +10,9 @@ pros::Mutex localPolarAccess;
 bool setAbsCartCoord(float x, float y, float ang, void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   if(absoluteAccess.take(TIMEOUT_MAX)) {
-    cb->currentPos->cartX = x;
-    absolutePos->cartY = y;
-    absolutePos->cartAngle = ang;
+    cb->currentPos->X = x;
+    cb->currentPos->Y = y;
+    cb->currentPos->angle = ang;
     absoluteAccess.give();
     return true;
   }
@@ -21,19 +21,21 @@ bool setAbsCartCoord(float x, float y, float ang, void* controlblock)  {
   }
 }
 
-bool addToAbsCartCoord(void* controlblock)  {
+/*bool addToAbsCartCoord(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   if(absoluteAccess.take(TIMEOUT_MAX) && localCartAccess.take(TIMEOUT_MAX)) {
     cb->currentPos->X = cb->currentPos->X + cb->localCartPos->X;
     cb->currentPos->Y = cb->currentPos->Y + cb->localCartPos->Y;
     cb->currentPos->angle = cb->currentPos->angle + cb->localCartPos->angle;
+  }
+  else  {
 
   }
 }
 
 bool setLocalCartCoord(float x, float y, float ang) {
   if(localCartAccess.take(TIMEOUT_MAX)) {
-    localCartPos->cartX = x;
+    cb->localCartPos->cartX = x;
     localCartPos->cartY = y;
     localCartPos->cartAngle = ang;
     return true;
@@ -54,7 +56,7 @@ bool setLocalPolCoord(float r, float o, float ang)  {
   else  {
     return false;
   }
-}
+}*/
 
 
 float degreeToRadian(float degrees) {

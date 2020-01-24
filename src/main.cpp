@@ -13,10 +13,12 @@ Motor arm (ARM, E_MOTOR_GEARSET_36, false, E_MOTOR_ENCODER_DEGREES);
 
 
 ADIDigitalIn liftState (5);
-ADIDigitalIn armState (6);
-
-ADIEncoder leftEncoder (1,2,false);
-ADIEncoder rightEncoder (3,4,true);
+//ADIDigitalIn armState (6);
+ADIGyro leftGyro(1);
+ADIGyro rightGyro(2);
+ADIAnalogIn trayLine(3);
+//ADIEncoder leftEncoder (1,2,false);
+//ADIEncoder rightEncoder (3,4,true);
 //ADIEncoder sideEncoder (5,6,false);
 
 Controller master (E_CONTROLLER_MASTER);

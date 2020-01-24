@@ -2,10 +2,24 @@
 
 void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
-  
+  setDriveBrakes(COAST);
   while(true)	{
-		driveL(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));	//left drive power
-		driveR(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3)); //right drive power
+		//driveL(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));	//left drive power
+		//driveR(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3)); //right drive power
+    //driveL(12000*(powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)+powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),3))/powf(127,3));
+    //driveR(12000*(powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)-powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),3))/powf(127,3));
+    if(std::fabs(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
+      driveL(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
+            + sgn(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),4))
+            /((powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),2) + powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),2))*powf(127,2)));
+      driveR(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
+            - sgn(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),4))
+            /((powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),2) + powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),2))*powf(127,2)));
+    }     else  {
+      driveL(0);
+      driveR(0);
+    }
+
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT))  {
       if(master.get_digital(E_CONTROLLER_DIGITAL_R1) && !cb->armVar->armIsMoving)	{
@@ -82,6 +96,9 @@ void driver(void* controlblock) {
 			intakePow(0);
 		}
 
+    if(master.get_digital(E_CONTROLLER_DIGITAL_A) && !cb->intakeTime->intakeIsMoving)  {
+      cb->intakePoint->intakePoint = true;
+    }
 
 
 

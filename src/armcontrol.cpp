@@ -75,7 +75,7 @@ void armMove(void* controlblock)  {
   }
 }
 
-void armDown(void* controlblock)  {
+/*void armDown(void* controlblock)  {
   controlBlock* cb=(controlBlock*)controlblock;
   while(true) {
     if(cb->armVar->armDownAllow && cb->armVar->armIsMoving && cb->armVar->armUp)  {
@@ -166,7 +166,7 @@ void armMove(float target, float factor)  {
 
         Task::delay(100);
 
-    }
+    }*/
 
 
 void armMoveAsync(void* controlblock)  {

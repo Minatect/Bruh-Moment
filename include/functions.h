@@ -42,6 +42,8 @@ float RVEL();
 
 void driveReset();
 
+float sgn(float input);
+
 void goRL(int dir, float distance, float factor, float speed);
 
 void turnRL(int dir, int degrees, float factor);
@@ -52,6 +54,8 @@ void goRLAsync(void* controlblock);
 
 void turnRLAsync(void* controlblock);
 
+void turnGyro(int dir, float target, float factor);
+
 void robotSettled(void* controlblock);
 
 void angleSettled(void* controlblock);
@@ -59,5 +63,9 @@ void angleSettled(void* controlblock);
 void armSettled(void* controlblock);
 
 void intakeSettled(void* controlblock);
+
+float getGyro();
+
+void resetGyro();
 
 #endif

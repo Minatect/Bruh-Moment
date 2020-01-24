@@ -10,6 +10,8 @@ void initial(void* controlblock)  {
   angle.tare_position();
   arm.set_brake_mode(HOLD);
   arm.tare_position();
+  trayLine.calibrate();
+  Task::delay(2000);
 
 
 
@@ -18,6 +20,9 @@ void initial(void* controlblock)  {
 	intakeTime->voltage = -12000;
 	intakeTime->time = 0.0;
   intakeTime->intakeTimeAllow = false;
+  intakeTime->intakeIsMoving = false;
+  intakeTime->intakePoint = false;
+  intakeTime->sensorThreshold = 2048;
 
   autoAngleVariable* autoAngle = new autoAngleVariable();
   autoAngle = (autoAngleVariable*)calloc(1,sizeof (autoAngleVariable));
@@ -63,35 +68,58 @@ void initial(void* controlblock)  {
   armVar->armUpAllow = 0;
 
 
-  cartPosition* localCartPos = new cartPosition();
+  cartPosition* localCartPos = (cartPosition*)calloc(1, sizeof(cartPosition));
+  localCartPos->X = 0;
+  localCartPos->Y = 0;
+  localCartPos->angle = 0;
+  polarPosition* localPolarPos = (polarPosition*)calloc(1, sizeof(polarPosition));
+  localPolarPos->R = 0;
+  localPolarPos->O = 0;
+  localPolarPos->angle = 0;
+  arcPosition* arcSize = (arcPosition*)calloc(1, sizeof(arcPosition));
+  arcSize->radius = 0;
+  arcSize->sweep = 0;
+  arcSize->right = true;
+  currentPosition* currentPos = (currentPosition*)calloc(1, sizeof(currentPosition));
+  currentPos->red = true;
+  currentPos->track = false;
+  currentPos->X = 0;
+  currentPos->Y = 0;
+  currentPos->angle = 0;
 
-  polarPosition* localPolarPos = new polarPosition();
-  arcPosition* arcSize = new arcPosition();
-  currentPosition* currentPos = new currentPosition();
-
-  cartPosition* blueSingle = new cartPosition();
+  cartPosition* blueSingle = (cartPosition*)calloc(1, sizeof(cartPosition));
   blueSingle->X = BLUESINGLE_X;
   blueSingle->Y = BLUESINGLE_Y;
   blueSingle->angle = BLUESINGLE_ANGLE;
-  cartPosition* blueDouble = new cartPosition();
+  cartPosition* blueDouble = (cartPosition*)calloc(1, sizeof(cartPosition));
   blueDouble->X = BLUEDOUBLE_X;
   blueDouble->Y = BLUEDOUBLE_Y;
   blueDouble->angle = BLUEDOUBLE_ANGLE;
-  cartPosition* redSingle = new cartPosition();
+  cartPosition* redSingle = (cartPosition*)calloc(1, sizeof(cartPosition));
   redSingle->X = REDSINGLE_X;
   redSingle->Y = REDSINGLE_Y;
   redSingle->angle = REDSINGLE_ANGLE;
-  cartPosition* redDouble = new cartPosition();
+  cartPosition* redDouble = (cartPosition*)calloc(1, sizeof(cartPosition));
   redDouble->X = REDDOUBLE_X;
   redDouble->Y = REDDOUBLE_Y;
   redDouble->angle = REDDOUBLE_ANGLE;
-
-
+  intakeToPointVar* intakePoint = (intakeToPointVar*)calloc(1, sizeof(intakeToPointVar));
+  intakePoint->sensorThreshold = 2048;
+  intakePoint->intakePoint = false;
 
   cb->autoAngle = autoAngle;
   cb->intakeTime = intakeTime;
   cb->moveVar = moveVar;
   cb->armVar = armVar;
+  cb->intakePoint = intakePoint;
+  cb->localCartPos = localCartPos;
+  cb->localPolarPos = localPolarPos;
+  cb->currentPos = currentPos;
+  cb->arcSize = arcSize;
+  cb->blueSingle = blueSingle;
+  cb->blueDouble = blueDouble;
+  cb->redSingle = redSingle;
+  cb->redDouble = redDouble;
 
 
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
@@ -116,10 +144,11 @@ void initial(void* controlblock)  {
   //                        TASK_STACK_DEPTH_DEFAULT, "Async Arm Down");
   //angleuptask.remove();
   //angleuptask.resume();
-  pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
-                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");
+  /*pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
+                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");*/
+  pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
+                            TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
 
-
-	pros::lcd::initialize();
-	gui_btnm();
+	//pros::lcd::initialize();
+	gui();
 }
