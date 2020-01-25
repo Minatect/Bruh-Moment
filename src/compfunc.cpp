@@ -64,12 +64,16 @@ void autoStack(void* controlblock)  {
   cb->autoAngle->angleUpAllow = true;
   Task::delay(100);
   angleSettled(cb);
-
   cb->intakeTime->voltage = 6000;
   cb->intakeTime->time = 0.5;
+  cb->moveVar->goDir = -1;
+  cb->moveVar->goDistance = 20;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 0.8;
+  cb->moveVar->goRLAllow = true;
   cb->intakeTime->intakeTimeAllow = true;
   cb->autoAngle->angleDownAllow = true;
-  goRL(-1,10,80,1);
+  robotSettled(cb);
 }
 
 void autoStackAsync(void* controlblock) {
