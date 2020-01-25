@@ -124,28 +124,19 @@ void initial(void* controlblock)  {
 
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
-	//pros::Task angledowntask(angleDownAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
-	//												TASK_STACK_DEPTH_DEFAULT, "Auto Angle Down");
+	
 	pros::Task intaketimetask(intakeTimeAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Time Based Intake");
-  //pros::Task autostacktask(autoStackAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
-//													TASK_STACK_DEPTH_DEFAULT, "Auto Back out of Stack");
+
   pros::Task goRLtask(goRLAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
                         	TASK_STACK_DEPTH_DEFAULT, "Async Go PID");
 //  pros::Task turnRLtask(turnRLAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 //                          TASK_STACK_DEPTH_DEFAULT, "Async Turn PID");
   pros::Task anglecheck(angleState, (void*) cb, TASK_PRIORITY_MIN,
                           TASK_STACK_DEPTH_DEFAULT, "Angle State Check");
-  //pros::Task armmovetask(armMove, (void*) cb, TASK_PRIORITY_DEFAULT,
-  //                        TASK_STACK_DEPTH_DEFAULT, "Async Move Arm");
-  //pros::Task armcheck(armCheck, (void*) cb, TASK_PRIORITY_MIN,
-  //                        TASK_STACK_DEPTH_DEFAULT, "Arm Move Check");
-  //pros::Task armdowntask(armDown, (void*) cb, TASK_PRIORITY_DEFAULT,
-  //                        TASK_STACK_DEPTH_DEFAULT, "Async Arm Down");
-  //angleuptask.remove();
-  //angleuptask.resume();
-  /*pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
-                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");*/
+
+  pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
+                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");
   pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
 

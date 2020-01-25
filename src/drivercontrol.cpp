@@ -4,10 +4,6 @@ void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   while(true)	{
-		//driveL(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));	//left drive power
-		//driveR(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3)); //right drive power
-    //driveL(12000*(powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)+powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),3))/powf(127,3));
-    //driveR(12000*(powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)-powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),3))/powf(127,3));
     if(std::fabs(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
       driveL(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
             + sgn(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),4))
@@ -22,19 +18,15 @@ void driver(void* controlblock) {
 
 
     if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT))  {
-      if(master.get_digital(E_CONTROLLER_DIGITAL_R1) && !cb->armVar->armIsMoving)	{
-  			cb->armVar->armUpAllow = 2;
+      if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{
+        if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
+        else cb->armVar->armUpAllow ++;
   		}
-  		else if(master.get_digital(E_CONTROLLER_DIGITAL_B)  && !cb->armVar->armIsMoving)	{
-  			cb->armVar->armDownAllow = true;
+  		else if(master.get_digital(E_CONTROLLER_DIGITAL_B))	{
+  			if(cb->armVar->armUpAllow <= 0) cb->armVar->armUpAllow = 0;
+        else cb->armVar->armUpAllow --;
   		}
 
-
-      /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1) && !cb->armVar->armIsMoving) {
-        cb->armVar->armUpAllow = 3;
-      } else if(master.get_digital(E_CONTROLLER_DIGITAL_R2) && !cb->armVar->armIsMoving)  {
-        cb->armVar->armUpAllow = 1;
-      }*/
 
       if(!cb->autoAngle->angleIsMoving) {
         if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState)  {

@@ -109,36 +109,7 @@ void angleState(void* controlblock) {
   }
 }
 
-void armUpFunc(void* controlblock)  {
-  controlBlock* cb = (controlBlock*)controlblock;
-  if(!cb->armVar->armUp && !cb->autoAngle->angleState) {
-    cb->armVar->armUp = true;
-    cb->autoAngle->angleState = true;
-    cb->armVar->armMoving = true;
-    driveVoltage(0);
-    angle.move_voltage(12000);
-    arm.move_voltage(12000);
-    Task::delay(1000);
-    angle.move_voltage(0);
-    while(arm.get_position()<=600) Task::delay(20);
-    arm.move_voltage(0);
-    cb->armVar->armMoving = false;
-  }
-}
-void armDownFunc(void* controlblock)  {
-  controlBlock* cb = (controlBlock*)controlblock;
-  if(cb->armVar->armUp)  {
-    cb->armVar->armMoving = true;
-    driveVoltage(0);
-    arm.move_voltage(-12000);
-    angleDown(cb);
-    while(arm.get_position() >= 40) Task:delay(20);
-    arm.move_voltage(0);
-    cb->armVar->armUp = false;
-    cb->autoAngle->angleState = false;
-    cb->armVar->armMoving = false;
-  }
-}
+
 
 void deploy(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
@@ -180,43 +151,7 @@ void deployAsync(void* controlblock)  {
   cb->autoAngle->angleDownAllow = true;
 }
 
-void armUpAsync(void* controlblock) {
-  controlBlock* cb = (controlBlock*)controlblock;
-  if(!cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving
-     && !cb->armVar->armIsMoving)  {
-    cb->armVar->armAngle = 600;
 
-    cb->autoAngle->target = 250;
-
-    cb->armVar->armMoveAllow = true;
-    cb->autoAngle->angleUpAllow = true;
-    cb->armVar->armUp = true;
-  }
-}
-
-/*void armCheck(void* controlblock) {
-  controlBlock* cb = (controlBlock*)controlblock;
-  while(true) {
-    if(!cb->armVar->armIsMoving)  {
-      if(armState.get_value() == 0) cb->armVar->armUp = true;
-      else if(armState.get_value() == 1) cb->armVar->armUp = false;
-    }
-    Task::delay(100);
-  }
-}*/
-
-void armDownAsync(void* controlblock) {
-  controlBlock* cb = (controlBlock*)controlblock;
-  if(cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving
-     && !cb->armVar->armIsMoving)  {
-    cb->armVar->armAngle = 0;
-
-    cb->armVar->armMoveAllow = true;
-    Task::delay(1500);
-    cb->autoAngle->angleDownAllow = true;
-    cb->armVar->armUp = false;
-  }
-}
 
 void intakeToPoint(void* controlblock)  {
   controlBlock* cb = (controlBlock*) controlblock;
