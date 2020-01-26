@@ -241,15 +241,15 @@ void turnGyro(int dir, float target, float factor) {
   float kI = .0075;//.0005;
   float kD = 2.5;//1;
 
-  float errorZone = target; // target * .1;
+  float errorZone = 180; // target * .1;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
   float powerR, powerL;
   float lastPowerL = 0;
   float lastPowerR = 0;
 
-  float targetMin = target - 6;
-  float targetMax = target + 6;
+  float targetMin = target - 8;
+  float targetMax = target + 8;
   bool ft = true;
   bool ogPass = false;
   float pTime; // pause time

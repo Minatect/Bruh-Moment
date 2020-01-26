@@ -379,7 +379,7 @@ void angleMoveAsync(void* controlblock) {
   float kI = 0.01;//0.025;
   float kD = 1;//1;
 
-  float errorZone = 200; // target * .1;
+  float errorZone = 125; // target * .1;
   float error, errorTot, errorLast;
   float pTerm, iTerm, dTerm;
   float power, targetMin, targetMax;
@@ -392,7 +392,7 @@ void angleMoveAsync(void* controlblock) {
       cb->autoAngle->angleIsMoving = true;
 
       factor = 90;//cb->autoAngle->factor;
-      target = 580;//cb->autoAngle->target;
+      target = 575;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;

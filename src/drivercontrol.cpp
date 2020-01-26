@@ -4,7 +4,7 @@ void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   while(true)	{
-    if(std::fabs(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
+    /*if(std::fabs(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
       driveL(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
             + sgn(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),4))
             /((powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),2) + powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),2))*powf(127,2)));
@@ -14,22 +14,22 @@ void driver(void* controlblock) {
     }     else  {
       driveL(0);
       driveR(0);
-    }
-
-
-    if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT))  {
-      if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{
+    }*/
+    driveL(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
+    driveR(12000*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
+    if(master.get_digital(E_CONTROLLER_DIGITAL_RIGHT))  { //macro
+      /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{ //enumerate arm position +
         if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
         else cb->armVar->armUpAllow ++;
   		}
-  		else if(master.get_digital(E_CONTROLLER_DIGITAL_B))	{
+  		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2))	{ //enumerate arm position -
   			if(cb->armVar->armUpAllow <= 0) cb->armVar->armUpAllow = 0;
         else cb->armVar->armUpAllow --;
-  		}
+  		}*/
 
 
-      if(!cb->autoAngle->angleIsMoving) {
-        if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState)  {
+      if(!cb->autoAngle->angleIsMoving) { //manuel angle adjust
+        if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState) {
           angle.move_voltage(-6000);
         }
         else if(master.get_digital(E_CONTROLLER_DIGITAL_UP)) {
@@ -39,8 +39,21 @@ void driver(void* controlblock) {
           angle.move_voltage(0);
         }
       }
+      if(master.get_digital(E_CONTROLLER_DIGITAL_B))  {
+        cb->intakeTime->voltage = 6000;
+        cb->intakeTime->time = 0.5;
+        cb->moveVar->goDir = -1;
+        cb->moveVar->goDistance = 20;
+        cb->moveVar->goFactor = 80;
+        cb->moveVar->goSpeed = 0.8;
+        cb->moveVar->goRLAllow = true;
+        cb->intakeTime->intakeTimeAllow = true;
+        cb->autoAngle->angleDownAllow = true;
+        robotSettled(cb);
+      }
 
-    } else  {
+    } else  { //non-macro
+      //manuel arm adjust
       if(master.get_digital(E_CONTROLLER_DIGITAL_R1) && !cb->armVar->armIsMoving)	{
         arm.move_voltage(12000);
   		}
@@ -51,26 +64,21 @@ void driver(void* controlblock) {
   			arm.move_voltage(0);
   		}
 
+      //auto angler
       if(!cb->autoAngle->angleIsMoving) {
+        if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !cb->autoAngle->angleState)	{ //activate angle up task
+      		cb->autoAngle->angleUpAllow = true;
+      	}
+        else if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState)	{  //activate angle down task
+      		cb->autoAngle->angleDownAllow = true;
+      	}
+        else if(master.get_digital(E_CONTROLLER_DIGITAL_B) && !cb->autoAngle->angleState)  {
+          autoStack(cb);
+        }
+        
+        if(master.get_digital(E_CONTROLLER_DIGITAL_X)) angle.move_voltage(6000);
+        else angle.move_voltage(0);
 
-            if(master.get_digital(E_CONTROLLER_DIGITAL_UP) && !cb->autoAngle->angleState)	{ //activate angle up task
-        			//angleUp(cb);
-        			cb->autoAngle->angleUpAllow = true;
-        		}
-            else if(master.get_digital(E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState)	{  //activate angle down task
-        			//angleDown(cb);
-        			cb->autoAngle->angleDownAllow = true;
-        		}
-            else if(master.get_digital(E_CONTROLLER_DIGITAL_B) && !cb->autoAngle->angleState)  {
-              //cb->autoAngle->autoStac`kAllow = true;
-              autoStack(cb);
-            }
-
-
-
-            /*if(liftState.get_value() == 0 && cb->autoAngle->angleState ==false) {
-              cb->autoAngle->angleState = true;
-            }*/
       }
     }
 
@@ -88,8 +96,8 @@ void driver(void* controlblock) {
 			intakePow(0);
 		}
 
-    if(master.get_digital(E_CONTROLLER_DIGITAL_A) && !cb->intakeTime->intakeIsMoving)  {
-      cb->intakePoint->intakePoint = true;
+    if(master.get_digital(E_CONTROLLER_DIGITAL_A) && !cb->intakeTime->intakeIsMoving)  {  //auto adjust cube position
+
     }
 
 

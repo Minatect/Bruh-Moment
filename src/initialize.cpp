@@ -124,7 +124,7 @@ void initial(void* controlblock)  {
 
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
-	
+
 	pros::Task intaketimetask(intakeTimeAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Time Based Intake");
 
@@ -135,8 +135,8 @@ void initial(void* controlblock)  {
   pros::Task anglecheck(angleState, (void*) cb, TASK_PRIORITY_MIN,
                           TASK_STACK_DEPTH_DEFAULT, "Angle State Check");
 
-  pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
-                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");
+  /*pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
+                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");*/
   pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
 

@@ -2,47 +2,52 @@
 
 void skills_auton(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-//  Task readyStack (readyIntake, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "readyStack");
-//  readyStack.suspend();
-
-//  Task intakeTower (intake6, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "intakeTower");
-//  intakeTower.suspend();
-
-/*  angle.set_brake_mode(HOLD);
-  angState = false;
-  //deploy();
-  //gotime(-5000, 0.5);
-  goRL(1,40,40,0.5);  //gets the first 5 cubes
-  turnRL(1,35,90); //goes around the stack of cubes
+  cb->moveVar->goDistance = 50;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 0.32;
+  cb->moveVar->goRLAllow = true;
+  Task::delay(100);
+  arm.move_relative(500,100);
+  while(arm.get_position()<490) Task::delay(100);
+  intakePow(12000);
+  //Task::delay(500);
+  arm.move_relative(-550,100);
+  Task::delay(500);
+  intakePow(-12000);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+  //cb->intakePoint->intakePoint = true;
+  //Task::delay(100);
   intakePow(0);
-  goRL(1,12,40,0.7);
-  turnRL(-1,80,90);
-  goRL(1,12,40,0.7);
-  turnRL(1,35,90);
-//  intakeTower.resume();
-  goRL(1,12,40,0.5); //picks up another cube
-  //goRL(-1,8,40,0.7);  //backs up and turns for first tower
-  turnRL(1,15,90);
-//  intakeTower.suspend();
-  intaketime(2, -12000);  //deposits cube into first tower
-  turnRL(-1,15,90);
-  //intakeTower.resume();
-  goRL(1,10,40,0.5); //picks up another cube
-  //goRL(-1,8,40,0.7);  //backs up and turns for red alliance tower
-  //intakeTower.suspend();
-  turnRL(-1,110,90);
-  //goRL(-1,8,40,0.7); //backs up into tower
-  intaketime(2,-12000);
-  //goRL(1,8,40,0.7); //goes forward and turns to original orientation
-  turnRL(1,110,90);
-  goRL(1,30,40,0.5);  //goes forward and picks p the restof the cubes
-  gotime(5000,1.5); //goes into the wall to straighten
-  //readyStack.resume();
-  goRL(-1,24,40,0.7); //backs up to position for stacking
-  turnRL(-1,45,90);
-  //goRL(1,19,40,0.8);  //goes into the zone
-  gotime(5000,0.9);
-  //readyStack.suspend();
-  unload();
-  gotime(-4000,1);  */
+  turnGyro(1,40,70);
+
+  cb->moveVar->goDir = -1;
+  cb->moveVar->goDistance = 40;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 1;
+  cb->moveVar->goRLAllow = true;
+  Task::delay(100);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+  //Task::delay(100);
+  turnGyro(-1,40,70);
+  intakePow(-12000);
+  cb->moveVar->goDir = 1;
+  cb->moveVar->goDistance = 35;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 0.35;
+  cb->moveVar->goRLAllow = true;
+  Task::delay(100);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+//cb->intakePoint->intakePoint = true;
+  //Task::delay(100);
+  intakePow(0);
+  /*turnRL(-1,150,80);
+  cb->moveVar->goDistance = 50;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 1;
+  cb->moveVar->goRLAllow = true;
+  //cb->intakePoint->intakePoint = true;
+  Task::delay(100);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+  //Task::delay(100);
+  autoStack(cb);*/
 }

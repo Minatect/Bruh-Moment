@@ -124,7 +124,7 @@ void goRLAsync(void* controlblock)
   float kP = 0.5;//.3; // .25
   float kI = 0.001;//.0005;
   float kD = 1.5;//1;
-  float errorZone = 720*DRIVE_RATIO; // target * .1;
+  float errorZone = 200; // target * .1;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
   float powerR, powerL;

@@ -80,7 +80,7 @@ void armMove(void* controlblock)  {
 void armMoveAsync(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   while(true) {
-    if(!cb->armVar->armIsMoving && cb->armVar->armMoveAllow)  {
+    if(!cb->armVar->armIsMoving)  {
       if(cb->armVar->armUpAllow == 1)  {
         cb->armVar->armIsMoving = true;
         if(arm.get_position() > 450)

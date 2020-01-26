@@ -9,7 +9,8 @@ void auton(void* controlblock)  {
   //Task::delay(1000);
   //goRL(1,15,40,1);
   //turnRL(1,90,100);
-  blue_single(cb);
+  //red_single(cb);
+  //blue_single(cb);
   //armDown();
   //cb->autoAngle->angleDownAllow = true;
   switch(auton_sel) {

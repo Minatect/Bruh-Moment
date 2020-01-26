@@ -2,28 +2,52 @@
 
 void red_single(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  cb->autoAngle->target = 200;
-  cb->autoAngle->angleUpAllow = true;
-  angleUpDeploy(cb,150);
-  arm.move_relative(600,100);
-  Task::delay(1500);
+  cb->moveVar->goDistance = 50;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 0.32;
+  cb->moveVar->goRLAllow = true;
+  Task::delay(100);
+  arm.move_relative(500,100);
+  while(arm.get_position()<480) Task::delay(100);
   intakePow(12000);
+  //Task::delay(500);
+  arm.move_relative(-550,100);
   Task::delay(500);
-  arm.move_relative(-600,100);
   intakePow(-12000);
-  Task::delay(500);
-  //`driveVoltage(-12000);
-  //`Task::delay(500);
-  //driveVoltage(0);
-  angleDown(cb);
-  goRL(1,35,78,0.3);
-  Task::delay(500);
-  turnRL(1,155,80);
-
-  goRL(1,34,60,1);
-  intakeTimeDumb(6000, 0.4);
-  angleUp(cb);
-  intakePow(3000);
-  goRL(-1,10,80,0.5);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+  //cb->intakePoint->intakePoint = true;
+  //Task::delay(100);
   intakePow(0);
+  turnGyro(1,40,70);
+
+  cb->moveVar->goDir = -1;
+  cb->moveVar->goDistance = 40;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 1;
+  cb->moveVar->goRLAllow = true;
+  Task::delay(100);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+  //Task::delay(100);
+  turnGyro(-1,40,70);
+  intakePow(-12000);
+  cb->moveVar->goDir = 1;
+  cb->moveVar->goDistance = 35;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 0.35;
+  cb->moveVar->goRLAllow = true;
+  Task::delay(100);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+//cb->intakePoint->intakePoint = true;
+  //Task::delay(100);
+  intakePow(0);
+  /*turnRL(-1,150,80);
+  cb->moveVar->goDistance = 50;
+  cb->moveVar->goFactor = 80;
+  cb->moveVar->goSpeed = 1;
+  cb->moveVar->goRLAllow = true;
+  //cb->intakePoint->intakePoint = true;
+  Task::delay(100);
+  while(cb->moveVar->robotIsMoving) Task::delay(100);
+  //Task::delay(100);
+  autoStack(cb);*/
 }
