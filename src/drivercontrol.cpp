@@ -3,6 +3,7 @@
 void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
+  cb->isOpControl = true;
   while(true)	{
     /*if(std::fabs(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
       driveL(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
@@ -75,7 +76,7 @@ void driver(void* controlblock) {
         else if(master.get_digital(E_CONTROLLER_DIGITAL_B) && !cb->autoAngle->angleState)  {
           autoStack(cb);
         }
-        
+
         if(master.get_digital(E_CONTROLLER_DIGITAL_X)) angle.move_voltage(6000);
         else angle.move_voltage(0);
 

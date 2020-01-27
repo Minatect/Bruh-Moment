@@ -39,7 +39,7 @@
 /**
  * You should add more #includes here
  */
-//#include "okapi/api.hpp"
+#include "okapi/api.hpp"
 #include "pros/api_legacy.h"
 
 /**
@@ -53,6 +53,7 @@
 using namespace pros;
 using namespace pros::literals;
 //using namespace okapi;
+//using namespace okapi::literals;
 
 
 #define COAST E_MOTOR_BRAKE_COAST
@@ -158,6 +159,8 @@ typedef struct  {
   cartPosition* blueDouble;
   cartPosition* redSingle;
   cartPosition* redDouble;
+
+  bool isOpControl;
 } controlBlock;
 
 //extern controlBlock* control_block;

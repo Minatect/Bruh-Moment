@@ -54,6 +54,10 @@ void initial(void* controlblock)  {
   moveVar->turnkP = 0.5;
   moveVar->turnkI = 0.01;
   moveVar->turnkD = 1;
+  moveVar->goOutR = 0;
+  moveVar->goOutL = 0;
+  moveVar->turnOutR = 0;
+  moveVar->turnOutL = 0;
   armVariable* armVar = (armVariable*)calloc(1, sizeof (armVariable));
   armVar->armUp = false;
   armVar->armMoving = false;
@@ -107,6 +111,10 @@ void initial(void* controlblock)  {
   intakePoint->sensorThreshold = 2048;
   intakePoint->intakePoint = false;
 
+
+
+  bool isOpControl = false;
+
   cb->autoAngle = autoAngle;
   cb->intakeTime = intakeTime;
   cb->moveVar = moveVar;
@@ -120,6 +128,7 @@ void initial(void* controlblock)  {
   cb->blueDouble = blueDouble;
   cb->redSingle = redSingle;
   cb->redDouble = redDouble;
+  cb->isOpControl = isOpControl;
 
 
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,

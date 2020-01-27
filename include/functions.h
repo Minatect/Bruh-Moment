@@ -22,6 +22,10 @@ typedef struct  {
   bool turnRLAllow;
   bool robotIsMoving;
   int doTurn;
+  float goOutR;
+  float goOutL;
+  float turnOutR;
+  float turnOutL;
 } moveVariable;
 
 void setDriveBrakes(pros::motor_brake_mode_e_t mode);

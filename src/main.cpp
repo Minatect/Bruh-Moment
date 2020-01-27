@@ -23,7 +23,25 @@ ADIAnalogIn trayLine(3);
 
 Controller master (E_CONTROLLER_MASTER);
 
+
+auto myChassis = okapi::ChassisControllerBuilder()
+								.withMotors({LF, -LB}, {RF, -RB})
+								.withDimensions(okapi::AbstractMotor::gearset::green, {{4.55_in, 10_in}, okapi::imev5GreenTPR})
+								.build();
+auto profileController = okapi::AsyncMotionProfileControllerBuilder()
+								.withLimits({1.0, 2.0, 10.0})
+								.withOutput(myChassis)
+								.buildMotionProfileController();
+
+profileController->generatePath({
+	{0_ft, 0_ft, 0_deg},  // Profile starting position, this will normally be (0, 0, 0)
+	{3_ft, 0_ft, 0_deg}}, // The next point in the profile, 3 feet forward
+	"A" // Profile name
+);
+
+
 controlBlock* control_block = (controlBlock*)calloc(1, sizeof (controlBlock));
+
 
 
 
