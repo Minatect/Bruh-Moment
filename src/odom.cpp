@@ -84,6 +84,44 @@ void localArcToPolar(void* controlblock)  {
   }
 }
 
+void trackCoordGyro(void* controlblock) {
+  controlBlock* cb = (controlBlock*)controlblock;
+
+  float currentEncL, currentEncR;
+  float deltaL,deltaR, deltaAng;
+  float arcL, arcR, arcCenter;
+  float arcAng;
+  float leftCurve = 1;
+  float currentAngGyro;
+  leftEncoder.reset();
+  rightEncoder.reset();
+
+  float prevEncL = 0;
+  float prevEncR = 0;
+  float prevAngGyro = 0;
+
+  while(currentPos->track)  {
+    currentEncL = LENCO();
+    currentEncR = RENCO();
+    currentAngGyro = getGyro();
+
+    arcCenter = WHEEL_D * PI * ENCSUM() / DRIVE_RATIO;
+    deltaAng = currentAngGyro - prevAngGyro;
+
+    if(arcCenter > 0) {
+
+    } else if(arcCenter < 0)  {
+
+    } else  {
+
+    }
+    prevEncL = currentEncL;
+    prevEncR = currentEncR;
+    prevAngGyro = currentAngGyro;
+
+    Task::delay(20);
+  }
+}
 
 void trackCoord2(void* controlblock)  {
   float currentEncL, currentEncR;
