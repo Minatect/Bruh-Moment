@@ -236,20 +236,20 @@ void turnRLAsync(void* controlblock)
 void turnGyro(int dir, float target, float factor) {
   setDriveBrakes(COAST);
   resetGyro();
-  target = target*10;
+  //target = target*10;
   float kP = .5;//.3; // .25
   float kI = .0075;//.0005;
   float kD = 2.5;//1;
 
-  float errorZone = 180; // target * .1;
+  float errorZone = 18; // target * .1;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
   float powerR, powerL;
   float lastPowerL = 0;
   float lastPowerR = 0;
 
-  float targetMin = target - 8;
-  float targetMax = target + 8;
+  float targetMin = target - 5;
+  float targetMax = target + 5;
   bool ft = true;
   bool ogPass = false;
   float pTime; // pause time

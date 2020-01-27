@@ -29,7 +29,7 @@ void goRL(int dir, float distance, float factor, float speed)
 
     int count = 0;
     int accelCount;
-    float accelTime = 0.75;
+    float accelTime = 1;
     float maxAccel = 12000/(accelTime*50);
     // zero motors fix if this is not correct method
 		driveReset();

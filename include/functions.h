@@ -36,6 +36,8 @@ float RENCO();
 
 float AVGENC();
 
+float ENCSUM();
+
 float LVEL();
 
 float RVEL();

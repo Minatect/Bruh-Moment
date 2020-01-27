@@ -29,16 +29,20 @@ float AVGENC()	{
 	return (std::abs(driveLF.get_position()+driveLB.get_position())/2+std::abs((driveRF.get_position()+driveRB.get_position())/2))/2;
 }
 
+float ENCSUM()	{
+	return ((driveLF.get_position()+driveLB.get_position())/2 + ((driveRF.get_position()+driveRB.get_position())/2))/2;
+}
+
 float LVEL()  {
   return (driveLF.get_actual_velocity()+driveLB.get_actual_velocity())/2;
 }
 
 float RVEL()  {
-  return (driveRF.get_actual_velocity()+driveRB.get_actual_velocity())/2;
+  return (driveRF.get_actual_velocity() + driveRB.get_actual_velocity()) / 2;
 }
 
 float getGyro()	{
-	return (leftGyro.get_value()+rightGyro.get_value())/2;
+	return (leftGyro.get_value() + rightGyro.get_value()) / 20;
 }
 void resetGyro()	{
 	leftGyro.reset();
