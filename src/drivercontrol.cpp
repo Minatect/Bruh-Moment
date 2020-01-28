@@ -130,6 +130,7 @@ void driver(void* controlblock) {
     /*if(master.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT)) {
       deployAsync(cb);
     }*/
+    if(cb->isOpControl) cb->isOpControl = false;
 
 		pros::delay(20);
 	}

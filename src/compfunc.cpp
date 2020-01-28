@@ -61,14 +61,14 @@ void intakePow(float power) {
 
 void autoStack(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
-  cb->autoAngle->angleUpAllow = true;
-  pros::Task::delay(100);
-  angleSettled(cb);
-  cb->intakeTime->voltage = 6000;
-  cb->intakeTime->time = 0.5;
-  cb->intakeTime->intakeTimeAllow = true;
-  cb->autoAngle->angleDownAllow = true;
-  goRL(-1,20,60,0.8);
+  if(!cb->autoAngle->angleIsMoving && !cb->moveVar->robotIsMoving)  {
+    cb->autoAngle->angleUpAllow = true;
+    angleSettled(cb);
+    intakeAsync(6000, 0.5, cb);
+    cb->autoAngle->angleDownAllow = true;
+    goAsync(-1, 20, 60, 0.8, cb);
+    robotSettled(cb);
+  }
 }
 
 void autoStackAsync(void* controlblock) {
@@ -178,6 +178,21 @@ void intakeToPoint(void* controlblock)  {
   }
 }
 
+void goAsync(int dir, float distance, float factor, float speed, void* controlblock)  {
+  controlBlock* cb = (controlBlock*) controlblock;
+  cb->moveVar->goDir = dir;
+  cb->moveVar->goDistance = distance;
+  cb->moveVar->goFactor = factor;
+  cb->moveVar->goSpeed = speed;
+  cb->moveVar->goRLAllow = true;
+}
+
+void intakeAsync(int voltage, float time, void* controlblock) {
+  controlBlock* cb = (controlBlock*) controlblock;
+  cb->intakeTime->voltage = voltage;
+  cb->intakeTime->time = time;
+  cb->intakeTime->intakeTimeAllow = true;
+}
 
 /*void deploy() {
   arm.move_absolute(90, 100);

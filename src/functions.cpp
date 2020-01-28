@@ -63,20 +63,24 @@ void driveReset()	{
 
 void robotSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
+	pros::Task::delay(100);
 	while(cb->moveVar->robotIsMoving)	pros::Task::delay(100);
 }
 
 void angleSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
+	pros::Task::delay(100);
 	while(cb->autoAngle->angleIsMoving) pros::Task::delay(100);
 }
 
 void armSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
+	pros::Task::delay(100);
 	while(cb->armVar->armIsMoving) pros::Task::delay(100);
 }
 
 void intakeSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
+	pros::Task::delay(100);
 	while(cb->intakeTime->intakeIsMoving) pros::Task::delay(100);
 }

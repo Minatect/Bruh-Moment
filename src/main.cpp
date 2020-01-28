@@ -23,13 +23,22 @@ pros::ADIAnalogIn trayLine(3);
 
 pros::Controller master (pros::E_CONTROLLER_MASTER);
 
+auto distanceFilter = EmaFilter(0.5);
+auto turnFilter = EmaFilter(0.5);
+auto angleFilter = EmaFilter(0.5);
 
 auto myChassis = ChassisControllerBuilder()
 								.withMotors({LF, LB}, {RF, RB})
 								.withDimensions(okapi::AbstractMotor::gearset::green, {{4.55_in, 10_in}, imev5GreenTPR})
+								.withGains(
+								{0.5, 0.001, 1.5},
+								{0.5, 0.0075, 2.5},
+								{0.5, 0.0075, 2.5})
+								.withDerivativeFilters(
+								distanceFilter)
 								.build();
 auto profileController = AsyncMotionProfileControllerBuilder()
-								.withLimits({1.2, 2, 10})
+								.withLimits({1.2, 1.5, 7})
 								.withOutput(myChassis)
 								.buildMotionProfileController();
 
@@ -101,62 +110,6 @@ void competition_initialize() {}
 
 
 void autonomous() {
-	profileController->generatePath({
-		{0_ft, 0_ft, 0_deg},  // Profile starting position, this will normally be (0, 0, 0)
-		{2.6_ft, 0_ft, 0_deg},
-		{3.8_ft, 0.9_ft, 90_deg},
-		{3_ft, 1.8_ft, 170_deg},
-		{0.8_ft, 2_ft, 155_deg},
-		{-0.2_ft, 2.7_ft, 135_deg}}, // The next point in the profile, 3 feet forward
-		"A" // Profile name
-	);
-	profileController->generatePath({
-		{0_ft, 0_ft, 0_deg},
-		{3_ft, 0_ft, 0_deg},
-	}, "B");
-	profileController->generatePath({
-		{1.2_ft, 0_ft, 0_deg},
-		//{1.5_ft, 1_ft, 40_deg},
-		{0_ft, 3.5_ft, 0_deg},
-	}, "C");
-	profileController->generatePath({
-		{-0.6_ft, 2.3_ft, 0_deg},
-		{2.8_ft, 2.3_ft, 0_deg},
-	}, "D");
-	intakePow(-12000);
-	//profileController->setTarget("D", false, false);
-	//profileController->waitUntilSettled();
-	control_block->moveVar->goDir = 1;
-  control_block->moveVar->goDistance = 100;
-  control_block->moveVar->goFactor = 80;
-  control_block->moveVar->goSpeed = 0.5;
-  control_block->moveVar->goRLAllow = true;
-  pros::Task::delay(100);
-  while(control_block->moveVar->robotIsMoving) pros::Task::delay(100);
-	profileController->setTarget("C", true, true);
-	profileController->waitUntilSettled();
-	pros::Task::delay(500);
-	control_block->moveVar->goDir = 1;
-  control_block->moveVar->goDistance = 90;
-  control_block->moveVar->goFactor = 80;
-  control_block->moveVar->goSpeed = 0.5;
-  control_block->moveVar->goRLAllow = true;
-  pros::Task::delay(100);
-  while(control_block->moveVar->robotIsMoving) pros::Task::delay(100);
-	intakePow(0);
-	control_block->moveVar->goDir = -1;
-  control_block->moveVar->goDistance = 55;
-  control_block->moveVar->goFactor = 80;
-  control_block->moveVar->goSpeed = 1;
-  control_block->moveVar->goRLAllow = true;
-	pros::Task::delay(100);
-	while(control_block->moveVar->robotIsMoving) pros::Task::delay(100);
-	turnGyro(-1,135,700);
-	control_block->intakeTime->voltage = 4000;
-	control_block->intakeTime->time = 0.3;
-	control_block->intakeTime->intakeTimeAllow = true;
-	goRL(1, 30, 80, 1);
-	autoStack(control_block);
 	auton(control_block);
 }
 /**

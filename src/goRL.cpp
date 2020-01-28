@@ -122,9 +122,9 @@ void goRLAsync(void* controlblock)
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   float kP = 0.5;//.3; // .25
-  float kI = 0.001;//.0005;
-  float kD = 1.5;//1;
-  float errorZone = 200; // target * .1;
+  float kI = 0.02;//.0001;
+  float kD = 1;//1.5;
+  float errorZone = 100; // 200;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
   float powerR, powerL;
@@ -132,11 +132,11 @@ void goRLAsync(void* controlblock)
   float lastPowerL = 0;
 
   int accelCount;
-  float accelTime = 0.75;
+  float accelTime = 1;
   float maxAccel = 12000/(accelTime*50);
   // zero motors fix if this is not correct method
 
-  int dir, count;
+  int dir;
   float distance, factor, speed;
 
   float target, targetMin, targetMax;
@@ -159,14 +159,12 @@ void goRLAsync(void* controlblock)
       ogPass = false;
       settled = false;
 
-      count = 0;
 
   		driveReset();
 
       while(!settled)
       //while(std::abs(LENCO) < target * .98) // left encoder  < target
       {
-          count++;
           errorL = target - std::abs(LENCO());
   				errorR = target - std::abs(RENCO());
           // errorTot += error;
@@ -234,7 +232,7 @@ void goRLAsync(void* controlblock)
                   pTime = pros::millis();
               }
           }
-
+          if(cb->isOpControl) break;
           pros::Task::delay(20);
       }
 
@@ -257,9 +255,9 @@ void goRLFunc(void* controlblock)
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   float kP = 0.5;//.3; // .25
-  float kI = 0.001;//.0005;
-  float kD = 1.5;//1;
-  float errorZone = 200; // target * .1;
+  float kI = 0.02;//.0005;
+  float kD = 1;//1;
+  float errorZone = 100; // target * .1;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
   float powerR, powerL;
@@ -267,7 +265,7 @@ void goRLFunc(void* controlblock)
   float lastPowerL = 0;
 
   int accelCount;
-  float accelTime = 0.75;
+  float accelTime = 1;
   float maxAccel = 12000/(accelTime*50);
   // zero motors fix if this is not correct method
 

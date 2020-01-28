@@ -13,7 +13,28 @@ void initial(void* controlblock)  {
   trayLine.calibrate();
   pros::Task::delay(2000);
 
-
+  profileController->generatePath({
+		{0_ft, 0_ft, 0_deg},  // Profile starting position, this will normally be (0, 0, 0)
+		{2.6_ft, 0_ft, 0_deg},
+		{3.8_ft, 0.9_ft, 90_deg},
+		{3_ft, 1.8_ft, 170_deg},
+		{0.8_ft, 2_ft, 155_deg},
+		{-0.2_ft, 2.7_ft, 135_deg}}, // The next point in the profile, 3 feet forward
+		"A" // Profile name
+	);
+	profileController->generatePath({
+		{0_ft, 0_ft, 0_deg},
+		{3_ft, 0_ft, 0_deg},
+	}, "B");
+	profileController->generatePath({
+		{1.2_ft, 0_ft, 0_deg},
+		//{1.5_ft, 1_ft, 40_deg},
+		{0_ft, 3.5_ft, 0_deg},
+	}, "Unprotected_Backout");
+	profileController->generatePath({
+		{-0.6_ft, 2.3_ft, 0_deg},
+		{2.8_ft, 2.3_ft, 0_deg},
+	}, "D");
 
 	intakeTimeVariable* intakeTime = new intakeTimeVariable();
 	intakeTime = (intakeTimeVariable*)calloc(1,sizeof (intakeTimeVariable));
