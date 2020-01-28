@@ -43,7 +43,7 @@ void initial(void* controlblock)  {
   intakeTime->intakeTimeAllow = false;
   intakeTime->intakeIsMoving = false;
   intakeTime->intakePoint = false;
-  intakeTime->sensorThreshold = 2048;
+  intakeTime->sensorThreshold = 0;
 
   autoAngleVariable* autoAngle = new autoAngleVariable();
   autoAngle = (autoAngleVariable*)calloc(1,sizeof (autoAngleVariable));

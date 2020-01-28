@@ -129,6 +129,8 @@ extern std::shared_ptr<okapi::AsyncMotionProfileController> profileController;
 
 extern std::shared_ptr<okapi::ChassisController> myChassis;
 
+extern std::shared_ptr<okapi::AsyncPositionController<double, double>> armController;
+
 
 extern intakeTimeVariable* intakeTime;
 extern autoAngleVariable* autoAngle;

@@ -23,24 +23,34 @@ pros::ADIAnalogIn trayLine(3);
 
 pros::Controller master (pros::E_CONTROLLER_MASTER);
 
-auto distanceFilter = EmaFilter(0.5);
+std::unique_ptr<Filter> distanceFilter = std::make_unique<EmaFilter>();
 auto turnFilter = EmaFilter(0.5);
 auto angleFilter = EmaFilter(0.5);
 
 auto myChassis = ChassisControllerBuilder()
 								.withMotors({LF, LB}, {RF, RB})
-								.withDimensions(okapi::AbstractMotor::gearset::green, {{4.55_in, 10_in}, imev5GreenTPR})
+								.withDimensions(AbstractMotor::gearset::green,
+								{{4.55_in, 10_in}, imev5GreenTPR})
 								.withGains(
-								{0.5, 0.001, 1.5},
-								{0.5, 0.0075, 2.5},
-								{0.5, 0.0075, 2.5})
+								{0.001, 0, 0.0001},
+								{0.001, 0, 0.0001},
+								{0.001, 0, 0.0001})
 								.withDerivativeFilters(
-								distanceFilter)
+									std::make_unique<EmaFilter>(),
+									std::make_unique<EmaFilter>(),
+									std::make_unique<EmaFilter>())
+								.withClosedLoopControllerTimeUtil(50, 5, 250_ms)
 								.build();
 auto profileController = AsyncMotionProfileControllerBuilder()
-								.withLimits({1.2, 1.5, 7})
+								.withLimits({1.2, 1.5, 5})
 								.withOutput(myChassis)
 								.buildMotionProfileController();
+
+auto armController = AsyncPosControllerBuilder()
+									.withMotor(ARM)
+									.withSensor(IntegratedEncoder(ARM, false))
+									.withGearset(AbstractMotor::gearset::blue)
+									.build();
 
 
 

@@ -38,21 +38,40 @@ void blue_single(void* controlblock)  {
   pros::Task::delay(100);
   while(cb->moveVar->robotIsMoving) pros::Task::delay(100);
   intakePow(0);*/
+  //intakePow(-12000);
+  //goAsync(1, 100, 70, 0.5, cb);
+  //robotSettled(cb);
+  myChassis->setMaxVelocity(100);
+  myChassis->moveDistanceAsync(3_ft);
+  armController->setTarget(500);
+  while(arm.get_position()<450) pros::Task::delay(20);
+  intakePow(12000);
+  armController->waitUntilSettled();
+  armController->setTarget(0);
+  while(arm.get_position() > 400) pros::Task::delay(20);
   intakePow(-12000);
-  goAsync(1, 100, 70, 0.5, cb);
-  robotSettled(cb);
+  myChassis->waitUntilSettled();
 	profileController->setTarget("Unprotected_Backout", true, true);
 	profileController->waitUntilSettled();
+  myChassis->moveDistanceAsync(3_ft);
+  myChassis->waitUntilSettled();
+  myChassis->moveDistanceAsync(-2_ft);
+  pros::Task::delay(500);
+  intakePow(0);
+  myChassis->waitUntilSettled();
+  myChassis->turnAngle(-135_deg);
+  myChassis->moveDistance(15_in);
+  autoStack(cb);
 	//pros::Task::delay(500);
-  goAsync(1, 90, 70, 0.5, cb);
-  robotSettled(cb);
-	intakePow(0);
+  //goAsync(1, 90, 70, 0.5, cb);
+  //robotSettled(cb);
+	/*intakePow(0);
   goAsync(-1, 50, 70, 1, cb);
 	robotSettled(cb);
 	turnGyro(-1,135,500);
   intakeAsync(6000, 0.3, cb);
 	goRL(1, 30, 80, 1);
-	autoStack(cb);
+	autoStack(cb);*/
 
 
 
