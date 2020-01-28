@@ -64,10 +64,9 @@ void autoStack(void* controlblock)  {
   if(!cb->autoAngle->angleIsMoving && !cb->moveVar->robotIsMoving)  {
     cb->autoAngle->angleUpAllow = true;
     angleSettled(cb);
-    intakeAsync(6000, 0.5, cb);
+    intakeAsync(6000, 1, cb);
     cb->autoAngle->angleDownAllow = true;
     goAsync(-1, 20, 60, 0.8, cb);
-    robotSettled(cb);
   }
 }
 

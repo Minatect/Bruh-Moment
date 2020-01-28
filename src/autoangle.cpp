@@ -376,10 +376,10 @@ void angleMoveAsync(void* controlblock) {
 
     //angle.set_brake_mode(COAST);
   float kP = .5;
-  float kI = 0.01;//0.025;
-  float kD = 1;//1;
+  float kI = 0.02;//0.025;
+  float kD = 1.75;//1;
 
-  float errorZone = 150; // target * .1;
+  float errorZone = 100; // target * .1;
   float error, errorTot, errorLast;
   float pTerm, iTerm, dTerm;
   float power, targetMin, targetMax;
@@ -391,8 +391,8 @@ void angleMoveAsync(void* controlblock) {
     if(cb->autoAngle->angleUpAllow && !cb->autoAngle->angleIsMoving  && !cb->autoAngle->angleState) {
       cb->autoAngle->angleIsMoving = true;
 
-      factor = 90;//cb->autoAngle->factor;
-      target = 575;//cb->autoAngle->target;
+      factor = 100;//cb->autoAngle->factor;
+      target = 560;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;

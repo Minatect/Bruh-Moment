@@ -122,8 +122,8 @@ void goRLAsync(void* controlblock)
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   float kP = 0.5;//.3; // .25
-  float kI = 0.02;//.0001;
-  float kD = 1;//1.5;
+  float kI = 0.01;//.0001;
+  float kD = 1.5;//1.5;
   float errorZone = 100; // 200;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;

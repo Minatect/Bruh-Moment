@@ -13,6 +13,8 @@ void initial(void* controlblock)  {
   trayLine.calibrate();
   pros::Task::delay(2000);
 
+  myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
+  myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
   profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},  // Profile starting position, this will normally be (0, 0, 0)
 		{2.6_ft, 0_ft, 0_deg},
@@ -27,13 +29,13 @@ void initial(void* controlblock)  {
 		{3_ft, 0_ft, 0_deg},
 	}, "B");
 	profileController->generatePath({
-		{1.2_ft, 0_ft, 0_deg},
+		{0_ft, 0_ft, 0_deg},
 		//{1.5_ft, 1_ft, 40_deg},
-		{0_ft, 3.5_ft, 0_deg},
+		{-3.5_ft, 3.65_ft, 25_deg},
 	}, "Unprotected_Backout");
 	profileController->generatePath({
-		{-0.6_ft, 2.3_ft, 0_deg},
-		{2.8_ft, 2.3_ft, 0_deg},
+		{0_ft, 0_ft, 0_deg},
+		{-2.5_ft, 0_ft, 0_deg},
 	}, "D");
 
 	intakeTimeVariable* intakeTime = new intakeTimeVariable();

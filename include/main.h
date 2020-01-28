@@ -126,11 +126,11 @@ extern pros::ADIEncoder rightEncoder;
 extern pros::Controller master;
 
 extern std::shared_ptr<okapi::AsyncMotionProfileController> profileController;
-
+//extern AsyncMotionProfileController profileController;
 extern std::shared_ptr<okapi::ChassisController> myChassis;
-
+//extern ChassisControllerPID myChassis;
 extern std::shared_ptr<okapi::AsyncPositionController<double, double>> armController;
-
+//extern AsyncPosIntegratedController armController;
 
 extern intakeTimeVariable* intakeTime;
 extern autoAngleVariable* autoAngle;
