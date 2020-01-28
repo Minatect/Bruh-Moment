@@ -71,7 +71,7 @@ void armMove(void* controlblock)  {
       cb->armVar->armIsMoving = false;
     }
     if(cb->armVar->armMoveAllow) cb->armVar->armMoveAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 
@@ -86,7 +86,7 @@ void armMoveAsync(void* controlblock)  {
         if(arm.get_position() > 450)
         arm.move_absolute(cb->armVar->armAngle1, 100);
         while(arm.get_position() < (cb->armVar->armAngle1 - 15) && arm.get_position() > (cb->armVar->armAngle1 + 15)) {
-          Task::delay(20);
+          pros::Task::delay(20);
         }
         cb->armVar->armUp = true;
         cb->armVar->armIsMoving = false;
@@ -95,7 +95,7 @@ void armMoveAsync(void* controlblock)  {
         cb->armVar->armIsMoving = true;
         arm.move_absolute(cb->armVar->armAngle2,100);
         while(arm.get_position() < (cb->armVar->armAngle2 - 15) && arm.get_position() > (cb->armVar->armAngle2 + 15)) {
-          Task::delay(20);
+          pros::Task::delay(20);
         }
         cb->armVar->armUp = true;
         cb->armVar->armIsMoving = false;
@@ -104,7 +104,7 @@ void armMoveAsync(void* controlblock)  {
         cb->armVar->armIsMoving = true;
         arm.move_absolute(cb->armVar->armAngle3,100);
         while(arm.get_position() < (cb->armVar->armAngle3 - 15) && arm.get_position() > (cb->armVar->armAngle3 + 15)) {
-          Task::delay(20);
+          pros::Task::delay(20);
         }
         cb->armVar->armUp = true;
         cb->armVar->armIsMoving = false;
@@ -113,13 +113,13 @@ void armMoveAsync(void* controlblock)  {
         cb->armVar->armIsMoving = true;
         arm.move_absolute(0,100);
         while(arm.get_position()<15) {
-          Task::delay(20);
+          pros::Task::delay(20);
         }
         cb->armVar->armUp = false;
         cb->armVar->armIsMoving = false;
       }
     }
     if(cb->armVar->armMoveAllow) cb->armVar->armMoveAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }

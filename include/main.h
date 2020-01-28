@@ -50,16 +50,16 @@
  * concurrently! The okapi namespace will export all symbols inside the pros
  * namespace.
  */
-using namespace pros;
-using namespace pros::literals;
-//using namespace okapi;
+//using namespace pros;
+//using namespace pros::literals;
+using namespace okapi;
 //using namespace okapi::literals;
 
 
-#define COAST E_MOTOR_BRAKE_COAST
-#define BRAKE E_MOTOR_BRAKE_BRAKE
-#define HOLD E_MOTOR_BRAKE_HOLD
-#define PI 3.1415926535
+#define COAST pros::E_MOTOR_BRAKE_COAST
+#define BRAKE pros::E_MOTOR_BRAKE_BRAKE
+#define HOLD pros::E_MOTOR_BRAKE_HOLD
+#define PROPI 3.1415926535
 #define CHASSIS_WIDTH 10
 #define DRIVE_RATIO 60/84
 #define WHEEL_D 3.25
@@ -104,26 +104,26 @@ using namespace pros::literals;
 #include "armcontrol.h"
 
 
-extern Motor driveLF;
-extern Motor driveLB;
-extern Motor driveRF;
-extern Motor driveRB;
+extern pros::Motor driveLF;
+extern pros::Motor driveLB;
+extern pros::Motor driveRF;
+extern pros::Motor driveRB;
 
-extern Motor intakeR;
-extern Motor intakeL;
-extern Motor angle;
-extern Motor arm;
+extern pros::Motor intakeL;
+extern pros::Motor intakeR;
+extern pros::Motor angle;
+extern pros::Motor arm;
 
 
-extern ADIDigitalIn liftState;
-extern ADIAnalogIn trayLine;
-extern ADIGyro leftGyro;
-extern ADIGyro rightGyro;
+extern pros::ADIDigitalIn liftState;
+extern pros::ADIAnalogIn trayLine;
+extern pros::ADIGyro leftGyro;
+extern pros::ADIGyro rightGyro;
 
-extern ADIEncoder leftEncoder;
-extern ADIEncoder rightEncoder;
+extern pros::ADIEncoder leftEncoder;
+extern pros::ADIEncoder rightEncoder;
 
-extern Controller master;
+extern pros::Controller master;
 
 
 

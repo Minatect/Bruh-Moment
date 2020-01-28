@@ -84,7 +84,7 @@ void angleUp(void* controlblock)  {
     //angle.set_brake_mode(HOLD);
     //cb->autoAngle->angleState = true;
     //angleUpAllow = false;
-    //Task::delay(100);
+    //pros::Task::delay(100);
   //}
 }
 
@@ -164,7 +164,7 @@ void angleUpDeploy(void* controlblock, float target)  {
     //angle.set_brake_mode(HOLD);
     //cb->autoAngle->angleState = true;
     //angleUpAllow = false;
-    //Task::delay(100);
+    //pros::Task::delay(100);
   //}
 }
 
@@ -175,14 +175,14 @@ void angleDown(void* controlblock)  {
     cb->autoAngle->angleIsMoving = true;
     while(liftState.get_value() == 0) {
       angle.move_voltage(-12000);
-      Task::delay(20);
+      pros::Task::delay(20);
   //  }
     angle.move_voltage(0);
     angle.tare_position();
     //cb->autoAngle->angleState = false;
     cb->autoAngle->angleIsMoving = false;
     //angleDownAllow = false;
-    //Task::delay(100);
+    //pros::Task::delay(100);
   //}
   }
 }
@@ -261,7 +261,7 @@ void angleUpCustom(void* controlblock)  {
     //angle.set_brake_mode(HOLD);
     cb->autoAngle->angleState = true;
     //angleUpAllow = false;
-    //Task::delay(100);
+    //pros::Task::delay(100);
   //}
 }
 
@@ -348,7 +348,7 @@ void angleUpAsync(void* controlblock)  {
       cb->autoAngle->angleIsMoving = false;
     }
     if(cb->autoAngle->angleUpAllow) cb->autoAngle->angleUpAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 
@@ -358,14 +358,14 @@ void angleDownAsync(void* controlblock)  {
     if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving)  {
       cb->autoAngle->angleIsMoving = true;
       angle.move_voltage(-12000);
-      while(liftState.get_value() == 0) Task::delay(20);
+      while(liftState.get_value() == 0) pros::Task::delay(20);
       angle.move_voltage(0);
       angle.tare_position();
       //cb->autoAngle->angleState = false;
       cb->autoAngle->angleIsMoving = false;
     }
     if(cb->autoAngle->angleDownAllow) cb->autoAngle->angleDownAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 
@@ -379,7 +379,7 @@ void angleMoveAsync(void* controlblock) {
   float kI = 0.01;//0.025;
   float kD = 1;//1;
 
-  float errorZone = 125; // target * .1;
+  float errorZone = 150; // target * .1;
   float error, errorTot, errorLast;
   float pTerm, iTerm, dTerm;
   float power, targetMin, targetMax;
@@ -454,7 +454,7 @@ void angleMoveAsync(void* controlblock) {
     else if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving)  {
       cb->autoAngle->angleIsMoving = true;
       angle.move_voltage(-12000);
-      while(liftState.get_value() == 0) Task::delay(20);
+      while(liftState.get_value() == 0) pros::Task::delay(20);
       angle.move_voltage(0);
       angle.tare_position();
       //cb->autoAngle->angleState = false;
@@ -462,6 +462,6 @@ void angleMoveAsync(void* controlblock) {
     }
     if(cb->autoAngle->angleDownAllow) cb->autoAngle->angleDownAllow = false;
     if(cb->autoAngle->angleUpAllow) cb->autoAngle->angleUpAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }

@@ -42,7 +42,7 @@ float RVEL()  {
 }
 
 float getGyro()	{
-	return (leftGyro.get_value() + rightGyro.get_value()) / 20;
+	return fabs((leftGyro.get_value() + rightGyro.get_value()) / 20);
 }
 void resetGyro()	{
 	leftGyro.reset();
@@ -63,20 +63,20 @@ void driveReset()	{
 
 void robotSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
-	while(cb->moveVar->robotIsMoving)	Task::delay(100);
+	while(cb->moveVar->robotIsMoving)	pros::Task::delay(100);
 }
 
 void angleSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
-	while(cb->autoAngle->angleIsMoving) Task::delay(100);
+	while(cb->autoAngle->angleIsMoving) pros::Task::delay(100);
 }
 
 void armSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
-	while(cb->armVar->armIsMoving) Task::delay(100);
+	while(cb->armVar->armIsMoving) pros::Task::delay(100);
 }
 
 void intakeSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
-	while(cb->intakeTime->intakeIsMoving) Task::delay(100);
+	while(cb->intakeTime->intakeIsMoving) pros::Task::delay(100);
 }

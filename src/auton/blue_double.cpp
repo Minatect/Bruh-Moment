@@ -7,11 +7,11 @@ void blue_double(void* controlblock)  {
   goRL(1,20,50,1);
 
   arm.move_relative(600,100);
-  while(arm.get_position()<550) Task::delay(20);
+  while(arm.get_position()<550) pros::Task::delay(20);
   intakePow(12000);
-  Task::delay(500);
+  pros::Task::delay(500);
   arm.move_relative(-600,100);
-  Task::delay(500);
+  pros::Task::delay(500);
   intakePow(0);
 
   /*arm.move_relative(600,100);

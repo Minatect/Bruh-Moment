@@ -67,7 +67,7 @@ float radianToDegree(float radians) {
   return radians*180/PI;
 }
 
-void localPolarToCart(void* controlblock) {
+/*void localPolarToCart(void* controlblock) {
   ((cartPosition*)controlblock)->X = (((polarPosition*)controlblock)->R)*cos(degreeToRadian(((polarPosition*)controlblock)->O));
   ((cartPosition*)controlblock)->Y = (((polarPosition*)controlblock)->R)*sin(degreeToRadian(((polarPosition*)controlblock)->O));
   ((cartPosition*)controlblock)->angle = ((polarPosition*)controlblock)->angle;
@@ -82,7 +82,7 @@ void localArcToPolar(void* controlblock)  {
   else  {
     ((polarPosition*)controlblock)->angle = 90*(2-fabs(((arcPosition*)controlblock)->sweep)/((arcPosition*)controlblock)->sweep)+((arcPosition*)controlblock)->sweep;
   }
-}
+}*/
 
 void trackCoordGyro(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
@@ -119,7 +119,7 @@ void trackCoordGyro(void* controlblock) {
     prevEncR = currentEncR;
     prevAngGyro = currentAngGyro;
 
-    Task::delay(20);
+    pros::Task::delay(20);
   }
 }
 
@@ -167,7 +167,7 @@ void trackCoord2(void* controlblock)  {
 
     //setLocalPolCoord(2*sin(degreeToRadian(90-std::fabs(arcAng)/2))*arcCenter, (90-std::fabs(arcAng)/2)*arcAng/std::fabs(arcAng), arcAng);
     }
-    Task::delay(20);
+    pros::Task::delay(20);
   }
 }
 

@@ -32,13 +32,13 @@ void intakeTimeAsync(void* controlblock)  {
       cb->intakeTime->intakeIsMoving = true;
       intakeL.move_voltage(cb->intakeTime->voltage);
       intakeR.move_voltage(cb->intakeTime->voltage);
-      Task::delay(1000*(cb->intakeTime->time));
+      pros::Task::delay(1000*(cb->intakeTime->time));
       intakeL.move_voltage(0);
       intakeR.move_voltage(0);
       cb->intakeTime->intakeIsMoving = false;
     }
     if(cb->intakeTime->intakeTimeAllow) cb->intakeTime->intakeTimeAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 void intakeAngle(float angle, float power)  {
@@ -48,7 +48,7 @@ void intakeAngle(float angle, float power)  {
 
 void intakeTimeDumb(int voltage, float time)  {
   intakePow(voltage);
-  Task::delay(1000*time);
+  pros::Task::delay(1000*time);
   intakePow(0);
 }
 
@@ -62,7 +62,7 @@ void intakePow(float power) {
 void autoStack(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   cb->autoAngle->angleUpAllow = true;
-  Task::delay(100);
+  pros::Task::delay(100);
   angleSettled(cb);
   cb->intakeTime->voltage = 6000;
   cb->intakeTime->time = 0.5;
@@ -104,7 +104,7 @@ void angleState(void* controlblock) {
       if(liftState.get_value() == 1) cb->autoAngle->angleState = false;
       else if(liftState.get_value() == 0) cb->autoAngle->angleState = true;
     }
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 
@@ -116,14 +116,14 @@ void deploy(void* controlblock) {
   cb->autoAngle->target = 250;
   driveVoltage(0);
   arm.move_voltage(12000);
-  Task::delay(500);
+  pros::Task::delay(500);
   angleUpCustom(cb);
   intakePow(12000);
-  while(arm.get_position() <= 600) Task::delay(20);
+  while(arm.get_position() <= 600) pros::Task::delay(20);
   arm.move_voltage(0);
   intakePow(0);
   arm.move_relative(-550, 100);
-  Task::delay(800);
+  pros::Task::delay(800);
   angleDown(cb);
 }
 
@@ -160,21 +160,21 @@ void intakeToPoint(void* controlblock)  {
       if(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) {
         while(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold)  {
           intakePow(-8000);
-          Task::delay(20);
+          pros::Task::delay(20);
         }
         intakePow(0);
       }
       else  {
         while(trayLine.get_value_calibrated() < cb->intakeTime->sensorThreshold)  {
           intakePow(8000);
-          Task::delay(20);
+          pros::Task::delay(20);
         }
         intakePow(0);
       }
       cb->intakeTime->intakeIsMoving = false;
     }
     if(cb->intakeTime->intakePoint) cb->intakeTime->intakePoint = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 

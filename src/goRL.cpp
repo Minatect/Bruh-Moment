@@ -7,7 +7,7 @@ void goRL(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PI);
+		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
     float kD = 1;//1;
@@ -152,7 +152,7 @@ void goRLAsync(void* controlblock)
       factor = cb->moveVar->goFactor;
       speed = cb->moveVar->goSpeed;
 
-    	target = distance*360*DRIVE_RATIO/(WHEEL_D*PI);
+    	target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
       targetMin = target - 30;
       targetMax = target + 30;
       ft = true;
@@ -247,7 +247,7 @@ void goRLAsync(void* controlblock)
       cb->moveVar->robotIsMoving = false;
     }
     if(cb->moveVar->goRLAllow) cb->moveVar->goRLAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 
@@ -287,7 +287,7 @@ void goRLFunc(void* controlblock)
       factor = cb->moveVar->goFactor;
       speed = cb->moveVar->goSpeed;
 
-    	target = distance*360*DRIVE_RATIO/(WHEEL_D*PI);
+    	target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
       targetMin = target - 30;
       targetMax = target + 30;
       ft = true;
@@ -382,7 +382,7 @@ void goRLFunc(void* controlblock)
       cb->moveVar->robotIsMoving = false;
     }
     if(cb->moveVar->goRLAllow) cb->moveVar->goRLAllow = false;
-    Task::delay(100);
+    pros::Task::delay(100);
   }
 }
 
