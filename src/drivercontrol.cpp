@@ -74,6 +74,8 @@ void driver(void* controlblock) {
       		cb->autoAngle->angleDownAllow = true;
       	}
         else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B) && !cb->autoAngle->angleState)  {
+          cb->intakeTime->intakePoint = true;
+          intakeSettled(cb);
           autoStack(cb);
         }
 

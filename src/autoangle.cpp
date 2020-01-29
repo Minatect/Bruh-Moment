@@ -375,7 +375,7 @@ void angleMoveAsync(void* controlblock) {
   float target; //degrees the motor travels
 
     //angle.set_brake_mode(COAST);
-  float kP = .5;
+  float kP = .6;
   float kI = 0.02;//0.025;
   float kD = 1.75;//1;
 
@@ -392,7 +392,7 @@ void angleMoveAsync(void* controlblock) {
       cb->autoAngle->angleIsMoving = true;
 
       factor = 100;//cb->autoAngle->factor;
-      target = 560;//cb->autoAngle->target;
+      target = 578;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;

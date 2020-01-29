@@ -121,9 +121,9 @@ void goRLAsync(void* controlblock)
 {
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
-  float kP = 0.5;//.3; // .25
-  float kI = 0.01;//.0001;
-  float kD = 1.5;//1.5;
+  float kP = 0.55;//.3; // .25
+  float kI = 0.000;//.0001;
+  float kD = 0.2;//1.5;
   float errorZone = 100; // 200;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
@@ -132,7 +132,7 @@ void goRLAsync(void* controlblock)
   float lastPowerL = 0;
 
   int accelCount;
-  float accelTime = 1;
+  float accelTime = 0.5;
   float maxAccel = 12000/(accelTime*50);
   // zero motors fix if this is not correct method
 
@@ -142,7 +142,7 @@ void goRLAsync(void* controlblock)
   float target, targetMin, targetMax;
   bool ft, settled, ogPass;
   float pTime; // pause time
-  int exitDelay = 400; // millis to check exit
+  int exitDelay = 200; // millis to check exit
 
   while(true) {
     if(cb->moveVar->goRLAllow && !cb->moveVar->robotIsMoving) {

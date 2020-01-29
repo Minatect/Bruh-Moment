@@ -64,9 +64,10 @@ void autoStack(void* controlblock)  {
   if(!cb->autoAngle->angleIsMoving && !cb->moveVar->robotIsMoving)  {
     cb->autoAngle->angleUpAllow = true;
     angleSettled(cb);
-    intakeAsync(6000, 1, cb);
+    intakeAsync(10000, 1, cb);
     cb->autoAngle->angleDownAllow = true;
-    goAsync(-1, 20, 60, 0.8, cb);
+    goAsync(-1, 15, 60, 0.6, cb);
+    robotSettled(cb);
   }
 }
 
@@ -157,22 +158,18 @@ void intakeToPoint(void* controlblock)  {
     if(cb->intakeTime->intakePoint && !cb->intakeTime->intakeIsMoving)  {
       cb->intakeTime->intakeIsMoving = true;
       if(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) {
-        while(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold)  {
-          intakePow(-8000);
-          pros::Task::delay(20);
-        }
-        intakePow(0);
+        intakePow(3000);
+        while(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) pros::Task::delay(20);
       }
       else  {
-        while(trayLine.get_value_calibrated() < cb->intakeTime->sensorThreshold)  {
-          intakePow(8000);
-          pros::Task::delay(20);
-        }
-        intakePow(0);
+        intakePow(-8000);
+        while(trayLine.get_value_calibrated() < cb->intakeTime->sensorThreshold) pros::Task::delay(20);
       }
+      intakePow(0);
       cb->intakeTime->intakeIsMoving = false;
     }
     if(cb->intakeTime->intakePoint) cb->intakeTime->intakePoint = false;
+    pros::lcd::set_text(3, std::to_string(trayLine.get_value_calibrated()));
     pros::Task::delay(100);
   }
 }

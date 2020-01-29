@@ -238,7 +238,7 @@ void turnGyro(int dir, float target, float factor) {
   resetGyro();
   //target = target*10;
   float kP = .5;//.3; // .25
-  float kI = .0075;//.0005;
+  float kI = .00;//.0005;
   float kD = 2.5;//1;
 
   float errorZone = 18; // target * .1;
