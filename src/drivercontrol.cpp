@@ -4,6 +4,7 @@ void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
   cb->isOpControl = true;
+  pros::Task::delay(50);
   while(true)	{
     /*if(std::fabs(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
       driveL(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
@@ -41,15 +42,10 @@ void driver(void* controlblock) {
         }
       }
       if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))  {
-        cb->intakeTime->voltage = 6000;
-        cb->intakeTime->time = 0.5;
-        cb->moveVar->goDir = -1;
-        cb->moveVar->goDistance = 20;
-        cb->moveVar->goFactor = 80;
-        cb->moveVar->goSpeed = 0.8;
-        cb->moveVar->goRLAllow = true;
-        cb->intakeTime->intakeTimeAllow = true;
+        angleSettled(cb);
+        //intakeAsync(10000, 1, cb);
         cb->autoAngle->angleDownAllow = true;
+        goAsync(-1, 15, 60, 0.6, cb);
         robotSettled(cb);
       }
 
@@ -74,8 +70,8 @@ void driver(void* controlblock) {
       		cb->autoAngle->angleDownAllow = true;
       	}
         else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B) && !cb->autoAngle->angleState)  {
-          cb->intakeTime->intakePoint = true;
-          intakeSettled(cb);
+          //cb->intakeTime->intakePoint = true;
+          //intakeSettled(cb);
           autoStack(cb);
         }
 
@@ -99,8 +95,9 @@ void driver(void* controlblock) {
 			intakePow(0);
 		}
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->intakeTime->intakeIsMoving)  {  //auto adjust cube position
-
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A))  {  //auto adjust cube position
+      cb->isOpControl = true;
+      pros::Task::delay(100);
     }
 
 

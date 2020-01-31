@@ -62,8 +62,12 @@ void intakePow(float power) {
 void autoStack(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   if(!cb->autoAngle->angleIsMoving && !cb->moveVar->robotIsMoving)  {
+    arm.move_voltage(-2000);
     cb->autoAngle->angleUpAllow = true;
+    //pros::Task::delay(300);
+    //intakeAsync(-5000, 1, cb);
     angleSettled(cb);
+    arm.move_voltage(0);
     intakeAsync(10000, 1, cb);
     cb->autoAngle->angleDownAllow = true;
     goAsync(-1, 15, 60, 0.6, cb);
@@ -71,31 +75,6 @@ void autoStack(void* controlblock)  {
   }
 }
 
-void autoStackAsync(void* controlblock) {
-  controlBlock* cb = (controlBlock*)controlblock;
-  //while(true) {
-    if(!cb->autoAngle->angleIsMoving && !cb->moveVar->robotIsMoving)  {
-      cb->autoAngle->angleUpAllow = true;
-      angleSettled(cb);
-
-      cb->moveVar->goDir = -1;
-      cb->moveVar->goDistance = 40;
-      cb->moveVar->goSpeed = 1;
-
-
-      cb->intakeTime->voltage = 8000;
-      cb->intakeTime->time = 1;
-
-      //b->moveVar->goRLAllow = true;
-      cb->autoAngle->angleDownAllow = true;
-      cb->intakeTime->intakeTimeAllow = true;
-      goRL(-1,15,40,1);
-      //robotSettled(cb);
-    }
-    //if(cb->autoAngle->autoStackAllow) cb->autoAngle->autoStackAllow = false;
-    //Task::delay(20);
-  //}
-}
 
 void angleState(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
@@ -112,19 +91,12 @@ void angleState(void* controlblock) {
 
 void deploy(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  cb->autoAngle->factor = 100;
-  cb->autoAngle->target = 250;
-  driveVoltage(0);
-  arm.move_voltage(12000);
-  pros::Task::delay(500);
-  angleUpCustom(cb);
+  arm.move_relative(2200, 12000);
+  while(arm.get_position()<2050) pros::Task::delay(50);
   intakePow(12000);
-  while(arm.get_position() <= 600) pros::Task::delay(20);
-  arm.move_voltage(0);
+  arm.move_relative(-2200,12000);
+  pros::Task::delay(600);
   intakePow(0);
-  arm.move_relative(-550, 100);
-  pros::Task::delay(800);
-  angleDown(cb);
 }
 
 void deployAsync(void* controlblock)  {
@@ -158,12 +130,12 @@ void intakeToPoint(void* controlblock)  {
     if(cb->intakeTime->intakePoint && !cb->intakeTime->intakeIsMoving)  {
       cb->intakeTime->intakeIsMoving = true;
       if(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) {
-        intakePow(3000);
-        while(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) pros::Task::delay(20);
+        intakePow(5500);
+        while(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold && !cb->isOpControl) pros::Task::delay(20);
       }
       else  {
         intakePow(-8000);
-        while(trayLine.get_value_calibrated() < cb->intakeTime->sensorThreshold) pros::Task::delay(20);
+        while(trayLine.get_value_calibrated() < cb->intakeTime->sensorThreshold && !cb->isOpControl) pros::Task::delay(20);
       }
       intakePow(0);
       cb->intakeTime->intakeIsMoving = false;

@@ -121,9 +121,9 @@ void goRLAsync(void* controlblock)
 {
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
-  float kP = 0.55;//.3; // .25
-  float kI = 0.000;//.0001;
-  float kD = 0.2;//1.5;
+  float kP = 0.5;//.3; // .25
+  float kI = 0.002;//.0001;
+  float kD = 1.75;//1.5;
   float errorZone = 100; // 200;
   float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
   float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
@@ -162,7 +162,7 @@ void goRLAsync(void* controlblock)
 
   		driveReset();
 
-      while(!settled)
+      while(!settled && !cb->isOpControl)
       //while(std::abs(LENCO) < target * .98) // left encoder  < target
       {
           errorL = target - std::abs(LENCO());

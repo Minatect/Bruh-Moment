@@ -15,7 +15,7 @@ void initial(void* controlblock)  {
 
   myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
   myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
-  profileController->generatePath({
+  /*profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},  // Profile starting position, this will normally be (0, 0, 0)
 		{2.6_ft, 0_ft, 0_deg},
 		{3.8_ft, 0.9_ft, 90_deg},
@@ -27,16 +27,21 @@ void initial(void* controlblock)  {
 	profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
 		{3_ft, 0_ft, 0_deg},
-	}, "B");
+	}, "B");*/
 	profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
-		//{1.5_ft, 1_ft, 40_deg},
-		{-2.7_ft, 2.5_ft, 25_deg},
+		//{-1.5_ft, 1.1_ft, 45_deg},
+		{-2.72_ft, 2.2_ft, 34_deg},
 	}, "Unprotected_Backout");
-	profileController->generatePath({
+  profileController->generatePath({
+		{0_ft, 0_ft, 0_deg},
+		{1.33_ft, 0_ft, 0_deg},
+		{2.67_ft, -0.4_ft, -16_deg},
+	}, "Protected_TwoCube");
+	/*profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
 		{-2.5_ft, 0_ft, 0_deg},
-	}, "D");
+	}, "D");*/
 
 	intakeTimeVariable* intakeTime = new intakeTimeVariable();
 	intakeTime = (intakeTimeVariable*)calloc(1,sizeof (intakeTimeVariable));
@@ -45,7 +50,7 @@ void initial(void* controlblock)  {
   intakeTime->intakeTimeAllow = false;
   intakeTime->intakeIsMoving = false;
   intakeTime->intakePoint = false;
-  intakeTime->sensorThreshold = 2700;
+  intakeTime->sensorThreshold = 2870;
 
   autoAngleVariable* autoAngle = new autoAngleVariable();
   autoAngle = (autoAngleVariable*)calloc(1,sizeof (autoAngleVariable));

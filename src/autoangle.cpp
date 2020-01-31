@@ -272,8 +272,8 @@ void angleUpAsync(void* controlblock)  {
 
     //angle.set_brake_mode(COAST);
   float kP = .5;
-  float kI = 0.017;//0.025;
-  float kD = 2;//1;
+  float kI = 0.01;//0.025;
+  float kD = 1.75;//1;
 
   float errorZone = 100; // target * .1;
   float error, errorTot, errorLast;
@@ -287,7 +287,7 @@ void angleUpAsync(void* controlblock)  {
     if(cb->autoAngle->angleUpAllow && !cb->autoAngle->angleIsMoving  && !cb->autoAngle->angleState) {
       cb->autoAngle->angleIsMoving = true;
 
-      factor = 100;//cb->autoAngle->factor;
+      factor = 90;//cb->autoAngle->factor;
       target = 565;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 10;
@@ -375,9 +375,9 @@ void angleMoveAsync(void* controlblock) {
   float target; //degrees the motor travels
 
     //angle.set_brake_mode(COAST);
-  float kP = .6;
-  float kI = 0.02;//0.025;
-  float kD = 1.75;//1;
+  float kP = .5;
+  float kI = 0.0145;//0.025;
+  float kD = 1.85;//1;
 
   float errorZone = 100; // target * .1;
   float error, errorTot, errorLast;
@@ -392,14 +392,14 @@ void angleMoveAsync(void* controlblock) {
       cb->autoAngle->angleIsMoving = true;
 
       factor = 100;//cb->autoAngle->factor;
-      target = 578;//cb->autoAngle->target;
+      target = 577;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;
       ogPass = false;
       settled = false;
 
-      while(!settled)
+      while(!settled && !cb->isOpControl)
       //while(std::abs(LENCO) < target * .98) // left encoder  < target
       {
           error = target - std::abs(angle.get_position());
@@ -454,7 +454,7 @@ void angleMoveAsync(void* controlblock) {
     else if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving)  {
       cb->autoAngle->angleIsMoving = true;
       angle.move_voltage(-12000);
-      while(liftState.get_value() == 0) pros::Task::delay(20);
+      while(liftState.get_value() == 0 && !cb->isOpControl) pros::Task::delay(20);
       angle.move_voltage(0);
       angle.tare_position();
       //cb->autoAngle->angleState = false;

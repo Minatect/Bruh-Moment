@@ -68,7 +68,7 @@ using namespace okapi;
 #define LB 16
 #define RF 7
 #define RB 6
-#define INTAKE_R 8
+#define INTAKE_R 10
 #define INTAKE_L 3
 #define ANGLE 4
 #define ARM 5
@@ -126,6 +126,7 @@ extern pros::ADIEncoder rightEncoder;
 extern pros::Controller master;
 
 extern std::shared_ptr<okapi::AsyncMotionProfileController> profileController;
+extern std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerSlow;
 //extern AsyncMotionProfileController profileController;
 extern std::shared_ptr<okapi::ChassisController> myChassis;
 //extern ChassisControllerPID myChassis;

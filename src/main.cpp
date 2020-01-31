@@ -42,7 +42,12 @@ std::shared_ptr<okapi::ChassisController> myChassis = ChassisControllerBuilder()
 
 
 std::shared_ptr<okapi::AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
-								.withLimits({1.2, 1.5, 5})
+								.withLimits({1.2, 1.4, 5})
+								.withOutput(myChassis)
+								.buildMotionProfileController();
+
+std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerSlow = AsyncMotionProfileControllerBuilder()
+								.withLimits({0.8, 1, 3.5})
 								.withOutput(myChassis)
 								.buildMotionProfileController();
 
