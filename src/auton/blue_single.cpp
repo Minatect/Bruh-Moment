@@ -13,11 +13,11 @@ void blue_single(void* controlblock)  {
   intakePow(0);
 	profileController->waitUntilSettled();
   intakePow(-12000);
-  goAsync(1, 31, 80, 0.32, cb);
+  goAsync(1, 33, 80, 0.32, cb);
   robotSettled(cb);
-  turnRL(-1,149,80);
+  turnGyro(-1,164,400);
   intakePow(0);
-  goAsync(1, 33, 80, 1, cb);
+  goAsync(1, 33.5, 80, 1, cb);
   //intakeAsync(6000, 0.5, cb);
   cb->intakeTime->intakePoint = true;
   robotSettled(cb);

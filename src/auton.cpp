@@ -9,7 +9,7 @@ void auton(void* controlblock)  {
   //goRL(1,15,40,1);
   //turnRL(1,90,100);
   //red_single(cb);
-  blue_double(cb);
+  //blue_single(cb);
   //armDown();
   //cb->autoAngle->angleDownAllow = true;
   switch(auton_sel) {

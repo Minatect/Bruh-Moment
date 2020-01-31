@@ -130,7 +130,7 @@ void intakeToPoint(void* controlblock)  {
     if(cb->intakeTime->intakePoint && !cb->intakeTime->intakeIsMoving)  {
       cb->intakeTime->intakeIsMoving = true;
       if(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) {
-        intakePow(5500);
+        intakePow(5000);
         while(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold && !cb->isOpControl) pros::Task::delay(20);
       }
       else  {

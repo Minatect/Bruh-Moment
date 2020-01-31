@@ -31,14 +31,19 @@ void initial(void* controlblock)  {
 	profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
 		//{-1.5_ft, 1.1_ft, 45_deg},
-		{-2.72_ft, 2.2_ft, 34_deg},
+		{-2.67_ft, 2.2_ft, 34_deg}
 	}, "Unprotected_Backout");
-  profileController->generatePath({
+  profileControllerSlow->generatePath({
 		{0_ft, 0_ft, 0_deg},
-		{1.33_ft, 0_ft, 0_deg},
-		{2.67_ft, -0.4_ft, -16_deg},
-	}, "Protected_TwoCube");
-	/*profileController->generatePath({
+		{1.33_ft, 0.25_ft, 23_deg},
+		{2.75_ft, 0.5_ft, 0_deg}
+	}, "Protected_TwoCube_Forward");
+  /*profileControllerSlow->generatePath({
+		{2.75_ft, 0.5_ft, 0_deg},
+		{1.33_ft, 0.25_ft, 30_deg},
+		{0_ft, 0_ft, 0_deg}
+	}, "Protected_TwoCube_Backward");
+	profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
 		{-2.5_ft, 0_ft, 0_deg},
 	}, "D");*/
@@ -50,7 +55,7 @@ void initial(void* controlblock)  {
   intakeTime->intakeTimeAllow = false;
   intakeTime->intakeIsMoving = false;
   intakeTime->intakePoint = false;
-  intakeTime->sensorThreshold = 2870;
+  intakeTime->sensorThreshold = 2800;
 
   autoAngleVariable* autoAngle = new autoAngleVariable();
   autoAngle = (autoAngleVariable*)calloc(1,sizeof (autoAngleVariable));
@@ -178,5 +183,5 @@ void initial(void* controlblock)  {
                             TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
 
 	pros::lcd::initialize();
-	//gui();
+	gui();
 }
