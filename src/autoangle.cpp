@@ -390,9 +390,10 @@ void angleMoveAsync(void* controlblock) {
   while(true)  {
     if(cb->autoAngle->angleUpAllow && !cb->autoAngle->angleIsMoving  && !cb->autoAngle->angleState) {
       cb->autoAngle->angleIsMoving = true;
-
-      factor = 100;//cb->autoAngle->factor;
-      target = 577;//cb->autoAngle->target;
+      //intakeL.set_brake_mode(COAST);
+      //intakeR.set_brake_mode(COAST);
+      factor = 95;//cb->autoAngle->factor;
+      target = 585;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;
@@ -446,6 +447,9 @@ void angleMoveAsync(void* controlblock) {
       }
 
       angle.move_voltage(0);
+      //intakeL.set_brake_mode(HOLD);
+      //intakeR.set_brake_mode(HOLD);
+
       cb->autoAngle->factor = angleFactor;
       cb->autoAngle->target = angleDistance;
       //cb->autoAngle->angleState = true;

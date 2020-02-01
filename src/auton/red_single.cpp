@@ -2,8 +2,9 @@
 
 void red_single(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  goAsync(1, 35, 80, 0.32, cb);
-  //pros::Task::delay(200);
+  cb->intakeTime->outVoltage = 3500;
+  goAsync(1, 35, 80, 0.28, cb);
+  pros::Task::delay(200);
   deploy(cb);
   intakePow(-12000);
   robotSettled(cb);
@@ -13,13 +14,13 @@ void red_single(void* controlblock) {
   intakePow(0);
 	profileController->waitUntilSettled();
   intakePow(-12000);
-  goAsync(1, 33, 80, 0.32, cb);
+  goAsync(1, 33, 80, 0.42, cb);
   robotSettled(cb);
-  turnRL(1,164,80);
+  /*turnGyro(1,148,80);
   intakePow(0);
-  goAsync(1, 33.5, 80, 1, cb);
-  //intakeAsync(6000, 0.5, cb);
-  cb->intakeTime->intakePoint = true;
+  goAsync(1, 32, 80, 1, cb);
+  intakeAsync(6000, 0.4, cb);
+  //cb->intakeTime->intakePoint = true;
   robotSettled(cb);
-  autoStack(cb);
+  autoStack(cb);*/
 }

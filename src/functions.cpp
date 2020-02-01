@@ -7,6 +7,11 @@ void setDriveBrakes(pros::motor_brake_mode_e_t mode)	{
 	driveRF.set_brake_mode(mode);
 }
 
+void setIntakeBrakes(pros::motor_brake_mode_e_t mode)	{
+	intakeL.set_brake_mode(mode);
+	intakeR.set_brake_mode(mode);
+}
+
 void driveL(float power)	{
 	driveLF.move_voltage(power);
 	driveLB.move_voltage(power);

@@ -30,6 +30,8 @@ typedef struct  {
 
 void setDriveBrakes(pros::motor_brake_mode_e_t mode);
 
+void setIntakeBrakes(pros::motor_brake_mode_e_t mode);
+
 void driveL(float power);
 
 void driveR(float power);

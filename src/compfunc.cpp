@@ -68,7 +68,7 @@ void autoStack(void* controlblock)  {
     //intakeAsync(-5000, 1, cb);
     angleSettled(cb);
     arm.move_voltage(0);
-    intakeAsync(10000, 1, cb);
+    intakeAsync(12000, 2, cb);
     cb->autoAngle->angleDownAllow = true;
     goAsync(-1, 15, 60, 0.6, cb);
     robotSettled(cb);
@@ -92,7 +92,7 @@ void angleState(void* controlblock) {
 void deploy(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   arm.move_relative(2200, 12000);
-  while(arm.get_position()<2050) pros::Task::delay(50);
+  while(arm.get_position()<2100) pros::Task::delay(50);
   intakePow(12000);
   arm.move_relative(-2200,12000);
   pros::Task::delay(600);
@@ -130,11 +130,11 @@ void intakeToPoint(void* controlblock)  {
     if(cb->intakeTime->intakePoint && !cb->intakeTime->intakeIsMoving)  {
       cb->intakeTime->intakeIsMoving = true;
       if(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) {
-        intakePow(5000);
+        intakePow(cb->intakeTime->outVoltage);
         while(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold && !cb->isOpControl) pros::Task::delay(20);
       }
       else  {
-        intakePow(-8000);
+        intakePow(cb->intakeTime->outVoltage);
         while(trayLine.get_value_calibrated() < cb->intakeTime->sensorThreshold && !cb->isOpControl) pros::Task::delay(20);
       }
       intakePow(0);

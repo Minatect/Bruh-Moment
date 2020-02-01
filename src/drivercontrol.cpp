@@ -3,6 +3,7 @@
 void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
   setDriveBrakes(COAST);
+  setIntakeBrakes(HOLD);
   cb->isOpControl = true;
   pros::Task::delay(50);
   while(true)	{
@@ -45,6 +46,7 @@ void driver(void* controlblock) {
         angleSettled(cb);
         //intakeAsync(10000, 1, cb);
         cb->autoAngle->angleDownAllow = true;
+        intakeAsync(12000, 2, cb);
         goAsync(-1, 15, 60, 0.6, cb);
         robotSettled(cb);
       }
@@ -95,7 +97,7 @@ void driver(void* controlblock) {
 			intakePow(0);
 		}
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A))  {  //auto adjust cube position
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {  //auto adjust cube position
       cb->isOpControl = true;
       pros::Task::delay(100);
     }

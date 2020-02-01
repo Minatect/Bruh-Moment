@@ -9,6 +9,8 @@ bool intakeTimeAllow;
 bool intakeIsMoving;
 int sensorThreshold;
 bool intakePoint;
+float outVoltage;
+float inVoltage;
 } intakeTimeVariable;
 
 typedef struct {
