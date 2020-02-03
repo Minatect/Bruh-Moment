@@ -55,7 +55,7 @@ std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerSlow = Asy
 std::shared_ptr<okapi::AsyncPositionController<double, double>> armController = AsyncPosControllerBuilder()
 									.withMotor(ARM)
 									.withSensor(IntegratedEncoder(ARM, false))
-									.withGearset(AbstractMotor::gearset::blue)
+									.withGearset(AbstractMotor::gearset::red)
 									.build();
 
 
