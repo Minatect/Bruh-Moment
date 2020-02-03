@@ -7,6 +7,7 @@ bool setLocalCartCoord(float x, float y, float ang);
 
 bool setLocalPolCoord(float r, float o, float ang);
 
+void trackCoordGyro(void* controlblock);
 
 void trackCoord2(void* controlblock);
 

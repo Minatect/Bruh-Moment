@@ -11,6 +11,7 @@ void initial(void* controlblock)  {
   arm.set_brake_mode(HOLD);
   arm.tare_position();
   trayLine.calibrate();
+  Gyro.reset();
   pros::Task::delay(2000);
 
   myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
@@ -112,15 +113,15 @@ void initial(void* controlblock)  {
   armVar->armUpAllow = 0;
 
 
-  cartPosition* localCartPos = (cartPosition*)calloc(1, sizeof(cartPosition));
+  /*cartPosition* localCartPos = (cartPosition*)calloc(1, sizeof(cartPosition));
   localCartPos->X = 0;
   localCartPos->Y = 0;
-  localCartPos->angle = 0;
+  localCartPos->angle = 0;*/
   polarPosition* localPolarPos = (polarPosition*)calloc(1, sizeof(polarPosition));
   localPolarPos->R = 0;
   localPolarPos->O = 0;
   localPolarPos->angle = 0;
-  arcPosition* arcSize = (arcPosition*)calloc(1, sizeof(arcPosition));
+  /*arcPosition* arcSize = (arcPosition*)calloc(1, sizeof(arcPosition));
   arcSize->radius = 0;
   arcSize->sweep = 0;
   arcSize->right = true;
@@ -129,7 +130,16 @@ void initial(void* controlblock)  {
   currentPos->track = false;
   currentPos->X = 0;
   currentPos->Y = 0;
+  currentPos->angle = 0;*/
+  cartPosition* currentPos = (cartPosition*)calloc(1, sizeof(cartPosition));
+  currentPos->X = 0;
+  currentPos->Y = 0;
   currentPos->angle = 0;
+  trackVar* track = (trackVar*)calloc(1, sizeof(trackVar));
+  track->trackAllow = true;
+  track->red = false;
+  track->currentPos = currentPos;
+  track->localPolarPos = localPolarPos;
 
   cartPosition* blueSingle = (cartPosition*)calloc(1, sizeof(cartPosition));
   blueSingle->X = BLUESINGLE_X;
@@ -160,10 +170,11 @@ void initial(void* controlblock)  {
   cb->moveVar = moveVar;
   cb->armVar = armVar;
   cb->intakePoint = intakePoint;
-  cb->localCartPos = localCartPos;
+  /*cb->localCartPos = localCartPos;
   cb->localPolarPos = localPolarPos;
   cb->currentPos = currentPos;
-  cb->arcSize = arcSize;
+  cb->arcSize = arcSize;*/
+  cb->track = track;
   cb->blueSingle = blueSingle;
   cb->blueDouble = blueDouble;
   cb->redSingle = redSingle;
@@ -188,7 +199,8 @@ void initial(void* controlblock)  {
                           TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");*/
   pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
-
-	pros::lcd::initialize();
-	gui();
+  pros::Task Odometry(trackCoordGyro, (void*) cb, TASK_PRIORITY_DEFAULT,
+                            TASK_STACK_DEPTH_DEFAULT, "Odometry");
+	/*pros::lcd::initialize();
+	gui();*/
 }

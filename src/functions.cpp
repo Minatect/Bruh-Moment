@@ -53,7 +53,7 @@ float RVEL()  {
 }
 
 float getGyro()	{
-	return fabs((leftGyro.get_value() + rightGyro.get_value()) / 20);
+	return (leftGyro.get_value() + rightGyro.get_value() / 20);
 }
 void resetGyro()	{
 	leftGyro.reset();

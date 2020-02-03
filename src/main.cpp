@@ -11,7 +11,7 @@ pros::Motor intakeL (INTAKE_L, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENC
 pros::Motor angle (ANGLE, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor arm (ARM, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 
-pros::Imu Gyro(10);
+pros::Imu Gyro(1);
 
 pros::ADIDigitalIn liftState (5);
 //ADIDigitalIn armState (6);
@@ -141,6 +141,7 @@ void autonomous() {
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
 void opcontrol() {
 	driver(control_block);
 }

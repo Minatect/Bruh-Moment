@@ -1,21 +1,48 @@
 #include "main.h"
 
+void setState(OdomDebug::state_t state) {
+	// set your odometry position to these cartesian coordenates
+	// to access the values, call `state.x`, `state.y`, and `state.theta`
+	// to convert the QUnits to doubles, call
+	// `state.x.convert(inch)` or `state.theta.convert(radian)`
+	// you can use any length or angle unit
+	// example commands:
+	//odomSetPosition(state.x, state.y, state.theta);
+	// odomSetPosition(state.x.convert(inch), state.y.convert(inch), state.theta.convert(radian));
+}
+
+void resetSensors() {
+	// reset sensors and reset odometry
+	// example commands:
+	// odomResetSensors();
+	// odomSetPosition(0, 0, 0);
+}
+
+
+
 void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
+
+  OdomDebug display(lv_scr_act(), LV_COLOR_ORANGE);
+  display.setStateCallback(setState);
+	display.setResetCallback(resetSensors);
+
   setDriveBrakes(COAST);
   setIntakeBrakes(HOLD);
   cb->isOpControl = true;
-  float accelTime = 0.6;
+  float accelTime = 0.35;
   float maxAccel = 12000/(accelTime*50);
   float powerL, powerR;
   float prevPowerL = 0, prevPowerR = 0;
   pros::Task::delay(50);
   while(true)	{
     if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
-      powerL = arcadeValue(true);
-      powerR = arcadeValue(true);
-      if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * (powerL - prevPowerL);
-      if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * (powerR - prevPowerR);
+      //powerL = arcadeValue(true);
+      //powerR = arcadeValue(false);
+      powerL = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
+      powerR = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
+      if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * maxAccel;
+      if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * maxAccel;
       driveL(powerL);
       driveR(powerR);
       prevPowerL = powerL;
@@ -138,6 +165,9 @@ void driver(void* controlblock) {
       deployAsync(cb);
     }*/
     if(cb->isOpControl) cb->isOpControl = false;
+
+
+    display.setData({cb->track->currentPos->X, cb->track->currentPos->Y, 2*PI*cb->track->currentPos->angle/360}, {0, 0});
 
 		pros::delay(20);
 	}

@@ -32,7 +32,7 @@ typedef struct {
   bool red;
   cartPosition* currentPos;
   polarPosition* localPolarPos;
-  arcPosition* currentArc;
+  //arcPosition* currentArc;
 } trackVar;
 
 float degreeToRadian(float degrees);

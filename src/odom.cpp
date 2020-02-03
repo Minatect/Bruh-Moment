@@ -7,7 +7,7 @@ pros::Mutex localCartAccess;
 pros::Mutex localPolarAccess;
 
 
-bool setAbsCartCoord(float x, float y, float ang, void* controlblock)  {
+/*bool setAbsCartCoord(float x, float y, float ang, void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   if(absoluteAccess.take(TIMEOUT_MAX)) {
     cb->currentPos->X = x;
@@ -21,7 +21,7 @@ bool setAbsCartCoord(float x, float y, float ang, void* controlblock)  {
   }
 }
 
-/*bool addToAbsCartCoord(void* controlblock)  {
+bool addToAbsCartCoord(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   if(absoluteAccess.take(TIMEOUT_MAX) && localCartAccess.take(TIMEOUT_MAX)) {
     cb->currentPos->X = cb->currentPos->X + cb->localCartPos->X;
@@ -86,37 +86,79 @@ void trackCoordGyro(void* controlblock) {
   float arcAng;
   float leftCurve = 1;
   float currentAngGyro;
-  leftEncoder.reset();
-  rightEncoder.reset();
+  //leftEncoder.reset();
+  //rightEncoder.reset();
+  //Gyro.reset();
 
   float prevEncL = 0;
   float prevEncR = 0;
   float prevAngGyro = 0;
 
-  while(currentPos->track)  {
-    currentEncL = LENCO();
-    currentEncR = RENCO();
-    currentAngGyro = getGyro();
+  while(true) {
 
-    arcCenter = WHEEL_D * PI * ENCSUM() / DRIVE_RATIO;
-    deltaAng = currentAngGyro - prevAngGyro;
+    while(cb->track->trackAllow)  {
 
-    if(arcCenter > 0) {
+      currentEncL = LENCO();
+      currentEncR = RENCO();
+      currentAngGyro = getGyroImu(cb);
 
-    } else if(arcCenter < 0)  {
+      arcCenter = WHEEL_D * PI * (currentEncR + currentEncL - prevEncR - prevEncL) / DRIVE_RATIO/2;
+      deltaAng = currentAngGyro - prevAngGyro;
 
-    } else  {
+      if(deltaAng > 180) deltaAng = deltaAng - 360;
+      else if(deltaAng < -180) deltaAng = deltaAng + 360;
 
+      //convert raw sensor data to local polar coordinates
+      if(arcCenter != 0)  { //robot has moved forwards/backwards
+
+        if(deltaAng != 0) { //robot has changed angle
+
+          if(arcCenter > 0) { //robot moved in forwards arc
+            cb->track->localPolarPos->R = (360/(2*PI))*fabs(arcCenter/deltaAng);
+            cb->track->localPolarPos->O = deltaAng/2;
+            cb->track->localPolarPos->angle = deltaAng;
+          } else  { //robot moved in backwards arc
+            cb->track->localPolarPos->R = (360/(2*PI))*fabs(arcCenter/deltaAng);
+            cb->track->localPolarPos->O = 180 + deltaAng/2;
+            cb->track->localPolarPos->angle = deltaAng;
+          }
+
+        } else {  //robot moved forwards/backwards straight
+          cb->track->localPolarPos->R = fabs(arcCenter);
+          cb->track->localPolarPos->O = 90 - sgn(arcCenter)*90;
+          cb->track->localPolarPos->angle = 0;
+        }
+
+      } else  { //if robot hasnt moved forwards or back
+        cb->track->localPolarPos->R = 0;
+        cb->track->localPolarPos->O = 0;
+        cb->track->localPolarPos->angle = deltaAng;
+      }
+
+      //convert local polar coordinates to absolute cartesian coordiantes
+      cb->track->currentPos->angle += cb->track->localPolarPos->angle;  //get angular direction of robot in absolute coordinate
+
+      if(cb->track->currentPos->angle >= 360 || cb->track->currentPos->angle < 0) {
+        cb->track->currentPos->angle += -sgn(cb->track->currentPos->angle)*360;
+      }
+
+
+      cb->track->currentPos->X += cosf(2*PI*(cb->track->localPolarPos->O + cb->track->currentPos->angle)/360);
+      cb->track->currentPos->Y += cosf(2*PI*(cb->track->localPolarPos->O + cb->track->currentPos->angle)/360);
+
+
+      prevEncL = currentEncL;
+      prevEncR = currentEncR;
+      prevAngGyro = currentAngGyro;
+
+      pros::Task::delay(20);
     }
-    prevEncL = currentEncL;
-    prevEncR = currentEncR;
-    prevAngGyro = currentAngGyro;
 
-    pros::Task::delay(20);
+    pros::Task::delay(100);
   }
 }
 
-void trackCoord2(void* controlblock)  {
+/*void trackCoord2(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   float currentEncL, currentEncR;
   float deltaL,deltaR, deltaCenter;
@@ -136,7 +178,7 @@ void trackCoord2(void* controlblock)  {
       currentEncL = leftEncoder.get_value();
       currentEncR = rightEncoder.get_value();
       arcAng = getGyroImu(cb);
-      
+
       deltaL = 2.75*PI/900*(currentEncL - prevEncL);
       deltaR = 2.75*PI/900*(currentEncR - prevEncR);
       deltaCenter = deltaL + deltaR;
@@ -190,7 +232,7 @@ void trackCoord2(void* controlblock)  {
 
 
 
-/*void trackCoord3() {
+void trackCoord3() {
   float prevEncL, prevEncR, prevEncS;
   float currentEncL, currentEncR, currentEncS;
   float deltaL,deltaR,deltaS;
