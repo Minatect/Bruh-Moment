@@ -23,9 +23,8 @@ void driveR(float power)	{
 }
 
 float arcadeValue(bool left)	{
-	return 12000*(sgn(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y))*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),4)
-				+ left*sgn(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X),4))
-				/((powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),2) + powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X),2))*powf(127,2));
+	return 12000*(powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3) + left * powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X),3))
+				/(fabs(powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y), 1)) + fabs(powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 1)))/127;
 }
 
 float LENCO()	{

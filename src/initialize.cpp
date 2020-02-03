@@ -4,6 +4,10 @@ void initial(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   setDriveBrakes(COAST);
   driveReset();
+  driveLB.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+  driveRB.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+  driveLF.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
+  driveRF.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
   intakeL.set_brake_mode(HOLD);
   intakeR.set_brake_mode(HOLD);
   angle.set_brake_mode(HOLD);

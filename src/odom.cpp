@@ -102,7 +102,7 @@ void trackCoordGyro(void* controlblock) {
       currentEncR = RENCO();
       currentAngGyro = getGyroImu(cb);
 
-      arcCenter = WHEEL_D * PI * (currentEncR + currentEncL - prevEncR - prevEncL) / DRIVE_RATIO/2;
+      arcCenter = WHEEL_D * PROPI * (currentEncR + currentEncL - prevEncR - prevEncL) / (2 * DRIVE_RATIO * 360);
       deltaAng = currentAngGyro - prevAngGyro;
 
       if(deltaAng > 180) deltaAng = deltaAng - 360;
@@ -114,11 +114,11 @@ void trackCoordGyro(void* controlblock) {
         if(deltaAng != 0) { //robot has changed angle
 
           if(arcCenter > 0) { //robot moved in forwards arc
-            cb->track->localPolarPos->R = (360/(2*PI))*fabs(arcCenter/deltaAng);
+            cb->track->localPolarPos->R = 2 * (360 / (2 * PROPI)) * fabs(arcCenter / deltaAng * sinf(deltaAng / 2));
             cb->track->localPolarPos->O = deltaAng/2;
             cb->track->localPolarPos->angle = deltaAng;
           } else  { //robot moved in backwards arc
-            cb->track->localPolarPos->R = (360/(2*PI))*fabs(arcCenter/deltaAng);
+            cb->track->localPolarPos->R = 2 * (360 / (2 * PROPI)) * fabs(arcCenter / deltaAng * sinf(deltaAng / 2));
             cb->track->localPolarPos->O = 180 + deltaAng/2;
             cb->track->localPolarPos->angle = deltaAng;
           }
@@ -136,16 +136,16 @@ void trackCoordGyro(void* controlblock) {
       }
 
       //convert local polar coordinates to absolute cartesian coordiantes
+
+
+      cb->track->currentPos->X += cb->track->localPolarPos->R * cosf(2*PROPI * (cb->track->localPolarPos->O + cb->track->currentPos->angle) / 360);
+      cb->track->currentPos->Y += cb->track->localPolarPos->R * sinf(2*PROPI * (cb->track->localPolarPos->O + cb->track->currentPos->angle) / 360);
+
       cb->track->currentPos->angle += cb->track->localPolarPos->angle;  //get angular direction of robot in absolute coordinate
 
       if(cb->track->currentPos->angle >= 360 || cb->track->currentPos->angle < 0) {
         cb->track->currentPos->angle += -sgn(cb->track->currentPos->angle)*360;
       }
-
-
-      cb->track->currentPos->X += cosf(2*PI*(cb->track->localPolarPos->O + cb->track->currentPos->angle)/360);
-      cb->track->currentPos->Y += cosf(2*PI*(cb->track->localPolarPos->O + cb->track->currentPos->angle)/360);
-
 
       prevEncL = currentEncL;
       prevEncR = currentEncR;
