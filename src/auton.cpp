@@ -8,7 +8,7 @@ void auton(void* controlblock)  {
   //pros::Task::delay(1000);
   //goRL(1,15,40,1);
   //turnRL(1,90,100);
-  //blue_single(cb);
+  blue_double(cb);
   //lue_single(cb);
   //armDown();
   //cb->autoAngle->angleDownAllow = true;

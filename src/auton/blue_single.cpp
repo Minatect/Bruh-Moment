@@ -14,8 +14,10 @@ void blue_single(void* controlblock)  {
   intakePow(0);
 	profileController->waitUntilSettled();
   intakePow(-12000);
-  goAsync(1, 33, 80, 0.42, cb);
+  goAsync(1, 36, 80, 0.32, cb);
   robotSettled(cb);
+  pros::Task::delay(500);
+  intakePow(0);
   turnGyro(-1,148,400);
   intakePow(0);
   goAsync(1, 32, 80, 1, cb);

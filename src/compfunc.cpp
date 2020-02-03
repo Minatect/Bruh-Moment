@@ -99,28 +99,6 @@ void deploy(void* controlblock) {
   intakePow(0);
 }
 
-void deployAsync(void* controlblock)  {
-  controlBlock* cb = (controlBlock*)controlblock;
-  cb->autoAngle->factor = 100;
-  cb->autoAngle->target = 250;
-
-  cb->armVar->armAngle = 600;
-
-  cb->intakeTime->voltage = 12000;
-  cb->intakeTime->time = 2;
-
-  cb->autoAngle->angleUpAllow = true;
-  cb->armVar->armMoveAllow = true;
-  angleSettled(cb);
-  cb->intakeTime->intakeTimeAllow = true;
-  armSettled(cb);
-
-  cb->armVar->armAngle = 0;
-
-  cb->armVar->armMoveAllow = true;
-  armSettled(cb);
-  cb->autoAngle->angleDownAllow = true;
-}
 
 
 
@@ -161,10 +139,3 @@ void intakeAsync(int voltage, float time, void* controlblock) {
   cb->intakeTime->time = time;
   cb->intakeTime->intakeTimeAllow = true;
 }
-
-
-/*void deploy() {
-  arm.move_absolute(90, 100);
-  Task::delay(1000);
-  arm.move_absolute(0,100);
-}*/

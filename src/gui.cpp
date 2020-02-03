@@ -16,19 +16,19 @@ static lv_res_t btnm_action(lv_obj_t * btnm, const char *txt) {
 
   switch (btnm_num) {
   case 1:
-    lv_label_set_text(g_sb_label, "Red Right Auton");
+    lv_label_set_text(g_sb_label, "Red Unprotected Auton");
     auton_sel = 1;
     break;
   case 2:
-    lv_label_set_text(g_sb_label, "Red Left Auton");
+    lv_label_set_text(g_sb_label, "Red Protected Auton");
     auton_sel = 2;
     break;
   case 3:
-    lv_label_set_text(g_sb_label, "Blue Right Auton");
+    lv_label_set_text(g_sb_label, "Blue Unprotected Auton");
     auton_sel = 3;
 break;
   case 4:
-    lv_label_set_text(g_sb_label, "Blue Left Auton");
+    lv_label_set_text(g_sb_label, "Blue Protected Auton");
     auton_sel = 4;
 break;
   case 5:

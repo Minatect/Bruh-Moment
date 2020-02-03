@@ -22,6 +22,12 @@ void driveR(float power)	{
 	driveRB.move_voltage(power);
 }
 
+float arcadeValue(bool left)	{
+	return 12000*(sgn(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y))*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),4)
+				+ left*sgn(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X),4))
+				/((powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),2) + powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X),2))*powf(127,2));
+}
+
 float LENCO()	{
 	return (driveLF.get_position()+driveLB.get_position())/2;
 }
@@ -52,6 +58,22 @@ float getGyro()	{
 void resetGyro()	{
 	leftGyro.reset();
 	rightGyro.reset();
+}
+
+float getGyroImu(void* controlblock)	{
+	controlBlock* cb = (controlBlock*) controlblock;
+
+	float currentVal = Gyro.get_heading();
+	if(cb->track->red)	{
+		if(fabs(currentVal) == 360)	return 0;
+		else if(currentVal < 0) return -currentVal;
+		else return -currentVal + 360;
+	}
+	else	{
+		if(fabs(currentVal) == 360)	return 0;
+		else if(currentVal < 0) return currentVal + 360;
+		else return currentVal;
+	}
 }
 
 float sgn(float input)	{

@@ -59,13 +59,6 @@ bool setLocalPolCoord(float r, float o, float ang)  {
 }*/
 
 
-float degreeToRadian(float degrees) {
-  return degrees*PI/180;
-}
-
-float radianToDegree(float radians) {
-  return radians*180/PI;
-}
 
 /*void localPolarToCart(void* controlblock) {
   ((cartPosition*)controlblock)->X = (((polarPosition*)controlblock)->R)*cos(degreeToRadian(((polarPosition*)controlblock)->O));
@@ -124,8 +117,9 @@ void trackCoordGyro(void* controlblock) {
 }
 
 void trackCoord2(void* controlblock)  {
+  controlBlock* cb = (controlBlock*)controlblock;
   float currentEncL, currentEncR;
-  float deltaL,deltaR;
+  float deltaL,deltaR, deltaCenter;
   float arcL, arcR, arcCenter;
   float arcAng;
   float leftCurve = 1;
@@ -135,6 +129,27 @@ void trackCoord2(void* controlblock)  {
 
   float prevEncL = 0;
   float prevEncR = 0;
+
+
+  while(true) {
+    while(cb->track->trackAllow) {
+      currentEncL = leftEncoder.get_value();
+      currentEncR = rightEncoder.get_value();
+      arcAng = getGyroImu(cb);
+      
+      deltaL = 2.75*PI/900*(currentEncL - prevEncL);
+      deltaR = 2.75*PI/900*(currentEncR - prevEncR);
+      deltaCenter = deltaL + deltaR;
+
+
+
+
+      prevEncL = currentEncL;
+      prevEncR = currentEncR;
+      pros::Task::delay(20);
+    }
+    pros::Task::delay(100);
+  }
 
   while(currentPos->track)  {
     currentEncL = leftEncoder.get_value();

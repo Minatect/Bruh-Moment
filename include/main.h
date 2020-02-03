@@ -101,6 +101,7 @@ using namespace okapi;
 #include "drivercontrol.h"
 #include "initialize.h"
 #include "odom.h"
+#include "odom_func.h"
 #include "armcontrol.h"
 
 
@@ -119,6 +120,7 @@ extern pros::ADIDigitalIn liftState;
 extern pros::ADIAnalogIn trayLine;
 extern pros::ADIGyro leftGyro;
 extern pros::ADIGyro rightGyro;
+extern pros::Imu Gyro;
 
 extern pros::ADIEncoder leftEncoder;
 extern pros::ADIEncoder rightEncoder;
@@ -143,6 +145,7 @@ extern cartPosition* localCartPos;
 extern polarPosition* localPolarPos;
 extern arcPosition* arcSize;
 extern currentPosition* currentPos;
+extern trackVar* track;
 
 extern cartPosition* blueSingle;
 extern cartPosition* blueDouble;
@@ -160,6 +163,8 @@ typedef struct  {
   polarPosition* localPolarPos;
   arcPosition* arcSize;
   currentPosition* currentPos;
+
+  trackVar* track;
 
   cartPosition* blueSingle;
   cartPosition* blueDouble;

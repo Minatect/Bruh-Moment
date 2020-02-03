@@ -17,6 +17,8 @@ void red_double(void* controlblock) {
   pros::Task::delay(300);
   intakePow(-12000);
 	profileControllerSlow->waitUntilSettled();
+  pros::Task::delay(500);
+  intakePow(0);
   //profileControllerSlow->setTarget("Protected_TwoCube_Backward", true, true);
   /*goAsync(-1, 30, 80, 1,cb);
   pros::Task::delay(500);

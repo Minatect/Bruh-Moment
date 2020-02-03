@@ -5,21 +5,27 @@ void driver(void* controlblock) {
   setDriveBrakes(COAST);
   setIntakeBrakes(HOLD);
   cb->isOpControl = true;
+  float accelTime = 0.6;
+  float maxAccel = 12000/(accelTime*50);
+  float powerL, powerR;
+  float prevPowerL = 0, prevPowerR = 0;
   pros::Task::delay(50);
   while(true)	{
-    /*if(std::fabs(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
-      driveL(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
-            + sgn(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),4))
-            /((powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),2) + powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),2))*powf(127,2)));
-      driveR(12000*(sgn(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y))*powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),4)
-            - sgn(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X))*powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),4))
-            /((powf(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),2) + powf(master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X),2))*powf(127,2)));
+    if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
+      powerL = arcadeValue(true);
+      powerR = arcadeValue(true);
+      if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * (powerL - prevPowerL);
+      if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * (powerR - prevPowerR);
+      driveL(powerL);
+      driveR(powerR);
+      prevPowerL = powerL;
+      prevPowerR = powerR;
     }     else  {
       driveL(0);
       driveR(0);
-    }*/
-    driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
-    driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
+    }
+    //driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
+    //driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
       /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{ //enumerate arm position +
         if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
@@ -97,7 +103,7 @@ void driver(void* controlblock) {
 			intakePow(0);
 		}
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {  //auto adjust cube position
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
       cb->isOpControl = true;
       pros::Task::delay(100);
     }

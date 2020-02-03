@@ -50,6 +50,8 @@ float RVEL();
 
 void driveReset();
 
+float arcadeValue(bool left);
+
 float sgn(float input);
 
 void goRL(int dir, float distance, float factor, float speed);
@@ -63,6 +65,8 @@ void goRLAsync(void* controlblock);
 void turnRLAsync(void* controlblock);
 
 void turnGyro(int dir, float target, float factor);
+
+float getGyroImu(void* controlblock);
 
 void robotSettled(void* controlblock);
 
