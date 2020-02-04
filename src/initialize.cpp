@@ -16,7 +16,7 @@ void initial(void* controlblock)  {
   arm.tare_position();
   trayLine.calibrate();
   Gyro.reset();
-  pros::Task::delay(2000);
+  while(Gyro.is_calibrating()) pros::Task::delay(20);
 
   myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
   myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
@@ -107,8 +107,8 @@ void initial(void* controlblock)  {
   armVar->armUp = false;
   armVar->armMoving = false;
   armVar->armDir = 1;
-  armVar->armAngle1 = 450;
-  armVar->armAngle2 = 530;
+  armVar->armAngle1 = 2000;//480;
+  armVar->armAngle2 = 3000;
   armVar->armAngle3 = 600;
   armVar->armFactor = 400;
   armVar->armIsMoving = false;
@@ -136,8 +136,8 @@ void initial(void* controlblock)  {
   currentPos->Y = 0;
   currentPos->angle = 0;*/
   cartPosition* currentPos = (cartPosition*)calloc(1, sizeof(cartPosition));
-  currentPos->X = 0;
-  currentPos->Y = 0;
+  currentPos->X = 54;
+  currentPos->Y = 54;
   currentPos->angle = 0;
   trackVar* track = (trackVar*)calloc(1, sizeof(trackVar));
   track->trackAllow = true;
@@ -199,8 +199,8 @@ void initial(void* controlblock)  {
   pros::Task anglecheck(angleState, (void*) cb, TASK_PRIORITY_MIN,
                           TASK_STACK_DEPTH_DEFAULT, "Angle State Check");
 
-  /*pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
-                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");*/
+  pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
+                          TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");
   pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
   pros::Task Odometry(trackCoordGyro, (void*) cb, TASK_PRIORITY_DEFAULT,

@@ -34,19 +34,23 @@ void driver(void* controlblock) {
   float maxAccel = 12000/(accelTime*50);
   float powerL, powerR;
   float prevPowerL = 0, prevPowerR = 0;
+
   pros::Task::delay(50);
+
+
+
   while(true)	{
     if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
-      powerL = arcadeValue(true);
-      powerR = arcadeValue(false);
-      //powerL = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
-      //powerR = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
-      if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * maxAccel;
-      if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * maxAccel;
+      //powerL = arcadeValue(true);
+      //powerR = arcadeValue(false);
+      powerL = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
+      powerR = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
+      //if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * maxAccel;
+      //if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * maxAccel;
       driveL(powerL);
       driveR(powerR);
-      prevPowerL = powerL;
-      prevPowerR = powerR;
+      //prevPowerL = powerL;
+      //prevPowerR = powerR;
     }     else  {
       driveL(0);
       driveR(0);
@@ -87,13 +91,12 @@ void driver(void* controlblock) {
     } else  { //non-macro
       //manuel arm adjust
       if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && !cb->armVar->armIsMoving)	{
-        arm.move_voltage(12000);
+        if(cb->armVar->armUpAllow == 2) cb->armVar->armUpAllow = 0;
+        else cb->armVar->armUpAllow = 2;
   		}
-  		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)  && !cb->armVar->armIsMoving)	{
-        arm.move_voltage(-12000);
-  		}
-      else	{
-  			arm.move_voltage(0);
+  		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && !cb->armVar->armIsMoving)	{
+        if(cb->armVar->armUpAllow == 1) cb->armVar->armUpAllow = 0;
+        else cb->armVar->armUpAllow = 1;
   		}
 
       //auto angler
@@ -167,7 +170,7 @@ void driver(void* controlblock) {
     if(cb->isOpControl) cb->isOpControl = false;
 
 
-    display.setData({cb->track->currentPos->Y, cb->track->currentPos->X, 2*PI*cb->track->currentPos->angle/360}, 
+    display.setData({cb->track->currentPos->Y, cb->track->currentPos->X, 2*PI*cb->track->currentPos->angle/360},
                     {WHEEL_D * PROPI * (LENCO()) / (2 * DRIVE_RATIO * 360), WHEEL_D * PROPI * (RENCO()) / (2 * DRIVE_RATIO * 360)});
 
 		pros::delay(20);

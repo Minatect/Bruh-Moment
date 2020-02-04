@@ -51,12 +51,14 @@ std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerSlow = Asy
 								.withLimits({1.2, 1, 3.5})
 								.withOutput(myChassis)
 								.buildMotionProfileController();
-
-std::shared_ptr<okapi::AsyncPositionController<double, double>> armController = AsyncPosControllerBuilder()
+//std::shared_ptr<okapi::AsyncPositionController<double, double>>
+std::shared_ptr<okapi::AsyncPositionController<double, double>> armControl = AsyncPosControllerBuilder()
 									.withMotor(ARM)
-									.withSensor(IntegratedEncoder(ARM, false))
 									.withGearset(AbstractMotor::gearset::red)
 									.build();
+
+
+//AsyncPosIntegratedController armControl = AsyncPosIntegratedController(ARM, AbstractMotor::gearset::red, 100, TimeUtilFactory::createDefault(),  Logger::getDefaultLogger());
 
 
 

@@ -73,6 +73,9 @@ using namespace okapi;
 #define ANGLE 4
 #define ARM 5
 
+#define ARM_UP_HIGH 640
+#define ARM_UP_LOW 480
+
 #define BLUESINGLE_X 0
 #define BLUESINGLE_Y 0
 #define BLUESINGLE_ANGLE 0
@@ -133,7 +136,7 @@ extern std::shared_ptr<okapi::AsyncMotionProfileController> profileControllerSlo
 //extern AsyncMotionProfileController profileController;
 extern std::shared_ptr<okapi::ChassisController> myChassis;
 //extern ChassisControllerPID myChassis;
-extern std::shared_ptr<okapi::AsyncPositionController<double, double>> armController;
+extern std::shared_ptr<okapi::AsyncPositionController<double, double>> armControl;
 //extern AsyncPosIntegratedController armController;
 
 extern intakeTimeVariable* intakeTime;

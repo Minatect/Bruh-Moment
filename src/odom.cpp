@@ -102,44 +102,38 @@ void trackCoordGyro(void* controlblock) {
       currentEncR = RENCO();
       currentAngGyro = getGyroImu(cb);
 
-      arcCenter = WHEEL_D * PROPI * (currentEncR + currentEncL - prevEncR - prevEncL) / (2 * DRIVE_RATIO * 360);
+      arcCenter = WHEEL_D * PI * (currentEncR - prevEncR + currentEncL - prevEncL) / (3 * DRIVE_RATIO * 360);
       deltaAng = currentAngGyro - prevAngGyro;
 
       if(deltaAng > 180) deltaAng = deltaAng - 360;
       else if(deltaAng < -180) deltaAng = deltaAng + 360;
 
       //convert raw sensor data to local polar coordinates
-      if(arcCenter != 0)  { //robot has moved forwards/backwards
-
+       //robot has moved forwards/backwards
         if(deltaAng != 0) { //robot has changed angle
 
-          if(arcCenter > 0) { //robot moved in forwards arc
-            cb->track->localPolarPos->R = 2 * (360 / (2 * PROPI)) * fabs(arcCenter / deltaAng * sinf(deltaAng / 2));
+          //if(arcCenter > 0) { //robot moved in forwards arc
+            cb->track->localPolarPos->R = 2 * (360 / (2 * PI)) * (arcCenter / deltaAng) * sinf(2 * PI * (deltaAng / 2) / 360);
             cb->track->localPolarPos->O = deltaAng/2;
             cb->track->localPolarPos->angle = deltaAng;
-          } else  { //robot moved in backwards arc
+          /*} else  { //robot moved in backwards arc
             cb->track->localPolarPos->R = 2 * (360 / (2 * PROPI)) * fabs(arcCenter / deltaAng * sinf(deltaAng / 2));
             cb->track->localPolarPos->O = 180 + deltaAng/2;
             cb->track->localPolarPos->angle = deltaAng;
-          }
+          }*/
 
         } else {  //robot moved forwards/backwards straight
-          cb->track->localPolarPos->R = fabs(arcCenter);
-          cb->track->localPolarPos->O = 90 - sgn(arcCenter)*90;
+          cb->track->localPolarPos->R = arcCenter;
+          cb->track->localPolarPos->O = 0;
           cb->track->localPolarPos->angle = 0;
         }
 
-      } else  { //if robot hasnt moved forwards or back
-        cb->track->localPolarPos->R = 0;
-        cb->track->localPolarPos->O = 0;
-        cb->track->localPolarPos->angle = deltaAng;
-      }
 
       //convert local polar coordinates to absolute cartesian coordiantes
 
 
-      cb->track->currentPos->X += cb->track->localPolarPos->R * cosf(2*PROPI * (cb->track->localPolarPos->O + cb->track->currentPos->angle) / 360);
-      cb->track->currentPos->Y += cb->track->localPolarPos->R * sinf(2*PROPI * (cb->track->localPolarPos->O + cb->track->currentPos->angle) / 360);
+      cb->track->currentPos->X += cb->track->localPolarPos->R * cosf(2 * PI * (cb->track->localPolarPos->O + cb->track->currentPos->angle) / 360);
+      cb->track->currentPos->Y += cb->track->localPolarPos->R * sinf(2 * PI * (cb->track->localPolarPos->O + cb->track->currentPos->angle) / 360);
 
       cb->track->currentPos->angle += cb->track->localPolarPos->angle;  //get angular direction of robot in absolute coordinate
 
