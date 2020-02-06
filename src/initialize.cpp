@@ -117,24 +117,10 @@ void initial(void* controlblock)  {
   armVar->armUpAllow = 0;
 
 
-  /*cartPosition* localCartPos = (cartPosition*)calloc(1, sizeof(cartPosition));
-  localCartPos->X = 0;
-  localCartPos->Y = 0;
-  localCartPos->angle = 0;*/
   polarPosition* localPolarPos = (polarPosition*)calloc(1, sizeof(polarPosition));
   localPolarPos->R = 0;
   localPolarPos->O = 0;
   localPolarPos->angle = 0;
-  /*arcPosition* arcSize = (arcPosition*)calloc(1, sizeof(arcPosition));
-  arcSize->radius = 0;
-  arcSize->sweep = 0;
-  arcSize->right = true;
-  currentPosition* currentPos = (currentPosition*)calloc(1, sizeof(currentPosition));
-  currentPos->red = true;
-  currentPos->track = false;
-  currentPos->X = 0;
-  currentPos->Y = 0;
-  currentPos->angle = 0;*/
   cartPosition* currentPos = (cartPosition*)calloc(1, sizeof(cartPosition));
   currentPos->X = 54;
   currentPos->Y = 54;

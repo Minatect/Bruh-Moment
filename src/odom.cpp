@@ -7,75 +7,14 @@ pros::Mutex localCartAccess;
 pros::Mutex localPolarAccess;
 
 
-/*bool setAbsCartCoord(float x, float y, float ang, void* controlblock)  {
+float getDistanceTo(float position[2], void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  if(absoluteAccess.take(TIMEOUT_MAX)) {
-    cb->currentPos->X = x;
-    cb->currentPos->Y = y;
-    cb->currentPos->angle = ang;
-    absoluteAccess.give();
-    return true;
-  }
-  else  {
-    return false;
-  }
+  return sqrt(powf((cb->track->currentPos->X - position[0]), 2) + powf((cb->track->currentPos->Y - position[1]), 2));
 }
 
-bool addToAbsCartCoord(void* controlblock)  {
-  controlBlock* cb = (controlBlock*)controlblock;
-  if(absoluteAccess.take(TIMEOUT_MAX) && localCartAccess.take(TIMEOUT_MAX)) {
-    cb->currentPos->X = cb->currentPos->X + cb->localCartPos->X;
-    cb->currentPos->Y = cb->currentPos->Y + cb->localCartPos->Y;
-    cb->currentPos->angle = cb->currentPos->angle + cb->localCartPos->angle;
-  }
-  else  {
-
-  }
-}
-
-bool setLocalCartCoord(float x, float y, float ang) {
-  if(localCartAccess.take(TIMEOUT_MAX)) {
-    cb->localCartPos->cartX = x;
-    localCartPos->cartY = y;
-    localCartPos->cartAngle = ang;
-    return true;
-  }
-  else  {
-    return false;
-  }
-}
-
-bool setLocalPolCoord(float r, float o, float ang)  {
-  if(localPolarAccess.take(TIMEOUT_MAX)) {
-    localPolarPos->polR = r;
-    localPolarPos->pol0 = o;
-    localPolarPos->polAngle = ang;
-    localPolarAccess.give();
-    return true;
-  }
-  else  {
-    return false;
-  }
-}*/
+bool isPastLine(float position[3] )
 
 
-
-/*void localPolarToCart(void* controlblock) {
-  ((cartPosition*)controlblock)->X = (((polarPosition*)controlblock)->R)*cos(degreeToRadian(((polarPosition*)controlblock)->O));
-  ((cartPosition*)controlblock)->Y = (((polarPosition*)controlblock)->R)*sin(degreeToRadian(((polarPosition*)controlblock)->O));
-  ((cartPosition*)controlblock)->angle = ((polarPosition*)controlblock)->angle;
-}
-
-void localArcToPolar(void* controlblock)  {
-  ((polarPosition*)controlblock)->O = 0.5*((arcPosition*)controlblock)->radius/fabs(((arcPosition*)controlblock)->radius)*(180-fabs(((arcPosition*)controlblock)->sweep));
-  ((polarPosition*)controlblock)->R = 2*((arcPosition*)controlblock)->radius*cos(fabs(((arcPosition*)controlblock)->sweep)/2);
-  if(((arcPosition*)controlblock)->right) {
-    ((polarPosition*)controlblock)->angle = 90*(2+fabs(((arcPosition*)controlblock)->sweep)/((arcPosition*)controlblock)->sweep)-((arcPosition*)controlblock)->sweep;
-  }
-  else  {
-    ((polarPosition*)controlblock)->angle = 90*(2-fabs(((arcPosition*)controlblock)->sweep)/((arcPosition*)controlblock)->sweep)+((arcPosition*)controlblock)->sweep;
-  }
-}*/
 
 void trackCoordGyro(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;

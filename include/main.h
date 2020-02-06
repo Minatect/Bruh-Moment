@@ -107,6 +107,7 @@ using namespace okapi;
 #include "odom_func.h"
 #include "armcontrol.h"
 #include "odomDebug.hpp"
+#include "movecontrol.h"
 
 
 extern pros::Motor driveLF;
@@ -145,9 +146,7 @@ extern moveVariable* moveVar;
 extern armVariable* armVar;
 extern intakeToPointVar* intakePoint;
 
-extern cartPosition* localCartPos;
 extern polarPosition* localPolarPos;
-extern arcPosition* arcSize;
 extern currentPosition* currentPos;
 extern trackVar* track;
 
@@ -156,6 +155,8 @@ extern cartPosition* blueDouble;
 extern cartPosition* redSingle;
 extern cartPosition* redDouble;
 
+extern motionVariable* motionVar;
+
 typedef struct  {
   intakeTimeVariable* intakeTime;
   autoAngleVariable* autoAngle;
@@ -163,12 +164,10 @@ typedef struct  {
   armVariable*  armVar;
   intakeToPointVar* intakePoint;
 
-  //cartPosition* localCartPos;
-  //polarPosition* localPolarPos;
-  //arcPosition* arcSize;
-  //currentPosition* currentPos;
 
   trackVar* track;
+
+  motionVariable* motionVar;
 
   cartPosition* blueSingle;
   cartPosition* blueDouble;
