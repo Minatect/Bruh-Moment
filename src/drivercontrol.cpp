@@ -34,17 +34,18 @@ void driver(void* controlblock) {
   float maxAccel = 12000/(accelTime*50);
   float powerL, powerR;
   float prevPowerL = 0, prevPowerR = 0;
-
+  float x, y;
   pros::Task::delay(50);
 
 
 
   while(true)	{
     if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
-      //powerL = arcadeValue(true);
-      //powerR = arcadeValue(false);
-      powerL = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) + 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
-      powerR = 12000 * (master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y) - 0.8 * master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X))/127;
+      x = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+      y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+
+      powerL = 12000 * (sgn(y) * powf(y, 2) + sgn(x) * powf(x, 2)) / powf(127, 2);
+      powerR = 12000 * (sgn(y) * powf(y, 2) - sgn(x) * powf(x, 2)) / powf(127, 2);
       //if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * maxAccel;
       //if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * maxAccel;
       driveL(powerL);
