@@ -1,43 +1,42 @@
 #include "main.h"
+#include <vector>
 
 
-class filterEMA {
-  public::
-  int timePeriod;
-  float alpha;
-  vector<float> data;
-  float setFilter(int time, float alpha);
-  float getValue(float input);
 
+void filterEMA::setFilter(int time) {
+  timePeriod = time;
+  alpha = 2 / (time + 1);
+  dataarray = new float[time];
+  for(int i = 0; i < time ; i++) dataarray[i] = 0;
 }
 
-filterEMA::setFilter(int time, float alpha) {
-  filterEMA.timePeriod = time;
-  filterEMA.alpha = alpha;
-  filterEMA.data = vector[time, 0];
+float filterEMA::getValue(float input)  {
+  float average;
+  for(int i = 0; i < timePeriod ; i++) average += dataarray[i];
+  average = (float) (average / timePeriod);
+  return alpha * (input - average) + average;
+  for(int i = timePeriod - 1; i > 0; i--) dataarray[i] = dataarray[i-1];
+  dataarray[0] = input;
 }
 
-filterEMA::getValue(float input)  {
 
-}
-
-void goEMA(void* controlblock)  {
+/*void goEMA(void* controlblock)  {
   controlBlock* cb = (controlBlock*) controlblock;
   int timePeriod = 3;
   float data[timePeriod];
   float alpha = 2/(timePeriod + 1);
   float average;
 
-  for(int i = 0; i++ ; i < timePeriod)  data[i] = 0;
+  for(int i = 0; i < timePeriod ; i++)  data[i] = 0;
 
 
   while(true) {
     if(cb->motionVar->goFilter->newData) {
-      for(int i = 0; i++ ; i < timePeriod) average += data[i];
+      for(int i = 0; i < timePeriod ; i++) average += data[i];
       average = average / timePeriod;
       cb->motionVar->goFilter->output = alpha * (cb->motionVar->goFilter->input - average) + average;
 
-      for(int i = 1; i++ ; i < timePeriod) data[i] = data[i-1];
+      for(int i = 1; i < timePeriod; i++) data[i] = data[i-1];
       data[0] = cb->motionVar->goFilter->input;
       cb->motionVar->goFilter->newData = false;
     }
@@ -81,7 +80,7 @@ float turnEmaGet(float input, void* controlblock) {
   cb->motionVar->turnFilter->input = input;
   cb->motionVar->turnFilter->newData = true;
   return cb->motionVar->turnFilter->output;
-}
+}*/
 
 
  void goController(void* controlblock)  {
@@ -107,7 +106,7 @@ void turnController(void* controlblock)  {
 
  while(true)  {
 
-   while()  {
+   while(!cb->motionVar->turnVar->stop || !cb->motionVar->turnVar->settled)  {
 
     pros::Task::delay(20);
    }

@@ -177,6 +177,10 @@ typedef struct  {
   bool isOpControl;
 } controlBlock;
 
+
+extern filterEMA goFilter;
+extern filterEMA turnFilter;
+
 //extern controlBlock* control_block;
 
 /**

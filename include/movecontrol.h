@@ -28,22 +28,31 @@ typedef struct  {
   float input;
   float output;
   bool newData;
-} goEMA;
+} goEMAVar;
 typedef struct  {
   float input;
   float output;
   bool newData;
-} turnEMA;
+} turnEMAVar;
 
 typedef struct  {
 
   goVariable* goVar;
   turnVariable* turnVar;
-  goEMA* goFilter;
-  turnEMA* turnFilter;
+  goEMAVar* goFilter;
+  turnEMAVar* turnFilter;
 
 } motionVariable;
 
+
+class filterEMA {
+  int timePeriod;
+  float alpha;
+  float *dataarray;
+  public:
+  void setFilter(int time);
+  float getValue(float input);
+};
 
 void goController(void* controlblock);
 
