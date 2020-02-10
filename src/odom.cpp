@@ -12,7 +12,7 @@ float getDistanceTo(float position[2], void* controlblock) {
   return sqrt(powf((cb->track->currentPos->X - position[0]), 2) + powf((cb->track->currentPos->Y - position[1]), 2));
 }
 
-bool isPastLine(float position[3] )
+//bool isPastLine(float position[3] )
 
 
 

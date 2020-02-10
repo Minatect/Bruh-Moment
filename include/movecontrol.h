@@ -35,12 +35,19 @@ typedef struct  {
   bool newData;
 } turnEMAVar;
 
+typedef struct {
+  float X;
+  float Y;
+  float theta;
+} chassisTarget;
+
 typedef struct  {
 
   goVariable* goVar;
   turnVariable* turnVar;
   goEMAVar* goFilter;
   turnEMAVar* turnFilter;
+  chassisTarget* targetPos;
 
 } motionVariable;
 

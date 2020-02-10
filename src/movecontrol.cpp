@@ -83,6 +83,17 @@ float turnEmaGet(float input, void* controlblock) {
 }*/
 
 
+void findTarget(void* controlblock) { //from current position & heading, 
+  //find the delta heading and delta perpendicular distance in the current heading
+  controlBlock* cb = (controlBlock*) controlblock;
+
+  while(true) {
+
+    pros::Task::delay(100);
+  }
+}
+
+
  void goController(void* controlblock)  {
    controlBlock* cb = (controlBlock*) controlblock;
 

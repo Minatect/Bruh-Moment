@@ -87,7 +87,7 @@ void initial(void* controlblock)  {
   armVar->armUp = false;
   armVar->armMoving = false;
   armVar->armDir = 1;
-  armVar->armAngle1 = 2000;//480;
+  armVar->armAngle1 = 2200;//480;
   armVar->armAngle2 = 3000;
   armVar->armAngle3 = 600;
   armVar->armFactor = 400;
@@ -152,9 +152,9 @@ void initial(void* controlblock)  {
   cb->isOpControl = isOpControl;
 
   filterEMA goFilter;
-  goFilter.setFilter(10);
+  goFilter.setFilter(5);
   filterEMA turnFilter;
-  turnFilter.setFilter(10);
+  turnFilter.setFilter(5);
 
 
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
