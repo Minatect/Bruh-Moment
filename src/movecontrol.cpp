@@ -19,6 +19,17 @@ float filterEMA::getValue(float input)  {
   dataarray[0] = input;
 }
 
+void findTarget::getTarget(cartPosition* input, cartPosition* currentPos) {
+  float targetAng;
+  if(input->X == currentPos->X) targetAng = 90 + sgn(input->Y - currentPos->Y) * 90;
+  else targetAng = 180 / PI * atan((input->Y - currentPos->Y) / (input->X - currentPos->X));
+
+  turn = targetAng - currentPos->angle;
+
+  go = cos(turn) * distanceBtwn(input, currentPos);
+
+  if(sgn(go) == -1) turn
+}
 
 /*void goEMA(void* controlblock)  {
   controlBlock* cb = (controlBlock*) controlblock;
@@ -83,15 +94,7 @@ float turnEmaGet(float input, void* controlblock) {
 }*/
 
 
-void findTarget(void* controlblock) { //from current position & heading, 
-  //find the delta heading and delta perpendicular distance in the current heading
-  controlBlock* cb = (controlBlock*) controlblock;
 
-  while(true) {
-
-    pros::Task::delay(100);
-  }
-}
 
 
  void goController(void* controlblock)  {

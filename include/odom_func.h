@@ -41,5 +41,7 @@ float radianToDegree(float radians);
 
 bool polarToCart(void* controlblock);
 
+float distanceBtwn(cartPosition* point1, cartPosition* point2);
+
 
 #endif

@@ -61,6 +61,13 @@ class filterEMA {
   float getValue(float input);
 };
 
+class findTarget  {
+  float go;
+  float turn;
+  public:
+  void getTarget(cartPosition* input, cartPosition* currentPos);
+};
+
 void goController(void* controlblock);
 
 void turnController(void* controlblock);
