@@ -21,77 +21,17 @@ float filterEMA::getValue(float input)  {
 
 void findTarget::getTarget(cartPosition* input, cartPosition* currentPos) {
   float targetAng;
-  if(input->X == currentPos->X) targetAng = 90 + sgn(input->Y - currentPos->Y) * 90;
-  else targetAng = 180 / PI * atan((input->Y - currentPos->Y) / (input->X - currentPos->X));
+  if(input->X == currentPos->X) targetAng = 90 - sgn(input->Y - currentPos->Y) * 90;
+  else targetAng = 90 * (2 - sgn(input->X - currentPos->X)) -  (180 / PI * atan((input->Y - currentPos->Y) / (input->X - currentPos->X)));
 
   turn = targetAng - currentPos->angle;
+  if(turn > 180) turn += -360;
+  else if(turn < -180) turn += 360;
 
   go = cos(turn) * distanceBtwn(input, currentPos);
 
-  if(sgn(go) == -1) turn
+  if(sgn(go) == -1) turn = sgn(turn) * (180 - fabs(turn));
 }
-
-/*void goEMA(void* controlblock)  {
-  controlBlock* cb = (controlBlock*) controlblock;
-  int timePeriod = 3;
-  float data[timePeriod];
-  float alpha = 2/(timePeriod + 1);
-  float average;
-
-  for(int i = 0; i < timePeriod ; i++)  data[i] = 0;
-
-
-  while(true) {
-    if(cb->motionVar->goFilter->newData) {
-      for(int i = 0; i < timePeriod ; i++) average += data[i];
-      average = average / timePeriod;
-      cb->motionVar->goFilter->output = alpha * (cb->motionVar->goFilter->input - average) + average;
-
-      for(int i = 1; i < timePeriod; i++) data[i] = data[i-1];
-      data[0] = cb->motionVar->goFilter->input;
-      cb->motionVar->goFilter->newData = false;
-    }
-    pros::Task::delay(20);
-  }
-}
-
-float goEmaGet(float input, void* controlblock) {
-  controlBlock* cb = (controlBlock*) controlblock;
-  cb->motionVar->goFilter->input = input;
-  cb->motionVar->goFilter->newData = true;
-  return cb->motionVar->goFilter->output;
-}
-
-void turnEMA(void* controlblock)  {
-  controlBlock* cb = (controlBlock*) controlblock;
-  int timePeriod = 3;
-  float[timePeriod] data;
-  float alpha = 2/(timePeriod + 1);
-  float average;
-
-  for(int i = 0; i++ ; i < timePeriod)  data[i] = 0;
-
-
-  while(true) {
-    if(cb->motionVar->turnFilter->newData) {
-      for(int i = 0; i++ ; i < timePeriod) average += data[i];
-      average = average / timePeriod;
-      cb->motionVar->turnFilter->output = alpha * (cb->motionVar->turnFilter->input - average) + average;
-
-      for(int i = 1; i++ ; i < timePeriod) data[i] = data[i-1];
-      data[0] = cb->motionVar->turnFilter->input;
-      cb->motionVar->turnFilter->newData = false;
-    }
-    pros::Task::delay(20);
-  }
-}
-
-float turnEmaGet(float input, void* controlblock) {
-  controlBlock* cb = (controlBlock*) controlblock;
-  cb->motionVar->turnFilter->input = input;
-  cb->motionVar->turnFilter->newData = true;
-  return cb->motionVar->turnFilter->output;
-}*/
 
 
 

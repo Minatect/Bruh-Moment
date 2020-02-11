@@ -24,16 +24,6 @@ typedef struct  {
   bool settled;
 } turnVariable;
 
-typedef struct  {
-  float input;
-  float output;
-  bool newData;
-} goEMAVar;
-typedef struct  {
-  float input;
-  float output;
-  bool newData;
-} turnEMAVar;
 
 typedef struct {
   float X;
@@ -45,8 +35,6 @@ typedef struct  {
 
   goVariable* goVar;
   turnVariable* turnVar;
-  goEMAVar* goFilter;
-  turnEMAVar* turnFilter;
   chassisTarget* targetPos;
 
 } motionVariable;

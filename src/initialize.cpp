@@ -172,8 +172,8 @@ void initial(void* controlblock)  {
 
   pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
                           TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");
-  pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
-                            TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
+  //pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
+  //                          TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
   pros::Task Odometry(trackCoordGyro, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Odometry");
 	/*pros::lcd::initialize();
