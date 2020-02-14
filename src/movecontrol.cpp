@@ -33,36 +33,117 @@ void findTarget::getTarget(cartPosition* input, cartPosition* currentPos) {
   if(sgn(go) == -1) turn = sgn(turn) * (180 - fabs(turn));
 }
 
+void findTarget::setTarget(float x, float y)  {
+  target->X = x;
+  target->Y = y;
+  newTarget = true;
+}
+void findTarget::waitSettled(void* controlblock)  {
+  controlBlock* cb = (controlBlock*) controlblock;
+  while(cb->motionVar->goVar->settled && cb->motionVar->goVar->settled) pros::Task::delay(20);
+}
+
+bool findTarget::isSettled(void* controlblock)  {
+  controlBlock* cb = (controlBlock*) controlblock;
+  if(cb->motionVar->goVar->settled && cb->motionVar->goVar->settled) return true;
+  else return false;
+}
+
+
+
+void crossedLine(float x, float y, float c) {
+
+}
 
 
 
 
- void goController(void* controlblock)  {
-   controlBlock* cb = (controlBlock*) controlblock;
+void goController(void* controlblock)  {
+  controlBlock* cb = (controlBlock*) controlblock;
+  float kP = 1;
+  float kD = 1;
+  float error, errorLast = 0;
+  //float pTerm, dTerm;
+  float dir, power;
 
+  float target, targetMin, targetMax;
+  bool ft = false, ogPass = false;
+  float pTime;
+  int exitDelay = 200;
 
-   while(true)  {
+  while(true)  {
+    if(moveTarget.newTarget)  {
+      cb->motionVar->goVar->settled = false;
+      ft = false;
+      ogPass = false;
+    }
+    while(!cb->motionVar->goVar->stop || !cb->motionVar->goVar->settled)  {
+      error = moveTarget.go;
+      dir = sgn(error);
+      error = fabs(error);
 
-     while(!cb->motionVar->goVar->stop || !cb->motionVar->goVar->settled)  {
+      cb->motionVar->goVar->power = error * kP + (error - errorLast) * kD;
 
+      errorLast = error;
+
+      if(moveTarget.go > -cb->motionVar->goVar->margin && ft)  {
+          pTime = pros::millis();
+          ft = false;
+          ogPass = true;
+      } if(pros::millis() > pTime + exitDelay && ogPass)  {
+          if(error > -cb->motionVar->goVar->margin && error < cb->motionVar->goVar->margin)  {
+              cb->motionVar->goVar->settled = true;
+          }  else  {
+              pTime = pros::millis();
+          }
+      }
       pros::Task::delay(20);
-     }
+    }
 
-     pros::Task::delay(100);
-   }
- }
+    pros::Task::delay(100);
+  }
+}
 
 
 
 void turnController(void* controlblock)  {
  controlBlock* cb = (controlBlock*) controlblock;
+ float kP = 1;
+ float kD = 1;
+ float error, errorLast = 0;
+ float pTerm, dTerm;
+ float power;
 
+ float target, targetMin, targetMax;
+ bool ft, settled, ogPass;
+ float pTime;
+ int exitDelay = 200;
 
  while(true)  {
-
+   if(moveTarget.newTarget)  {
+     cb->motionVar->goVar->settled = false;
+     ft = false;
+     ogPass = false;
+   }
    while(!cb->motionVar->turnVar->stop || !cb->motionVar->turnVar->settled)  {
+     error = moveTarget.turn;
 
-    pros::Task::delay(20);
+     cb->motionVar->turnVar->power = error * kP + (error - errorLast) * kD;
+
+     if(error < cb->motionVar->turnVar->margin && error > cb->motionVar->turnVar->margin) cb->motionVar->turnVar->settled = true;
+     errorLast = error;
+     if(moveTarget.go > -cb->motionVar->turnVar->margin && ft)  {
+         pTime = pros::millis();
+         ft = false;
+         ogPass = true;
+     } if(pros::millis() > pTime + exitDelay && ogPass)  {
+         if(error > -cb->motionVar->turnVar->margin && error < cb->motionVar->turnVar->margin)  {
+             cb->motionVar->turnVar->settled = true;
+         }  else  {
+             pTime = pros::millis();
+         }
+     }
+     pros::Task::delay(20);
    }
 
    pros::Task::delay(100);

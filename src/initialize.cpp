@@ -155,6 +155,8 @@ void initial(void* controlblock)  {
   goFilter.setFilter(5);
   filterEMA turnFilter;
   turnFilter.setFilter(5);
+  findTarget moveTarget;
+
 
 
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,

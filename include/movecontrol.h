@@ -8,8 +8,8 @@ typedef struct  {
   float target;
   float kP;
   float kD;
-  float accelTime;
-
+  float margin;
+  float power;
   bool settled;
 } goVariable;
 
@@ -19,8 +19,8 @@ typedef struct  {
   float target;
   float kP;
   float kD;
-  float accelTime;
-
+  float margin;
+  float power;
   bool settled;
 } turnVariable;
 
@@ -36,6 +36,7 @@ typedef struct  {
   goVariable* goVar;
   turnVariable* turnVar;
   chassisTarget* targetPos;
+  float accelTime;
 
 } motionVariable;
 
@@ -50,10 +51,15 @@ class filterEMA {
 };
 
 class findTarget  {
+  cartPosition* target;
+  public:
   float go;
   float turn;
-  public:
+  bool newTarget;
   void getTarget(cartPosition* input, cartPosition* currentPos);
+  void setTarget(float x, float y);
+  void waitSettled(void* controlblock);
+  bool isSettled(void* controlblock);
 };
 
 void goController(void* controlblock);
