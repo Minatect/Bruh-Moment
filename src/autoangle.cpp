@@ -8,7 +8,7 @@ bool angleUpAllow = false;
 float angleDistance = 560;
 float angleFactor = 100;
 
-void angleUp(void* controlblock)  {
+/*void angleUp(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   cb->autoAngle->angleIsMoving = true;
   //while(angleUpAllow)  {
@@ -367,7 +367,7 @@ void angleDownAsync(void* controlblock)  {
     if(cb->autoAngle->angleDownAllow) cb->autoAngle->angleDownAllow = false;
     pros::Task::delay(100);
   }
-}
+}*/
 
 void angleMoveAsync(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;

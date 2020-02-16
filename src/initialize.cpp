@@ -151,11 +151,12 @@ void initial(void* controlblock)  {
   cb->redDouble = redDouble;
   cb->isOpControl = isOpControl;
 
-  filterEMA goFilter;
+  filterEMA goFilter; //ema filter for forward/backwards
   goFilter.setFilter(5);
-  filterEMA turnFilter;
+  filterEMA turnFilter; //ema filter for turning
   turnFilter.setFilter(5);
-  findTarget moveTarget;
+
+  findTarget moveTarget;//movement control class initialization
 
 
 
@@ -178,6 +179,6 @@ void initial(void* controlblock)  {
   //                          TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
   pros::Task Odometry(trackCoordGyro, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Odometry");
-	/*pros::lcd::initialize();
-	gui();*/
+	pros::lcd::initialize();
+	gui();
 }

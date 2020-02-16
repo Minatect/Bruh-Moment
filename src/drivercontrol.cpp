@@ -23,9 +23,9 @@ void resetSensors() {
 void driver(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
 
-  OdomDebug display(lv_scr_act(), LV_COLOR_ORANGE);
+  /*OdomDebug display(lv_scr_act(), LV_COLOR_ORANGE);
   display.setStateCallback(setState);
-	display.setResetCallback(resetSensors);
+	display.setResetCallback(resetSensors);*/
 
   setDriveBrakes(COAST);
   setIntakeBrakes(HOLD);
@@ -171,8 +171,8 @@ void driver(void* controlblock) {
     if(cb->isOpControl) cb->isOpControl = false;
 
 
-    display.setData({cb->track->currentPos->Y, cb->track->currentPos->X, 2*PI*cb->track->currentPos->angle/360},
-                    {WHEEL_D * PROPI * (LENCO()) / (2 * DRIVE_RATIO * 360), WHEEL_D * PROPI * (RENCO()) / (2 * DRIVE_RATIO * 360)});
+    //display.setData({cb->track->currentPos->Y, cb->track->currentPos->X, 2*PI*cb->track->currentPos->angle/360},
+    //                {WHEEL_D * PROPI * (LENCO()) / (2 * DRIVE_RATIO * 360), WHEEL_D * PROPI * (RENCO()) / (2 * DRIVE_RATIO * 360)});
 
 		pros::delay(20);
 	}
