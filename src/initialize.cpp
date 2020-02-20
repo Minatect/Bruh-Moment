@@ -15,10 +15,10 @@ void initial(void* controlblock)  {
   arm.set_brake_mode(HOLD);
   arm.tare_position();
   trayLine.calibrate();
-  Gyro.reset();
-  while(Gyro.is_calibrating()) pros::Task::delay(20);
+  //Gyro.reset();
+  //while(Gyro.is_calibrating()) pros::Task::delay(20);
 
-  myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
+  /*myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
   myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
 
 	profileController->generatePath({
@@ -35,7 +35,7 @@ void initial(void* controlblock)  {
 		{0_ft, 0_ft, 0_deg},
 		{1.33_ft, 0.4_ft, 28_deg},
 		{2.75_ft, 0.7_ft, 0_deg}
-	}, "Protected_TwoCube_Forward");
+	}, "Protected_TwoCube_Forward");*/
 
 
 	intakeTimeVariable* intakeTime = new intakeTimeVariable();
@@ -151,12 +151,12 @@ void initial(void* controlblock)  {
   cb->redDouble = redDouble;
   cb->isOpControl = isOpControl;
 
-  filterEMA goFilter; //ema filter for forward/backwards
+  /*filterEMA goFilter; //ema filter for forward/backwards
   goFilter.setFilter(5);
   filterEMA turnFilter; //ema filter for turning
   turnFilter.setFilter(5);
 
-  findTarget moveTarget;//movement control class initialization
+  findTarget moveTarget;*/ //movement control class initialization
 
 
 
