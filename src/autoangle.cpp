@@ -457,7 +457,7 @@ void angleMoveAsync(void* controlblock) {
     }
     else if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving)  {
       cb->autoAngle->angleIsMoving = true;
-      angle.move_voltage(-12000);
+      angle.move_voltage(12000);
       while(liftState.get_value() == 0 && !cb->isOpControl) pros::Task::delay(20);
       angle.move_voltage(0);
       angle.tare_position();
