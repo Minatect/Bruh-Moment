@@ -15,13 +15,8 @@ void initial(void* controlblock)  {
   arm.set_brake_mode(HOLD);
   arm.tare_position();
   trayLine.calibrate();
-<<<<<<< HEAD
-  Gyro.reset();
-  while(Gyro.is_calibrating()) pros::Task::delay(20);
-=======
   //Gyro.reset();//
   //while(Gyro.is_calibrating()) pros::Task::delay(20);//
->>>>>>> 27d76d38fad92b26df39d752c83136b4aa3ce62a
 
   /*myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
   myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
