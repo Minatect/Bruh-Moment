@@ -375,25 +375,26 @@ void angleMoveAsync(void* controlblock) {
   float target; //degrees the motor travels
 
     //angle.set_brake_mode(COAST);
-  float kP = .5;
-  float kI = 0.0145;//0.025;
-  float kD = 1.85;//1;
+  float kP = .5;//.5
+  float kI = 0.006;//0.0145;
+  float kD = 2;//1.85;
 
-  float errorZone = 100; // target * .1;
+  float errorZone = 150; // target * .1;
   float error, errorTot, errorLast;
   float pTerm, iTerm, dTerm;
   float power, targetMin, targetMax;
   bool ft, ogPass, settled;
   float pTime; // pause time
   int exitDelay = 400; // millis to check exit
+  float maxiTerm = 3000;
 
   while(true)  {
     if(cb->autoAngle->angleUpAllow && !cb->autoAngle->angleIsMoving  && !cb->autoAngle->angleState) {
       cb->autoAngle->angleIsMoving = true;
       //intakeL.set_brake_mode(COAST);
       //intakeR.set_brake_mode(COAST);
-      factor = 85;//cb->autoAngle->factor;
-      target = 690;//cb->autoAngle->target;
+      factor = 85;//cb->autoAngle->factor; original 85 170
+      target = 750;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;
@@ -416,6 +417,8 @@ void angleMoveAsync(void* controlblock) {
 
 
           iTerm = kI * errorTot;
+          if(iTerm > maxiTerm)  iTerm = maxiTerm;
+
           dTerm = kD * (error - errorLast);
           errorLast = error;
 
