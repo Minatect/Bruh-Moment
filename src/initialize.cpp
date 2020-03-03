@@ -15,13 +15,30 @@ void initial(void* controlblock)  {
   arm.set_brake_mode(HOLD);
   arm.tare_position();
   trayLine.calibrate();
+<<<<<<< HEAD
   Gyro.reset();
   while(Gyro.is_calibrating()) pros::Task::delay(20);
+=======
+  //Gyro.reset();//
+  //while(Gyro.is_calibrating()) pros::Task::delay(20);//
+>>>>>>> 27d76d38fad92b26df39d752c83136b4aa3ce62a
 
   /*myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
   myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
-
+  profileController->generatePath({
+		{0_ft, 0_ft, 0_deg},  // Profile starting position, this will normally be (0, 0, 0)
+		{2.6_ft, 0_ft, 0_deg},
+		{3.8_ft, 0.9_ft, 90_deg},
+		{3_ft, 1.8_ft, 170_deg},
+		{0.8_ft, 2_ft, 155_deg},
+		{-0.2_ft, 2.7_ft, 135_deg}}, // The next point in the profile, 3 feet forward
+		"A" // Profile name
+	);
 	profileController->generatePath({
+		{0_ft, 0_ft, 0_deg},
+		{3_ft, 0_ft, 0_deg},
+	}, "B");*/
+	/*profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
 		//{-1.5_ft, 1.1_ft, 45_deg},
 		{-2.5_ft, 2.23_ft, 24_deg}
@@ -36,7 +53,15 @@ void initial(void* controlblock)  {
 		{1.33_ft, 0.4_ft, 28_deg},
 		{2.75_ft, 0.7_ft, 0_deg}
 	}, "Protected_TwoCube_Forward");*/
-
+  /*profileControllerSlow->generatePath({
+		{2.75_ft, 0.5_ft, 0_deg},
+		{1.33_ft, 0.25_ft, 30_deg},
+		{0_ft, 0_ft, 0_deg}
+	}, "Protected_TwoCube_Backward");
+	profileController->generatePath({
+		{0_ft, 0_ft, 0_deg},
+		{-2.5_ft, 0_ft, 0_deg},
+	}, "D");*/
 
 	intakeTimeVariable* intakeTime = new intakeTimeVariable();
 	intakeTime = (intakeTimeVariable*)calloc(1,sizeof (intakeTimeVariable));
@@ -87,9 +112,9 @@ void initial(void* controlblock)  {
   armVar->armUp = false;
   armVar->armMoving = false;
   armVar->armDir = 1;
-  armVar->armAngle1 = 2200;//480;
-  armVar->armAngle2 = 3000;
-  armVar->armAngle3 = 600;
+  armVar->armAngle1 = 1100;//480;
+  armVar->armAngle2 = 1500;
+  armVar->armAngle3 = 300;
   armVar->armFactor = 400;
   armVar->armIsMoving = false;
   armVar->armMoveAllow = false;
@@ -97,10 +122,24 @@ void initial(void* controlblock)  {
   armVar->armUpAllow = 0;
 
 
+  /*cartPosition* localCartPos = (cartPosition*)calloc(1, sizeof(cartPosition));
+  localCartPos->X = 0;
+  localCartPos->Y = 0;
+  localCartPos->angle = 0;*/
   polarPosition* localPolarPos = (polarPosition*)calloc(1, sizeof(polarPosition));
   localPolarPos->R = 0;
   localPolarPos->O = 0;
   localPolarPos->angle = 0;
+  /*arcPosition* arcSize = (arcPosition*)calloc(1, sizeof(arcPosition));
+  arcSize->radius = 0;
+  arcSize->sweep = 0;
+  arcSize->right = true;
+  currentPosition* currentPos = (currentPosition*)calloc(1, sizeof(currentPosition));
+  currentPos->red = true;
+  currentPos->track = false;
+  currentPos->X = 0;
+  currentPos->Y = 0;
+  currentPos->angle = 0;*/
   cartPosition* currentPos = (cartPosition*)calloc(1, sizeof(cartPosition));
   currentPos->X = 54;
   currentPos->Y = 54;
@@ -151,14 +190,6 @@ void initial(void* controlblock)  {
   cb->redDouble = redDouble;
   cb->isOpControl = isOpControl;
 
-  /*filterEMA goFilter; //ema filter for forward/backwards
-  goFilter.setFilter(5);
-  filterEMA turnFilter; //ema filter for turning
-  turnFilter.setFilter(5);
-
-  findTarget moveTarget;*/ //movement control class initialization
-
-
 
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
@@ -175,8 +206,8 @@ void initial(void* controlblock)  {
 
   pros::Task armmovetask(armMoveAsync, (void*) cb, TASK_PRIORITY_DEFAULT,
                           TASK_STACK_DEPTH_DEFAULT, "Async Arm Movement");
-  //pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
-  //                          TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
+  pros::Task intakepointtask(intakeToPoint, (void*) cb, TASK_PRIORITY_DEFAULT,
+                            TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
   pros::Task Odometry(trackCoordGyro, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Odometry");
 	pros::lcd::initialize();

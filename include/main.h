@@ -61,17 +61,17 @@ using namespace okapi;
 #define HOLD pros::E_MOTOR_BRAKE_HOLD
 #define PROPI 3.1415926535
 #define CHASSIS_WIDTH 10
-#define DRIVE_RATIO 60/84
+#define DRIVE_RATIO 1
 #define WHEEL_D 3.25
 
-#define LF 15
-#define LB 16
-#define RF 7
-#define RB 6
-#define INTAKE_R 10
-#define INTAKE_L 3
-#define ANGLE 4
-#define ARM 5
+#define LF 12
+#define LB 11
+#define RF 13
+#define RB 14
+#define INTAKE_R 20
+#define INTAKE_L 6
+#define ANGLE 8
+#define ARM 7
 
 #define ARM_UP_HIGH 640
 #define ARM_UP_LOW 480
