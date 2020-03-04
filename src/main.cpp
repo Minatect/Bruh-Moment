@@ -11,7 +11,7 @@ pros::Motor intakeL (INTAKE_L, pros::E_MOTOR_GEARSET_18, true, pros::E_MOTOR_ENC
 pros::Motor angle (ANGLE, pros::E_MOTOR_GEARSET_36, true, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor arm (ARM, pros::E_MOTOR_GEARSET_36, false, pros::E_MOTOR_ENCODER_DEGREES);
 
-pros::Imu Gyro(1);
+pros::Imu Gyro(4);
 
 pros::ADIDigitalIn liftState (5);
 //ADIDigitalIn armState (6);
