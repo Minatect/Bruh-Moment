@@ -2,7 +2,7 @@
 
 void auton(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
-  //blue_single(cb);
+  blue_single(cb);
 
   //goRL(-1,40,30,1);
   //pros::Task::delay(1000);
