@@ -376,10 +376,10 @@ void angleMoveAsync(void* controlblock) {
 
     //angle.set_brake_mode(COAST);
   float kP = .5;
-  float kI = 0.0145;//0.025;
-  float kD = 1.85;//1;
+  float kI = 0.006;//0.025;
+  float kD = 2;//1;
 
-  float errorZone = 100; // target * .1;
+  float errorZone = 150; // target * .1;
   float error, errorTot, errorLast;
   float pTerm, iTerm, dTerm;
   float power, targetMin, targetMax;
@@ -393,7 +393,7 @@ void angleMoveAsync(void* controlblock) {
       //intakeL.set_brake_mode(COAST);
       //intakeR.set_brake_mode(COAST);
       factor = 85;//cb->autoAngle->factor;
-      target = 690;//cb->autoAngle->target;
+      target = 750;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;
@@ -457,7 +457,7 @@ void angleMoveAsync(void* controlblock) {
     }
     else if(cb->autoAngle->angleDownAllow && cb->autoAngle->angleState && !cb->autoAngle->angleIsMoving)  {
       cb->autoAngle->angleIsMoving = true;
-      angle.move_voltage(12000);
+      angle.move_voltage(-12000);
       while(liftState.get_value() == 0 && !cb->isOpControl) pros::Task::delay(20);
       angle.move_voltage(0);
       angle.tare_position();

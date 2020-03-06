@@ -85,7 +85,7 @@ void driver(void* controlblock) {
         //intakeAsync(10000, 1, cb);
         cb->autoAngle->angleDownAllow = true;
         intakeAsync(12000, 2, cb);
-        goAsync(-1, 15, 60, 0.6, cb);
+        goAsync(-1, 15, 60, 0.4, cb);
         robotSettled(cb);
       }
 
