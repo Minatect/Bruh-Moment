@@ -41,7 +41,7 @@ std::shared_ptr<okapi::ChassisController> myChassis = ChassisControllerBuilder()
 								.withClosedLoopControllerTimeUtil(50, 5, 250_ms)
 								.build();
 
-
+//this line changes speed of curves 1=speed 2=acceleration 3=jerk
 std::shared_ptr<okapi::AsyncMotionProfileController> profileController = AsyncMotionProfileControllerBuilder()
 								.withLimits({1.2, 1.4, 5})
 								.withOutput(myChassis)

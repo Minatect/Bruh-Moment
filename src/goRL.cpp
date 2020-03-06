@@ -24,7 +24,7 @@ void goRL(int dir, float distance, float factor, float speed)
     bool ft = true;
     bool ogPass = false;
     float pTime; // pause time
-    int exitDelay = 400; // millis to check exit
+    int exitDelay = 0; // millis to check exit
     bool settled = false;
 
     int count = 0;

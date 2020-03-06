@@ -19,7 +19,7 @@ void initial(void* controlblock)  {
   while(Gyro.is_calibrating()) pros::Task::delay(20);
 
   /*myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
-  myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);
+  myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);*/
 
 	profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
@@ -35,7 +35,7 @@ void initial(void* controlblock)  {
 		{0_ft, 0_ft, 0_deg},
 		{1.33_ft, 0.4_ft, 28_deg},
 		{2.75_ft, 0.7_ft, 0_deg}
-	}, "Protected_TwoCube_Forward");*/
+	}, "Protected_TwoCube_Forward");
 
 
 	intakeTimeVariable* intakeTime = new intakeTimeVariable();
