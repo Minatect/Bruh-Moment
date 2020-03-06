@@ -9,13 +9,16 @@ void blue_single(void* controlblock)  {
   robotSettled(cb);
   intakePow(0);
   turnRL(1, 40, 80);
-  goAsync(-1, 29, 80, 1, cb);
+  goAsync(-1, 33, 80, 1, cb);
   robotSettled(cb);
   intakePow(6000);
   pros::Task::delay(100);
   intakePow(0);
   turnRL(-1, 45, 80);
-  goAsync(1, 35, 80, 0.7, cb);
+  driveVoltage(-12000);
+  pros::Task::delay(1000);
+  driveVoltage(0);
+  goAsync(1, 35, 80, 0.6, cb);
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);

@@ -70,7 +70,7 @@ void autoStack(void* controlblock)  {
     arm.move_voltage(0);
     intakeAsync(12000, 2, cb);
     cb->autoAngle->angleDownAllow = true;
-    goAsync(-1, 15, 60, 0.6, cb);
+    goAsync(-1, 10, 80, 0.5, cb);
     robotSettled(cb);
   }
 }
