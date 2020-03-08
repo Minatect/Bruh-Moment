@@ -6,34 +6,34 @@ void skills_auton(void* controlblock) {
   pros::Task::delay(250);
   intakePow(0);
   cb->armVar->armUpAllow=1;
-  armSettled(cb);
-  goAsync(1, 18, 80, 0.5, cb);
+  goAsync(1, 18, 80, 0.4, cb);
   robotSettled(cb);
   intakePow(6000);
   pros::Task::delay(500);
   intakePow(0);
-  goAsync(-1, 16, 80, 0.5, cb);
+  goAsync(-1, 16, 80, 0.7, cb);
+  cb->armVar->armUpAllow=0;
+  armSettled(cb);
   robotSettled(cb);
   turnRL(1, 40, 80);
   driveVoltage(-12000);
-  pros::Task::delay(1750);
+  pros::Task::delay(1550);
   driveVoltage(0);
-  cb->armVar->armUpAllow=0;
   goAsync(1, 43, 80, 0.5, cb);
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
-  turnRL(-1, 25, 80);//org15
-  goAsync(1, 10, 80, 0.5, cb);
+  turnRL(-1, 15, 80);//org25
+  goAsync(1, 5, 80, 0.8, cb);
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
-  turnRL(1, 25, 80);//org15
-  goAsync(1, 40, 80, 0.5, cb);
+  turnRL(1, 15, 80);//org25
+  goAsync(1, 45, 80, 0.5, cb);
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
-  goAsync(-1, 5, 80, 0.5, cb);
+  goAsync(-1, 5, 80, 0.8, cb);
   robotSettled(cb);
   turnRL(-1, 50, 80);
   driveVoltage(7000);
@@ -51,23 +51,23 @@ void skills_auton(void* controlblock) {
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
-  goAsync(-1, 5, 80, 0.3, cb);
+  goAsync(-1, 5, 80, 0.5, cb);
   intakePow(6000);
   pros::Task::delay(450);
   intakePow(0);
   cb->armVar->armUpAllow=2;
   armSettled(cb);
-  goAsync(1, 8, 80, 0.3, cb);
+  goAsync(1, 8, 80, 0.5, cb);
   robotSettled(cb);
   //robotSettled(cb);
   intakePow(6000);
   pros::Task::delay(1300);
   intakePow(0);
-  goAsync(-1, 8, 80, 0.5, cb);
+  goAsync(-1, 8, 80, 0.7, cb);
   robotSettled(cb);
   turnRL(1, 75, 80);
   driveVoltage(-12000);
-  pros::Task::delay(2000);
+  pros::Task::delay(1750);
   driveVoltage(0);
   cb->armVar->armUpAllow=0;
   armSettled(cb);
@@ -75,7 +75,7 @@ void skills_auton(void* controlblock) {
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
-  goAsync(-1, 10, 80, 0.5, cb);
+  goAsync(-1, 10, 80, 0.7, cb);
   robotSettled(cb);
   intakePow(6000);
   pros::Task::delay(350);
@@ -85,6 +85,25 @@ void skills_auton(void* controlblock) {
   pros::Task::delay(2000);
   driveVoltage(0);
   autoStack(cb);
+  goAsync(-1, 8, 80, 0.8, cb);
+  robotSettled(cb);
+  turnRL(1, 135, 80);
+  goAsync(1, 24, 80, 0.7, cb);
+  intakePow(-12000);
+  robotSettled(cb);
+  goAsync(-1, 5, 80, 0.8, cb);
+  intakePow(6000);
+  pros::Task::delay(350);
+  intakePow(0);
+  cb->armVar->armUpAllow=1;
+  armSettled(cb);
+  goAsync(1, 8, 80, 0.8, cb);
+  robotSettled(cb);
+  intakePow(6000);
+  pros::Task::delay(700);
+  intakePow(0);
+
+
 
 
 
