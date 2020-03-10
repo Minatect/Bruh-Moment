@@ -2,14 +2,20 @@
 
 void skills_auton(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  intakePow(12000);
-  pros::Task::delay(250);
+  deploy(cb);
+  intakePow(-12000);
+  goAsync(1, 9, 80, 0.4, cb);
+  robotSettled(cb);
+  intakePow(0);
+  pros::Task::delay(50);
+  intakePow(6000);
+  pros::Task::delay(350);
   intakePow(0);
   cb->armVar->armUpAllow=1;
-  goAsync(1, 18, 80, 0.4, cb);
+  goAsync(1, 9, 80, 0.4, cb);
   robotSettled(cb);
   intakePow(6000);
-  pros::Task::delay(500);
+  pros::Task::delay(600);
   intakePow(0);
   goAsync(-1, 16, 80, 0.7, cb);
   cb->armVar->armUpAllow=0;
