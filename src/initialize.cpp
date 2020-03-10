@@ -33,8 +33,8 @@ void initial(void* controlblock)  {
 	}, "Unprotected_Backout_blue");
   profileControllerSlow->generatePath({
 		{0_ft, 0_ft, 0_deg},
-		{1.33_ft, 0.4_ft, 28_deg},
-		{2.75_ft, 0.7_ft, 0_deg}
+		{1_ft, 0.5_ft, 0_deg},
+		{2_ft, 0_ft, 0_deg}
 	}, "Protected_TwoCube_Forward");
 
 

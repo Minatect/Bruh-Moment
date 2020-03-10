@@ -23,18 +23,20 @@ void skills_auton(void* controlblock) {
   robotSettled(cb);
   turnRL(1, 40, 80);
   driveVoltage(-12000);
-  pros::Task::delay(1550);
+  pros::Task::delay(1350);
   driveVoltage(0);
-  goAsync(1, 43, 80, 0.5, cb);
+  goAsync(1, 40, 80, 0.5, cb);
   intakePow(-12000);
   robotSettled(cb);
-  intakePow(0);
-  turnRL(-1, 15, 80);//org25
+  intakePow(-12000);
+  profileControllerSlow->setTarget("Protected_TwoCube_Foward");
+  /*turnRL(-1, 15, 80);//org25
   goAsync(1, 5, 80, 0.8, cb);
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
-  turnRL(1, 15, 80);//org25
+  turnRL(1, 15, 80);//org25*/
+  intakePow(0);
   goAsync(1, 45, 80, 0.5, cb);
   intakePow(-12000);
   robotSettled(cb);
