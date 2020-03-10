@@ -23,8 +23,8 @@ void initial(void* controlblock)  {
 
 	profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
-		//{-1.5_ft, 1.1_ft, 45_deg},
-		{-2.5_ft, 2.23_ft, 24_deg}
+		{2.5_ft, 1.5_ft, 0_deg},
+		//{-2.5_ft, 2.23_ft, 24_deg}
 	}, "Unprotected_Backout");
   profileController->generatePath({
 		{0_ft, 0_ft, 0_deg},
