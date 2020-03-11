@@ -393,7 +393,7 @@ void angleMoveAsync(void* controlblock) {
       //intakeL.set_brake_mode(COAST);
       //intakeR.set_brake_mode(COAST);
       factor = 85;//cb->autoAngle->factor;
-      target = 750;//cb->autoAngle->target;
+      target = 675;//cb->autoAngle->target;
       targetMin = target - 25;
       targetMax = target + 25;
       ft = true;
