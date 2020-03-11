@@ -2,9 +2,11 @@
 
 void auton(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
+  //blue_double(cb);
+  //blue_single(cb);
+  //red_double(cb);
   red_single(cb);
   //skills_auton(cb);
-  //blue_single(cb);
 
 
   //goRL(-1,40,30,1);
