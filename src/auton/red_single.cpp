@@ -16,7 +16,7 @@ void red_single(void* controlblock) {
   robotSettled(cb);
   armSettled(cb);
   intakePow(0);
-  turnRL(-1, 50, 80);
+  turnRL(-1, 35, 80);
   goAsync(-1, 31, 80, 1, cb);
   robotSettled(cb);
   turnRL(1, 45, 80);

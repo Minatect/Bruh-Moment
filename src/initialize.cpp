@@ -89,7 +89,7 @@ void initial(void* controlblock)  {
   armVar->armDir = 1;
   armVar->armAngle1 = 1100;//480;
   armVar->armAngle2 = 1500;
-  armVar->armAngle3 = 300;
+  armVar->armAngle3 = 600;
   armVar->armFactor = 400;
   armVar->armIsMoving = false;
   armVar->armMoveAllow = false;
