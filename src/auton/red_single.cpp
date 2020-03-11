@@ -16,10 +16,10 @@ void red_single(void* controlblock) {
   robotSettled(cb);
   armSettled(cb);
   intakePow(0);
-  turnRL(-1, 35, 80);
+  turnRL(-1, 55, 80);
   goAsync(-1, 31, 80, 1, cb);
   robotSettled(cb);
-  turnRL(1, 45, 80);
+  turnRL(1, 35, 80);
   driveVoltage(-12000);
   pros::Task::delay(1000);
   driveVoltage(0);
