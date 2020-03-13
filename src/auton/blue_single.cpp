@@ -2,7 +2,44 @@
 
 void blue_single(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
-  goAsync(1, 27, 80, 0.7, cb);
+  deploy(cb);
+  goAsync(1, 35, 80, 0.7, cb);
+  intakePow(-12000);
+  robotSettled(cb);
+  intakePow(0);
+  goAsync(-1, 10, 80, 0.7, cb);
+  robotSettled(cb);
+  turnRL(1, 45, 80);
+  robotSettled(cb);
+  goAsync(1, 10, 80, 0.5, cb);
+  intakePow(-12000);
+  robotSettled(cb);
+  goAsync(-1, 10, 80, 0.5, cb);
+  robotSettled(cb);
+  intakePow(0);
+  turnRL(-1, 45, 80);
+  goAsync(-1, 25, 80, 1, cb);
+  robotSettled(cb);
+  turnRL(-1, 110, 80);
+  intakePow(6000);
+  pros::Task::delay(450);
+  intakePow(0);
+  driveVoltage(8000);
+  pros::Task::delay(1000);
+  driveVoltage(0);
+  autoStack(cb);
+
+
+
+
+
+
+
+
+
+
+
+/*  goAsync(1, 27, 80, 0.7, cb);
   intakePow(12000);
   pros::Task::delay(250);
   intakePow(-12000);
@@ -34,7 +71,7 @@ void blue_single(void* controlblock)  {
   intakePow(0);
   pros::Task::delay(750);
   driveVoltage(0);
-  autoStack(cb);
+  autoStack(cb);*/
 
 
 

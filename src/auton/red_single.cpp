@@ -3,10 +3,45 @@
 void red_single(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
+  goAsync(1, 45, 80, 0.5, cb);
+  intakePow(-12000);
+  robotSettled(cb);
+  intakePow(0);
+  goAsync(-1, 10, 80, 0.7, cb);
+  robotSettled(cb);
+  turnRL(-1, 40, 80);
+  robotSettled(cb);
+  goAsync(1, 8, 80, 0.5, cb);
+  intakePow(-12000);
+  robotSettled(cb);
+  goAsync(-1, 10, 80, 0.5, cb);
+  robotSettled(cb);
+  intakePow(0);
+  turnRL(1, 40, 80);
+  goAsync(-1, 25, 80, 1, cb);
+  robotSettled(cb);
+  turnRL(1, 110, 80);
+  intakePow(6000);
+  pros::Task::delay(450);
+  intakePow(0);
+  driveVoltage(8000);
+  pros::Task::delay(700);
+  driveVoltage(0);
+  autoStack(cb);
+
+
+
+
+
+
+
+
+
+/*  deploy(cb);
   goAsync(1, 27, 80, 0.7, cb);
   intakePow(-12000);
   robotSettled(cb);
-  cb->armVar->armUpAllow=3;
+  cb->armVar->armUpAllow=1;
   armSettled(cb);
   goAsync(1, 5, 80, 0.4, cb);
   intakePow(-12000);
@@ -16,8 +51,8 @@ void red_single(void* controlblock) {
   robotSettled(cb);
   armSettled(cb);
   intakePow(0);
-  turnRL(-1, 55, 80);
-  goAsync(-1, 31, 80, 1, cb);
+  turnRL(-1, 45, 80);
+  goAsync(-1, 25, 80, 1, cb);
   robotSettled(cb);
   turnRL(1, 35, 80);
   driveVoltage(-12000);
@@ -32,7 +67,7 @@ void red_single(void* controlblock) {
   intakePow(-12000);
   pros::Task::delay(250);
   intakePow(0);
-  turnRL(1, 120, 80);
+  turnRL(1, 100, 80);
   driveVoltage(8000);
   intakePow(12000);
   pros::Task::delay(250);
@@ -40,7 +75,7 @@ void red_single(void* controlblock) {
   pros::Task::delay(750);
   driveVoltage(0);
   autoStack(cb);
-
+*/
 
 
 

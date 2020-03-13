@@ -2,7 +2,44 @@
 
 void red_double(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  cb->intakeTime->outVoltage = 12000;
+  deploy(cb);
+  goAsync(1, 35, 80, 1, cb);
+  robotSettled(cb);
+  turnRL(1, 90, 80);
+  cb->armVar->armUpAllow=2;
+  intakePow(-12000);
+  armSettled(cb);
+  goAsync(1, 6, 80, 0.5, cb);
+  cb->armVar->armUpAllow=0;
+  pros::Task::delay(250);
+  goAsync(-1, 6, 80, 0.7, cb);
+  robotSettled(cb);
+  goAsync(1, 10, 80, 0.5, cb);
+  turnRL(1, 90, 80);
+  goAsync(1, 15, 80, 0.7, cb);
+  robotSettled(cb);
+  turnRL(-1, 90, 80);
+  goAsync(1, 12, 80, 0.6, cb);
+  turnRL(1, 45, 80);
+  driveVoltage(6000);
+  pros::Task::delay(600);
+  driveVoltage(0);
+  autoStack(cb);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*cb->intakeTime->outVoltage = 12000;
   goAsync(1, 30, 80, 0.3, cb);
   pros::Task::delay(300);
   deploy(cb);
@@ -18,7 +55,7 @@ void red_double(void* controlblock) {
   intakePow(-12000);
 	profileControllerSlow->waitUntilSettled();
   pros::Task::delay(500);
-  intakePow(0);
+  intakePow(0);*/
   //profileControllerSlow->setTarget("Protected_TwoCube_Backward", true, true);
   /*goAsync(-1, 30, 80, 1,cb);
   pros::Task::delay(500);
