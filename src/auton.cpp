@@ -5,7 +5,7 @@ void auton(void* controlblock)  {
   //blue_double(cb);
   //blue_single(cb);
   //red_double(cb);
-  red_single(cb);
+  //red_single(cb);
   //skills_auton(cb);
 
 
