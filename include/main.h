@@ -70,8 +70,8 @@ using namespace okapi;
 #define RB 14
 #define INTAKE_R 20
 #define INTAKE_L 6
-#define ANGLE 8
-#define ARM 7
+#define INDEXER 8
+#define ROLLER 7
 
 #define ARM_UP_HIGH 640
 #define ARM_UP_LOW 480
@@ -118,8 +118,8 @@ extern pros::Motor driveRB;
 
 extern pros::Motor intakeL;
 extern pros::Motor intakeR;
-extern pros::Motor angle;
-extern pros::Motor arm;
+extern pros::Motor indexer;
+extern pros::Motor roller;
 
 
 extern pros::ADIDigitalIn liftState;

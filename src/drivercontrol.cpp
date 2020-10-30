@@ -69,7 +69,7 @@ void driver(void* controlblock) {
   		}*/
 
 
-      if(!cb->autoAngle->angleIsMoving) { //manuel angle adjust
+    /*  if(!cb->autoAngle->angleIsMoving) { //manuel angle adjust
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState) {
           angle.move_voltage(-6000);
         }
@@ -79,8 +79,8 @@ void driver(void* controlblock) {
         else  {
           angle.move_voltage(0);
         }
-      }
-      if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))  {
+      }*/
+      /*if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B))  {
         angleSettled(cb);
         //intakeAsync(10000, 1, cb);
         cb->autoAngle->angleDownAllow = true;
@@ -98,10 +98,10 @@ void driver(void* controlblock) {
   		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && !cb->armVar->armIsMoving)	{
         if(cb->armVar->armUpAllow == 1) cb->armVar->armUpAllow = 0;
         else cb->armVar->armUpAllow = 1;
-  		}
+  		}*/
 
       //auto angler
-      if(!cb->autoAngle->angleIsMoving) {
+  /*    if(!cb->autoAngle->angleIsMoving) {
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && !cb->autoAngle->angleState)	{ //activate angle up task
       		cb->autoAngle->angleUpAllow = true;
       	}
@@ -118,14 +118,11 @@ void driver(void* controlblock) {
         else angle.move_voltage(0);
 
       }
-    }
+    }*/
 
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))	{	//back out cubes
       if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
         intakePow(12000);
-      } else  {
-        intakePow(6000);
-      }
 		}
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))	{ //intake cubes
 			intakePow(-12000);
@@ -134,12 +131,26 @@ void driver(void* controlblock) {
 			intakePow(0);
 		}
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
+  /*  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
       cb->isOpControl = true;
       pros::Task::delay(100);
+    }*/
+
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+      roller.move_voltage(-12000);
+      indexer.move_voltage(-12000);
+      intakePow(0);
     }
-
-
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      roller.move_voltage(-12000);
+      indexer.move_voltage(-12000);
+      intakePow(-12000);
+    }
+    else {
+      roller.move_voltage(0);
+      indexer.move_voltage(0);
+      intakePow(0);
+    }
 
     /*if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R1)
       && !cb->autoAngle->angleState && !cb->armVar->armIsMoving) {
