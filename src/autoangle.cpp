@@ -369,7 +369,7 @@ void angleDownAsync(void* controlblock)  {
   }
 }*/
 
-void angleMoveAsync(void* controlblock) {
+/*void angleMoveAsync(void* controlblock) {
   controlBlock* cb=(controlBlock*)controlblock;
   float factor;
   float target; //degrees the motor travels
@@ -468,4 +468,4 @@ void angleMoveAsync(void* controlblock) {
     if(cb->autoAngle->angleUpAllow) cb->autoAngle->angleUpAllow = false;
     pros::Task::delay(100);
   }
-}
+}*/

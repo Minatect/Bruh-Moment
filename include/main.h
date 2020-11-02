@@ -73,8 +73,8 @@ using namespace okapi;
 #define INDEXER 8
 #define ROLLER 7
 
-#define ARM_UP_HIGH 640
-#define ARM_UP_LOW 480
+#define ROLLER_UP_HIGH 640
+#define ROLLER_UP_LOW 480
 
 #define BLUESINGLE_X 0
 #define BLUESINGLE_Y 0

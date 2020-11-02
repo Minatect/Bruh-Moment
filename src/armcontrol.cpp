@@ -2,7 +2,7 @@
 
 
 
-void armMove(void* controlblock)  {
+/*void armMove(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   float factor;
   float target; //degrees the motor travels
@@ -105,4 +105,4 @@ void armMoveAsync(void* controlblock)  {
     }
     pros::Task::delay(20);
   }
-}
+}*/

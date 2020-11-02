@@ -58,7 +58,7 @@ void driver(void* controlblock) {
     }
     //driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
     //driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
+  //  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
       /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{ //enumerate arm position +
         if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
         else cb->armVar->armUpAllow ++;

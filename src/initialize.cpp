@@ -10,10 +10,10 @@ void initial(void* controlblock)  {
   driveRF.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
   intakeL.set_brake_mode(HOLD);
   intakeR.set_brake_mode(HOLD);
-  angle.set_brake_mode(HOLD);
-  angle.tare_position();
-  arm.set_brake_mode(HOLD);
-  arm.tare_position();
+  indexer.set_brake_mode(HOLD);
+  indexer.tare_position();
+  roller.set_brake_mode(HOLD);
+  roller.tare_position();
   trayLine.calibrate();
   Gyro.reset();
   while(Gyro.is_calibrating()) pros::Task::delay(20);

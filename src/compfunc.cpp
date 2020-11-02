@@ -59,7 +59,7 @@ void intakePow(float power) {
 }
 
 
-void autoStack(void* controlblock)  {
+/*void autoStack(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   if(!cb->autoAngle->angleIsMoving && !cb->moveVar->robotIsMoving)  {
     arm.move_voltage(-2000);
@@ -73,7 +73,7 @@ void autoStack(void* controlblock)  {
     goAsync(-1, 10, 80, 0.5, cb);
     robotSettled(cb);
   }
-}
+}*/
 
 
 void angleState(void* controlblock) {

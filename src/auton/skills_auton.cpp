@@ -143,7 +143,7 @@ void skills_auton(void* controlblock) {
 //cb->intakePoint->intakePoint = true;
   //pros::Task::delay(100);
   intakePow(0);
-  /*turnRL(-1,150,80);
+  turnRL(-1,150,80);
   cb->moveVar->goDistance = 50;
   cb->moveVar->goFactor = 80;
   cb->moveVar->goSpeed = 1;
