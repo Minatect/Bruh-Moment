@@ -60,7 +60,7 @@ using namespace okapi;
 #define BRAKE pros::E_MOTOR_BRAKE_BRAKE
 #define HOLD pros::E_MOTOR_BRAKE_HOLD
 #define PROPI 3.1415926535
-#define CHASSIS_WIDTH 10
+#define CHASSIS_WIDTH 12
 #define DRIVE_RATIO 1
 #define WHEEL_D 3.25
 
