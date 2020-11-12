@@ -91,13 +91,9 @@ void angleState(void* controlblock) {
 
 void deploy(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  cb->armVar->armUpAllow=1;
-  armSettled(cb);
-  intakePow(12000);
+  intakePow(-12000);
   pros::Task::delay(400);
   intakePow(0);
-  cb->armVar->armUpAllow=0;
-  armSettled(cb);
 }
 
 

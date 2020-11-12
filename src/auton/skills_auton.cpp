@@ -4,98 +4,100 @@ void skills_auton(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
   intakePow(-12000);
-  goAsync(1, 9, 80, 0.4, cb);
-  robotSettled(cb);
+  goAsync(1, 29, 80, 1, cb);
+  indexer.move_voltage(-6000);
+  pros::Task::delay(750);
+  indexer.move_voltage(0);
+  turnRL(1, 90, 80);
+  goAsync(1, 22, 80, 1, cb);
   intakePow(0);
-  pros::Task::delay(50);
-  intakePow(6000);
-  pros::Task::delay(550);
-  intakePow(0);
-  cb->armVar->armUpAllow=1;
-  goAsync(1, 9, 80, 0.4, cb);
-  robotSettled(cb);
-  intakePow(6000);
-  pros::Task::delay(600);
-  intakePow(0);
-  goAsync(-1, 16, 80, 0.7, cb);
-  cb->armVar->armUpAllow=0;
-  armSettled(cb);
-  robotSettled(cb);
-  turnRL(1, 40, 80);
-  driveVoltage(-12000);
-  pros::Task::delay(1350);
-  driveVoltage(0);
-  goAsync(1, 35, 80, 0.5, cb);
+  goAsync(-1, 10, 80, 1, cb);
+  turnRL(1, 90, 80);
+  goAsync(1, 12, 80, 1, cb);
+  turnRL(-1, 45, 80);
+  goAsync(1, 13, 80, 1, cb);
   intakePow(-12000);
-  robotSettled(cb);
+  indexer.move_voltage(-1000);
+  roller.move_voltage(-12000);
+  pros::Task::delay(750);
+  roller.move_voltage(-1000);
+  pros::Task::delay(500);
   intakePow(0);
-  /*profileControllerSlow->setTarget("Protected_TwoCube_Foward", true, false);
-  intakePow(-12000);
-  profileController->waitUntilSettled();
-  robotSettled(cb);*/
-  turnRL(-1, 15, 80);//org25
-  goAsync(1, 10, 80, 0.8, cb);
-  intakePow(-12000);
-  robotSettled(cb);
-  intakePow(0);
-  turnRL(1, 15, 180);//org25
-  intakePow(0);
-  goAsync(1, 45, 80, 0.5, cb);
-  intakePow(-12000);
-  robotSettled(cb);
-  intakePow(0);
-  goAsync(-1, 5, 80, 0.8, cb);
-  robotSettled(cb);
-  turnRL(-1, 50, 80);
-  driveVoltage(9000);
-  pros::Task::delay(1000);
-  driveVoltage(0);
-//  intakePow(12000);
-//  pros::Task::delay(200);
-//  intakePow(0);
-  autoStack(cb);
-  turnRL(1, 125, 80);
-  driveVoltage(-12000);
-  pros::Task::delay(1500);
-  driveVoltage(0);
-  goAsync(1, 40, 80, 0.5, cb);
-  intakePow(-12000);
-  robotSettled(cb);
-  intakePow(0);
-  goAsync(-1, 5, 80, 0.8, cb);
-  intakePow(6000);
-  pros::Task::delay(450);
-  intakePow(0);
-  cb->armVar->armUpAllow=2;
-  armSettled(cb);
-  goAsync(1, 8, 80, 0.8, cb);
-  robotSettled(cb);
-  //robotSettled(cb);
-  intakePow(6000);
-  pros::Task::delay(1300);
-  intakePow(0);
-  goAsync(-1, 8, 80, 0.8, cb);
-  robotSettled(cb);
-  turnRL(1, 75, 80);
-  driveVoltage(-12000);
-  pros::Task::delay(1750);
-  driveVoltage(0);
-  cb->armVar->armUpAllow=0;
-  armSettled(cb);
-  goAsync(1, 90, 80, 0.5, cb);
-  intakePow(-12000);
-  robotSettled(cb);
-  intakePow(0);
-  goAsync(-1, 10, 80, 0.7, cb);
-  robotSettled(cb);
-  intakePow(6000);
-  pros::Task::delay(350);
-  intakePow(0);
-  turnRL(1, 45, 80);
-  driveVoltage(6000);
+  indexer.move_voltage(0);
+  roller.move_voltage(0);
+  goAsync(-1, 13, 80, 1, cb);
+  intakePow(12000);
+  indexer.move_voltage(12000);
   pros::Task::delay(2000);
-  driveVoltage(0);
-  autoStack(cb);
+  intakePow(0);
+  indexer.move_voltage(0);
+  turnRL(-1, 135, 80);
+  goAsync(1, 24, 80, 1, cb);
+  turnRL(-1, 90, 80);
+  intakePow(-12000);
+  goAsync(1, 48, 80, 1, cb);
+  intakePow(0);
+  indexer.move_voltage(-6000);
+  pros::Task::delay(500);
+  indexer.move_voltage(0);
+  turnRL(-1, 90, 80);
+  intakePow(-12000);
+  goAsync(1, 28, 80, 1, cb);
+  intakePow(0);
+  roller.move_voltage(-12000);
+  pros::Task::delay(750);
+  roller.move_voltage(-1000);
+  indexer.move_voltage(-6000);
+  pros::Task::delay(500);
+  indexer.move_voltage(0);
+  roller.move_voltage(0);
+  goAsync(-1, 28, 80, 1, cb);
+  indexer.move_voltage(12000);
+  intakePow(12000);
+  pros::Task::delay(1000);
+  indexer.move_voltage(0);
+  intakePow(0);
+  turnRL(1, 90, 80);
+  goAsync(1, 48, 80, 1, cb);
+  turnRL(1, 90, 80);
+  intakePow(-12000);
+  goAsync(1, 12, 80, 1, cb);
+  indexer.move_voltage(-6000);
+  pros::Task::delay(750);
+  indexer.move_voltage(0);
+  turnRL(-1, 90, 80);
+  goAsync(1, 4, 80, 1, cb);
+  intakePow(0);
+  roller.move_voltage(-12000);
+  pros::Task::delay(750);
+  roller.move_voltage(-1000);
+  indexer.move_voltage(-6000);
+  pros::Task::delay(500);
+  roller.move_voltage(-12000);
+  indexer.move_voltage(0);
+  pros::Task::delay(750);
+  roller.move_voltage(0);
+  goAsync(-1, 4, 80, 1, cb);
+  indexer.move_voltage(12000);
+  intakePow(12000);
+  pros::Task::delay(1000);
+  indexer.move_voltage(0);
+  intakePow(0);
+
+
+
+
+
+
+
+// center is 14in from front and 7 from back
+
+
+
+
+
+
+
 
 
 
