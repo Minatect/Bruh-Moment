@@ -39,7 +39,7 @@ void driver(void* controlblock) {
 
 
 
-  while(true)	{
+  /*while(true)	{
     if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
       x = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
       y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
@@ -55,9 +55,9 @@ void driver(void* controlblock) {
     }     else  {
       driveL(0);
       driveR(0);
-    }
-    //driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
-    //driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
+    }*/
+    driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
+    driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
   //  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
       /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{ //enumerate arm position +
         if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
