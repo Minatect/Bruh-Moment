@@ -14,9 +14,9 @@ void initial(void* controlblock)  {
   indexer.tare_position();
   roller.set_brake_mode(HOLD);
   roller.tare_position();
-  trayLine.calibrate();
-  Gyro.reset();
-  while(Gyro.is_calibrating()) pros::Task::delay(20);
+//  trayLine.calibrate();
+  //Gyro.reset();
+  //while(Gyro.is_calibrating()) pros::Task::delay(20);
 
   /*myChassis->getModel()->setBrakeMode(AbstractMotor::brakeMode::coast);
   myChassis->getModel()->setEncoderUnits(AbstractMotor::encoderUnits::degrees);*/
@@ -159,7 +159,7 @@ void initial(void* controlblock)  {
   findTarget moveTarget;*/ //movement control class initialization
 
 
-
+/*
 	pros::Task anglemovetask(angleMoveAsync,(void*) cb, TASK_PRIORITY_DEFAULT,
 													TASK_STACK_DEPTH_DEFAULT, "Auto Angle Up");
 
@@ -179,6 +179,7 @@ void initial(void* controlblock)  {
   //                          TASK_STACK_DEPTH_DEFAULT, "Intake to Point");
   pros::Task Odometry(trackCoordGyro, (void*) cb, TASK_PRIORITY_DEFAULT,
                             TASK_STACK_DEPTH_DEFAULT, "Odometry");
+*/
 	pros::lcd::initialize();
 	gui();
 }

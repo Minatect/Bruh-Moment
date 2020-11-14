@@ -9,23 +9,23 @@ void turnRL(int dir, int degrees, float factor)
 
 		float target = degrees*CHASSIS_WIDTH/WHEEL_D*DRIVE_RATIO;
 
-    float kP = .6;//.3; // .25
-    float kI = .01;//.0005;
-    float kD = 0.8;//1;
+    float kP = .3;//.3; // .25
+    float kI = .0005;//.0005;
+    float kD = 0.1;//1;
 
-    float errorZone = 250; // org150
+    float errorZone = 150; // org150
     float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
     float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
     float powerR, powerL;
     float lastPowerL = 0;
     float lastPowerR = 0;
 
-    float targetMin = target - 25;
-    float targetMax = target + 25;
+    float targetMin = target - 15;
+    float targetMax = target + 15;
     bool ft = true;
     bool ogPass = false;
     float pTime; // pause time
-    int exitDelay = 200; // millis to check exit
+    int exitDelay = 500; // millis to check exit
     bool settled = false;
 
     int count = 0;

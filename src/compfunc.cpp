@@ -76,7 +76,7 @@ void intakePow(float power) {
 }*/
 
 
-void angleState(void* controlblock) {
+/*void angleState(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   while(true) {
     if(!cb->autoAngle->angleIsMoving) {
@@ -85,21 +85,23 @@ void angleState(void* controlblock) {
     }
     pros::Task::delay(100);
   }
-}
+}*/
 
 
 
 void deploy(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   intakePow(-12000);
+  roller.move_voltage(-12000);
   pros::Task::delay(400);
   intakePow(0);
+  roller.move_voltage(0);
 }
 
 
 
 
-void intakeToPoint(void* controlblock)  {
+/*void intakeToPoint(void* controlblock)  {
   controlBlock* cb = (controlBlock*) controlblock;
   while(true) {
     if(cb->intakeTime->intakePoint && !cb->intakeTime->intakeIsMoving)  {
@@ -119,7 +121,7 @@ void intakeToPoint(void* controlblock)  {
     pros::lcd::set_text(3, std::to_string(trayLine.get_value_calibrated()));
     pros::Task::delay(100);
   }
-}
+}*/
 
 void goAsync(int dir, float distance, float factor, float speed, void* controlblock)  {
   controlBlock* cb = (controlBlock*) controlblock;

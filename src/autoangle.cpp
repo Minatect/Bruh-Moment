@@ -2,11 +2,11 @@
 
 
 //bool angleState = false;
-bool angleDownAllow = false;
-bool angleUpAllow = false;
+//bool angleDownAllow = false;
+//bool angleUpAllow = false;
 
-float angleDistance = 560;
-float angleFactor = 100;
+//float angleDistance = 560;
+//float angleFactor = 100;
 
 /*void angleUp(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;

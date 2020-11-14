@@ -59,7 +59,7 @@ void resetGyro()	{
 	rightGyro.reset();
 }
 
-float getGyroImu(void* controlblock)	{
+/*float getGyroImu(void* controlblock)	{
 	controlBlock* cb = (controlBlock*) controlblock;
 
 	float currentVal = Gyro.get_heading();
@@ -74,7 +74,7 @@ float getGyroImu(void* controlblock)	{
 		else return currentVal;
 	}
 }
-
+*/
 float sgn(float input)	{
 	if(input == 0) return 1;
 	else return input/fabs(input);
@@ -93,17 +93,17 @@ void robotSettled(void* controlblock)	{
 	while(cb->moveVar->robotIsMoving)	pros::Task::delay(100);
 }
 
-void angleSettled(void* controlblock)	{
+/*void angleSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
 	pros::Task::delay(100);
 	while(cb->autoAngle->angleIsMoving) pros::Task::delay(100);
-}
+}*/
 
-void armSettled(void* controlblock)	{
+/*void armSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;
 	pros::Task::delay(100);
 	while(cb->armVar->armIsMoving) pros::Task::delay(100);
-}
+}*/
 
 void intakeSettled(void* controlblock)	{
 	controlBlock* cb = (controlBlock*)controlblock;

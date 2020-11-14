@@ -55,9 +55,26 @@ void driver(void* controlblock) {
     }     else  {
       driveL(0);
       driveR(0);
-    }*/
-    driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
-    driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
+    }
+    */
+/*  while(true) {
+    if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 5) {
+
+    }
+
+  }*/
+  while(true) {
+  if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y))>5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))>5) {
+  driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
+  driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
+    }
+  else {
+    driveR(0);
+    driveL(0);
+  }
+
+    //driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
+    //driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
   //  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
       /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{ //enumerate arm position +
         if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
@@ -119,18 +136,20 @@ void driver(void* controlblock) {
 
       }
     }*/
-
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))	{	//back out cubes
-      if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-        intakePow(12000);
+      intakePow(12000);
+      indexer.move_voltage(12000);
 		}
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))	{ //intake cubes
 			intakePow(-12000);
-		}
-		else	{
-			intakePow(0);
-		}
-
+      indexer.move_voltage(-6000);
+      roller.move_voltage(12000);
+    }
+    else {
+      intakePow(0);
+      roller.move_voltage(0);
+      indexer.move_voltage(0);
+    }
   /*  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
       cb->isOpControl = true;
       pros::Task::delay(100);
@@ -139,17 +158,26 @@ void driver(void* controlblock) {
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
       roller.move_voltage(-12000);
       indexer.move_voltage(-12000);
-      intakePow(0);
     }
     else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       roller.move_voltage(-12000);
       indexer.move_voltage(-12000);
       intakePow(-12000);
     }
-    else {
-      roller.move_voltage(0);
-      indexer.move_voltage(0);
-      intakePow(0);
+
+
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+      intakePow(-12000);
+    }
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
+      intakePow(12000);
+    }
+
+
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+      intakePow(12000);
+      indexer.move_voltage(12000);
+      roller.move_voltage(12000);
     }
 
     /*if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R1)
