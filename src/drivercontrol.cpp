@@ -156,8 +156,9 @@ void driver(void* controlblock) {
     }*/
 
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-      roller.move_voltage(-12000);
-      indexer.move_voltage(-12000);
+      roller.move_voltage(12000);
+      indexer.move_voltage(12000);
+      intakePow(12000);
     }
     else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       roller.move_voltage(-12000);

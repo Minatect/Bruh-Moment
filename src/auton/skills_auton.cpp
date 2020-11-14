@@ -2,21 +2,29 @@
 
 void skills_auton(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
+  goRL(1, 6, 80, .5);
   deploy(cb);
   intakePow(-12000);
-  goRL(1, 29, 80, 1);
+  goRL(1, 18, 80, 1);
   robotSettled(cb);
+  indexer.move_voltage(-6000);
+  pros::Task::delay(1000);
+  indexer.move_voltage(0);
+  turnRL(-1, 90, 80);
+  goRL(1, 22, 80, 1);
+  robotSettled(cb);
+  goRL(-1, 8, 80, 1);
   indexer.move_voltage(-6000);
   pros::Task::delay(750);
   indexer.move_voltage(0);
-  turnRL(1, 90, 80);
-  goRL(1, 22, 80, 1);
+  robotSettled(cb);
   intakePow(0);
-  goRL(-1, 10, 80, 1);
-  turnRL(1, 90, 80);
-  goRL(1, 12, 80, 1);
-  turnRL(-1, 45, 80);
+  turnRL(-1, 90, 80);
+  goRL(1, 14, 80, 1);
+  robotSettled(cb);
+  turnRL(1, 45, 80);
   goRL(1, 13, 80, 1);
+  robotSettled(cb);
   intakePow(-12000);
   indexer.move_voltage(-1000);
   roller.move_voltage(-12000);
@@ -27,68 +35,23 @@ void skills_auton(void* controlblock) {
   indexer.move_voltage(0);
   roller.move_voltage(0);
   goRL(-1, 13, 80, 1);
-  intakePow(12000);
-  indexer.move_voltage(12000);
+  robotSettled(cb);
   pros::Task::delay(2000);
   intakePow(0);
   indexer.move_voltage(0);
-  turnRL(-1, 135, 80);
-  goRL(1, 24, 80, 1);
-  turnRL(-1, 90, 80);
-  intakePow(-12000);
-  goRL(1, 48, 80, 1);
-  intakePow(0);
-  indexer.move_voltage(-6000);
+  turnRL(-1, 45, 80);
   pros::Task::delay(500);
-  indexer.move_voltage(0);
   turnRL(-1, 90, 80);
+  goRL(1, 42, 80, 1);
+  turnRL(1, 90, 0);
+  goRL(1, 6, 80, 1);
+  indexer.move_voltage(-12000);
+  roller.move_voltage(-12000);
   intakePow(-12000);
-  goRL(1, 28, 80, 1);
-  intakePow(0);
+  pros::Task::delay(750);
+  indexer.move_voltage(-12000);
   roller.move_voltage(-12000);
-  pros::Task::delay(750);
-  roller.move_voltage(-1000);
-  indexer.move_voltage(-6000);
-  pros::Task::delay(500);
-  indexer.move_voltage(0);
-  roller.move_voltage(0);
-  goRL(-1, 28, 80, 1);
-  indexer.move_voltage(12000);
-  intakePow(12000);
-  pros::Task::delay(1000);
-  indexer.move_voltage(0);
   intakePow(0);
-  turnRL(1, 90, 80);
-  goRL(1, 48, 80, 1);
-  turnRL(1, 90, 80);
-  intakePow(-12000);
-  goRL(1, 12, 80, 1);
-  indexer.move_voltage(-6000);
-  pros::Task::delay(750);
-  indexer.move_voltage(0);
-  turnRL(-1, 90, 80);
-  goRL(1, 4, 80, 1);
-  intakePow(0);
-  roller.move_voltage(-12000);
-  pros::Task::delay(750);
-  roller.move_voltage(-1000);
-  indexer.move_voltage(-6000);
-  pros::Task::delay(500);
-  roller.move_voltage(-12000);
-  indexer.move_voltage(0);
-  pros::Task::delay(750);
-  roller.move_voltage(0);
-  goRL(-1, 4, 80, 1);
-  indexer.move_voltage(12000);
-  intakePow(12000);
-  pros::Task::delay(1000);
-  indexer.move_voltage(0);
-  intakePow(0);
-
-
-
-
-
 
 
 // center is 14in from front and 7 from back
