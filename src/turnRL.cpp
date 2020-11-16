@@ -11,8 +11,7 @@ void turnRL(int dir, int degrees, float factor)
 
     float kP = .4;//.3; // .25
     float kI = .01;//.0005;
-    float kD = .009;//1;
-
+    float kD = .009;//1]
     float errorZone = 150; // org150
     float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
     float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
