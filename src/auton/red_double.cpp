@@ -3,7 +3,25 @@
 void red_double(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
-  goAsync(1, 35, 80, 1, cb);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  goAsync(1, 35, 80, 1, cb);
   robotSettled(cb);
   turnRL(1, 90, 80);
   cb->armVar->armUpAllow=2;
@@ -39,7 +57,7 @@ void red_double(void* controlblock) {
 
 
 
-  /*cb->intakeTime->outVoltage = 12000;
+  cb->intakeTime->outVoltage = 12000;
   goAsync(1, 30, 80, 0.3, cb);
   pros::Task::delay(300);
   deploy(cb);

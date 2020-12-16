@@ -3,7 +3,26 @@
 void blue_single(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
-  goAsync(1, 35, 80, 0.7, cb);
+  turnRL(1, 45, 80);
+  pros::Task::delay(2000);
+  turnRL(1, 90, 80);
+  pros::Task::delay(2000);
+  turnRL(1, 180, 80);
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  goAsync(1, 35, 80, 0.7, cb);
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
@@ -28,7 +47,7 @@ void blue_single(void* controlblock)  {
   pros::Task::delay(1000);
   driveVoltage(0);
   autoStack(cb);
-
+*/
 
 
 

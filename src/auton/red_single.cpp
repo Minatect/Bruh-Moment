@@ -3,7 +3,25 @@
 void red_single(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
-  goAsync(1, 45, 80, 0.5, cb);
+  goRL(1, 24, 80, 1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /*goAsync(1, 45, 80, 0.5, cb);
   intakePow(-12000);
   robotSettled(cb);
   intakePow(0);
@@ -37,7 +55,7 @@ void red_single(void* controlblock) {
 
 
 
-/*  deploy(cb);
+  deploy(cb);
   goAsync(1, 27, 80, 0.7, cb);
   intakePow(-12000);
   robotSettled(cb);
@@ -98,7 +116,7 @@ void red_single(void* controlblock) {
   robotSettled(cb);
   pros::Task::delay(500);
   intakePow(0);
-  /*turnGyro(1,148,80);
+  turnGyro(1,148,80);
   intakePow(0);
   goAsync(1, 32, 80, 1, cb);
   intakeAsync(6000, 0.4, cb);

@@ -35,7 +35,7 @@ void trackCoordGyro(void* controlblock) {
 
       currentEncL = LENCO();
       currentEncR = RENCO();
-      currentAngGyro = getGyroImu(cb);
+      //currentAngGyro = getGyroImu(cb);
 
       arcCenter = WHEEL_D * PI * (currentEncR - prevEncR + currentEncL - prevEncL) / (3 * DRIVE_RATIO * 360);
       deltaAng = currentAngGyro - prevAngGyro;
