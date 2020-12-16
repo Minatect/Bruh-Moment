@@ -3,12 +3,18 @@
 void blue_single(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
-  turnRL(1, 45, 80);
-  pros::Task::delay(2000);
-  turnRL(1, 90, 80);
-  pros::Task::delay(2000);
-  turnRL(1, 180, 80);
-  
+  pros::Task::delay(200);
+  intakePow(-12000);
+  roller.move_voltage(-12000);
+  pros::Task::delay(1000);
+  intakePow(0);
+  roller.move_voltage(0);
+  pros::Task::delay(1000);
+  goR(1, 12, 80, 1);
+  goL(1, 12, 80, 1);
+  robotSettled(cb);
+
+
 
 
 
