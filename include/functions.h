@@ -60,6 +60,10 @@ void goR(int dir, float distance, float factor, float speed);
 
 void goL(int dir, float distance, float factor, float speed);
 
+void goRight(int dir, float distance, float factor, float speed);
+
+void goLeft(int dir, float distance, float factor, float speed);
+
 void turnRL(int dir, int degrees, float factor);
 
 void goVelL(int dir, float speed, float factor);
