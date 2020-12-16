@@ -54,7 +54,11 @@ void armCheck(void* controlblock);
 
 void intakeToPoint(void* controlblock);
 
-void goAsync(int dir, float distance, float factor, float speed, void* controlblock);
+void goRLAsync(int dir, float distance, float factor, float speed, void* controlblock);
+
+void goRAsync(int dir, float distance, float factor, float speed, void* controlblock);
+
+void goLAsync(int dir, float distance, float factor, float speed, void* controlblock);
 
 void intakeAsync(int voltage, float time, void* controlblock);
 #endif

@@ -147,8 +147,8 @@ void driver(void* controlblock) {
       }
     }*/
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))	{	//back out cubes
-      intakePow(12000);
-      indexer.move_voltage(12000);
+      indexer.move_voltage(-12000);
+      roller.move_voltage(-12000);
 		}
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))	{ //intake cubes
 			intakePow(-12000);

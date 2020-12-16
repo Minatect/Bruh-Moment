@@ -56,11 +56,19 @@ float sgn(float input);
 
 void goRL(int dir, float distance, float factor, float speed);
 
+void goR(int dir, float distance, float factor, float speed);
+
+void goL(int dir, float distance, float factor, float speed);
+
 void turnRL(int dir, int degrees, float factor);
 
 void goVelL(int dir, float speed, float factor);
 
 void goRLAsync(void* controlblock);
+
+void goRAsync(int dir, float distance, float factor, float speed);
+
+void goLAsync(int dir, float distance, float factor, float speed);
 
 void turnRLAsync(void* controlblock);
 
