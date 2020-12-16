@@ -110,8 +110,8 @@ void goRL(int dir, float distance, float factor, float speed)
     }
 
 
-    driveL(0);
     driveR(0);
+    driveL(0);
 
 		driveReset();
 }
