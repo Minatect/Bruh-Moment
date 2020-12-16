@@ -14,9 +14,7 @@ void blue_single(void* controlblock)  {
   roller.move_voltage(0);
   intakePow(0);
   indexer.move_voltage(0);
-  goRight(1, 12, 80, 1);
-  pros::Task::delay(1000);
-  goLeft(1, 12, 80, 1);
+
 
 
 
