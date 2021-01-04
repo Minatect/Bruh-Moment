@@ -165,7 +165,7 @@ void driver(void* controlblock) {
     }
 
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
-      goRight(1, 12.5, 80, 1);
+      goRight(1, 12, 80, 1);
     }
 
     /*if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R1)

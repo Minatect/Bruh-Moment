@@ -3,7 +3,25 @@
 void red_single(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
-  goRL(1, 24, 80, 1);
+  goR(1, 8, 80, 1);
+  roller.move_voltage(-12000);
+  indexer.move_voltage(-12000);
+  pros::Task::delay(1000);
+  roller.move_voltage(0);
+  indexer.move_voltage(0);
+  intakePow(0);
+  goRL(-1, 15, 80, 1);
+  goLeft(1, 5, 80, 1);
+  intakePow(12000);
+  indexer.move_voltage(12000);
+  roller.move_voltage(12000);
+  pros::Task::delay(1000);
+  indexer.move_voltage(0);
+  roller.move_voltage(0);
+  intakePow(0);
+  goLeft(1, 12, 80, 1);
+  goRL(1, 102, 80, 1);
+
 
 
 

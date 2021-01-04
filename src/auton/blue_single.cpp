@@ -3,18 +3,7 @@
 void blue_single(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   deploy(cb);
-  intakePow(-12000);
-  indexer.move_voltage(-12000);
-  goR(1, 24, 80, 1);
-  pros::Task::delay(1000);
-  goRL(1, 7, 80, 1);
-  pros::Task::delay(500);
-  roller.move_voltage(-12000);
-  pros::Task::delay(1000);
-  roller.move_voltage(0);
-  intakePow(0);
-  indexer.move_voltage(0);
-
+  
 
 
 

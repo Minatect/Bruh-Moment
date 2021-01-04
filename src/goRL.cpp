@@ -326,8 +326,8 @@ void goRight(int dir, float distance, float factor, float speed)
     float lastPowerL = 0;
     float lastPowerR = 0;
 
-    float targetMin = target - 30;
-    float targetMax = target + 30;
+    float targetMin = target - 50;
+    float targetMax = target + 50;
     bool ft = true;
     bool ogPass = false;
     float pTime; // pause time
@@ -430,8 +430,8 @@ void goLeft(int dir, float distance, float factor, float speed)
     float lastPowerL = 0;
     float lastPowerR = 0;
 
-    float targetMin = target - 30;
-    float targetMax = target + 30;
+    float targetMin = target - 50;//30
+    float targetMax = target + 50;
     bool ft = true;
     bool ogPass = false;
     float pTime; // pause time
@@ -441,7 +441,7 @@ void goLeft(int dir, float distance, float factor, float speed)
     int count = 0;
     int accelCount;
     float accelTime = 1;
-    float maxAccel = 12000/(accelTime*50);
+    float maxAccel = 12000/(accelTime*50);//50 original
     // zero motors fix if this is not correct method
 		driveReset();
 
@@ -459,7 +459,6 @@ void goLeft(int dir, float distance, float factor, float speed)
         }
 
 				pTermR = errorR * kP;
-
 				iTermR = kI * errorTotR;
         dTermR = kD * (errorR - errorLastR);
         errorLastR = errorR;
@@ -468,10 +467,10 @@ void goLeft(int dir, float distance, float factor, float speed)
 				powerR = ((pTermR + iTermR + dTermR) * factor);
 
         if(powerL/powerR>-1.1) {
-          powerR=powerL;
+          powerR=powerL * -1;
         }
         else if(powerR/powerL>-1.1) {
-          powerL=powerR;
+          powerL=powerR * -1;
         }
 
         if(fabs(powerR)>12000*speed)  {
