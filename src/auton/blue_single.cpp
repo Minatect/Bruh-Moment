@@ -2,8 +2,8 @@
 
 void blue_single(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
-  deploy(cb);
-  
+  midtower(cb);
+
 
 
 

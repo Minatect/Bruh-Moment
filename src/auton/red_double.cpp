@@ -2,9 +2,38 @@
 
 void red_double(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  deploy(cb);
-
-
+  intakePow(-12000);
+  roller.move_voltage(-12000);
+  indexer.move_voltage(-12000);
+  pros::Task::delay(3000);
+  intakePow(12000);
+  roller.move_voltage(12000);
+  indexer.move_voltage(12000);
+  pros::Task::delay(3000);
+  intakePow(-12000);
+  roller.move_voltage(-12000);
+  indexer.move_voltage(-12000);
+  pros::Task::delay(3000);
+  intakePow(12000);
+  roller.move_voltage(12000);
+  indexer.move_voltage(12000);
+  pros::Task::delay(3000);
+  intakePow(0);
+  roller.move_voltage(0);
+  indexer.move_voltage(0);
+  pros::Task::delay(3000);
+  intakePow(-12000);
+  roller.move_voltage(12000);
+  indexer.move_voltage(-12000);
+  pros::Task::delay(3000);
+  intakePow(0);
+  roller.move_voltage(-12000);
+  indexer.move_voltage(-12000);
+  pros::Task::delay(3000);
+  intakePow(-12000);
+  roller.move_voltage(-12000);
+  indexer.move_voltage(-12000);
+  pros::Task::delay(3000);
 
 
 

@@ -91,15 +91,91 @@ void intakePow(float power) {
 
 void deploy(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  intakePow(-12000);
+  intakePow(12000);
   roller.move_voltage(-12000);
   pros::Task::delay(400);
   intakePow(0);
   roller.move_voltage(0);
 }
 
+void midtower(void* controlblock) {
+  controlBlock* cb = (controlBlock*)controlblock;
+  goLeft(1, 12, 80, 1);
+  goRL(1, 9, 80, 1);
+  indexer.move_voltage(-12000);
+  roller.move_voltage(-12000);
+  pros::Task::delay(750);
+  indexer.move_voltage(0);
+  roller.move_voltage(0);
+  goRL(-1, 7, 80, 1);
+  goRight(1, 11.5, 80, 1);
+}
 
+void cornertower(void* controlblock)  {
+  controlBlock* cb = (controlBlock*)controlblock;
+  goLeft(1, 7, 80, 1);
+  goRL(1, 17, 80, 1);
+  roller.move_voltage(-12000);
+  indexer.move_voltage(-12000);
+  pros::Task::delay(750);
+  roller.move_voltage(0);
+  indexer.move_voltage(0);
+  goRL(-1, 16, 80, 1);
+  goRight(1, 12, 80, 1);
+  pros::Task::delay(500);
+  goRight(1, 6, 80, 1);
+}
 
+void centertower(void* controlblock) {
+  controlBlock* cb = (controlBlock*)controlblock;
+}
+
+void midtowerde(void* controlblock) {
+  controlBlock* cb = (controlBlock*)controlblock;
+  goLeft(1, 12, 80, 1);
+  goRL(1, 8, 80, 1);
+  indexer.move_voltage(-12000);
+  roller.move_voltage(-12000);
+  intakePow(-12000);
+  pros::Task::delay(500);
+  indexer.move_voltage(0);
+  roller.move_voltage(0);
+  intakePow(0);
+  goRL(-1, 8, 80, 1);
+  goLeft(1, 6, 80, 1);
+  intakePow(12000);
+  indexer.move_voltage(12000);
+  roller.move_voltage(-12000);
+  pros::Task::delay(500);
+  indexer.move_voltage(0);
+  roller.move_voltage(0);
+  intakePow(0);
+  goRight(1, 18, 80, 1);
+}
+
+void cornertowerde(void* controlblock) {
+  controlBlock* cb = (controlBlock*)controlblock;
+  goLeft(1, 6, 80, 1);
+  goRL(1, 12, 80, 1);
+  indexer.move_voltage(-12000);
+  roller.move_voltage(-12000);
+  intakePow(-12000);
+  pros::Task::delay(500);
+  roller.move_voltage(0);
+  pros::Task::delay(500);
+  intakePow(0);
+  indexer.move_voltage(0);
+  goRL(-1, 12, 80, 1);
+  goLeft(1, 6, 80, 1);
+  intakePow(12000);
+  indexer.move_voltage(12000);
+  roller.move_voltage(-12000);
+  pros::Task::delay(500);
+  indexer.move_voltage(0);
+  roller.move_voltage(0);
+  intakePow(0);
+  goRight(1, 24, 80, 1);
+}
 
 /*void intakeToPoint(void* controlblock)  {
   controlBlock* cb = (controlBlock*) controlblock;

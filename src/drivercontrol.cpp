@@ -56,6 +56,7 @@ void driver(void* controlblock) {
       driveL(0);
       driveR(0);
     }*/
+
     while(true) {
     if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y))>5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))>5) {
     driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
@@ -130,12 +131,21 @@ void driver(void* controlblock) {
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))	{	//back out cubes
       indexer.move_voltage(-12000);
       roller.move_voltage(-12000);
+      intakePow(-12000);
 		}
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))	{ //intake cubes
 			intakePow(-12000);
-      indexer.move_voltage(-6000);
-      roller.move_voltage(12000);
+      indexer.move_voltage(-12000);
 		}
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))  {
+      intakePow(12000);
+      indexer.move_voltage(12000);
+      roller.move_voltage(12000);
+    }
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))  {
+      indexer.move_voltage(-12000);
+      roller.move_voltage(-12000);
+    }
 		else	{
 			intakePow(0);
       roller.move_voltage(0);
@@ -147,16 +157,12 @@ void driver(void* controlblock) {
       pros::Task::delay(100);
     }*/
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-      roller.move_voltage(12000);
-      indexer.move_voltage(12000);
-      intakePow(12000);
-    }
-    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-      roller.move_voltage(-12000);
-      indexer.move_voltage(-12000);
-      intakePow(-12000);
-    }
+
+
+if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+  roller.move_voltage(-12000);
+}
+
 
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
       intakePow(12000);
@@ -166,6 +172,10 @@ void driver(void* controlblock) {
 
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
       goRight(1, 12, 80, 1);
+    }
+
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+      goRL(1, 24, 80, 1);
     }
 
     /*if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R1)

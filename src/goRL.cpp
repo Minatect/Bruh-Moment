@@ -7,7 +7,7 @@ void goRL(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
+		float target = distance*360*.725/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
     float kD = 1;//1;
@@ -29,7 +29,7 @@ void goRL(int dir, float distance, float factor, float speed)
 
     int count = 0;
     int accelCount;
-    float accelTime = 1;
+    float accelTime = 7;
     float maxAccel = 12000/(accelTime*50);
     // zero motors fix if this is not correct method
 		driveReset();
@@ -112,6 +112,8 @@ void goRL(int dir, float distance, float factor, float speed)
 
     driveR(0);
     driveL(0);
+
+    pros::Task::delay(250);
 
 		driveReset();
 }
@@ -314,7 +316,7 @@ void goRight(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
+		float target = distance*360*.626/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
     float kD = 1;//1;
@@ -418,7 +420,7 @@ void goLeft(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
+		float target = distance*360*.63/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
     float kD = 1;//1;

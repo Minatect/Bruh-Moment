@@ -46,6 +46,16 @@ void armDownAsync(void* controlblock);
 
 void deploy(void* controlblock);
 
+void midtower(void* controlblock);
+
+void cornertower(void* controlblock);
+
+void centertower(void* controlblock);
+
+void midtowerde(void* controlblock);
+
+void cornertowerde(void* controlblock);
+
 void deployAsync(void* controlblock);
 
 void angleState(void* controlblock);
