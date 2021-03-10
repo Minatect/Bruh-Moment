@@ -13,8 +13,14 @@ void blue_double(void* controlblock)  {
   goRL(-1, 26.5, 80, .5);
   intakePow(0);
   indexer.move_voltage(0);
+
+
+
+
+
+  //Mid center tower
   goRL(1, 61, 80, 1);
-  midtower(cb);
+  midtowerde(cb);
 
 
 
@@ -57,13 +63,15 @@ void blue_double(void* controlblock)  {
   goRL(1, 10, 80, 1);
   indexer.move_voltage(-12000);
   roller.move_voltage(-12000);
+  intakePow(-12000);
   pros::Task::delay(750);
-  indexer.move_voltage(0);
-  roller.move_voltage(0);
+  indexer.move_voltage(9000);
+  roller.move_voltage(12000);
+  intakePow(9000);
   goRL(-1, 12, 80, 1);
-  goRight(1, 12, 80, 1);
+  goLeft(1, 12, 80, 1);
   pros::Task::delay(500);
-  goRight(1, 12, 80, 1);
+  goLeft(1, 12, 80, 1);
   intakePow(-12000);
   indexer.move_voltage(-12000);
   goRL(1, 24, 80, 1);
@@ -121,7 +129,7 @@ void blue_double(void* controlblock)  {
   goRL(1, 62, 80, 1);
   intakePow(0);
   indexer.move_voltage(0);
-  midtower(cb);
+  midtowerde(cb);
 
 
 

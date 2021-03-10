@@ -133,24 +133,22 @@ void centertower(void* controlblock) {
 void midtowerde(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   goLeft(1, 12, 80, 1);
-  goRL(1, 8, 80, 1);
+  goRL(1, 9, 80, 1);
   indexer.move_voltage(-12000);
   roller.move_voltage(-12000);
   intakePow(-12000);
-  pros::Task::delay(500);
+  pros::Task::delay(750);
   indexer.move_voltage(0);
   roller.move_voltage(0);
   intakePow(0);
-  goRL(-1, 8, 80, 1);
-  goLeft(1, 6, 80, 1);
-  intakePow(12000);
-  indexer.move_voltage(12000);
-  roller.move_voltage(-12000);
-  pros::Task::delay(500);
+  indexer.move_voltage(9000);
+  roller.move_voltage(12000);
+  intakePow(9000);
+  goRL(-1, 9, 80, 1);
+  goLeft(1, 29.35, 80, 0.8);
   indexer.move_voltage(0);
   roller.move_voltage(0);
   intakePow(0);
-  goRight(1, 18, 80, 1);
 }
 
 void cornertowerde(void* controlblock) {
