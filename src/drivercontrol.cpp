@@ -39,10 +39,10 @@ void driver(void* controlblock) {
 
 
 
-  /*while(true)	{
-    if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)) > 5)  {
-      x = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
-      y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+/*  while(true)	{
+    if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X)) > 5)  {
+      x = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+      y = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 
       powerL = 12000 * (sgn(y) * powf(y, 2) + sgn(x) * powf(x, 2)) / powf(127, 2);
       powerR = 12000 * (sgn(y) * powf(y, 2) - sgn(x) * powf(x, 2)) / powf(127, 2);
@@ -59,13 +59,13 @@ void driver(void* controlblock) {
 
     while(true) {
     if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y))>5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))>5) {
-    driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));
+    driveR(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y),3)/powf(127,3));//was 127
     driveL(12000*powf(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y),3)/powf(127,3));
       }
     else {
       driveR(0);
       driveL(0);
-    }
+    } 
   //  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
       /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{ //enumerate arm position +
         if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
@@ -152,10 +152,11 @@ void driver(void* controlblock) {
       indexer.move_voltage(0);
 		}
 
-  /*  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
+   if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
       cb->isOpControl = true;
+      goLeft(1, 12, 80, 1);
       pros::Task::delay(100);
-    }*/
+    }
 
 
 
@@ -170,13 +171,87 @@ if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
       roller.move_voltage(12000);
     }
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
+/*    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
       goRight(1, 12, 80, 1);
-    }
+    } */
 
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+/*    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B)) {
+
+
+      //Tower A
+      intakePow(12000);
+      pros::Task::delay(250);
+      intakePow(-12000);
+      indexer.move_voltage(-12000);
+      goRL(1, 50, 80, 1);
+      goRL(-1, 14, 80, 1);
+      intakePow(0);
+      goLeft(1, 9, 80, 1);
+      indexer.move_voltage(0);
+      goRL(1, 14, 80, 1);
+      driveR(3000);
+      driveL(3000);
+      pros::Task::delay(500);
+      driveR(0);
+      driveL(0);
+      roller.move_voltage(-12000);
+      pros::Task::delay(500);
+      roller.move_voltage(0);
+      intakePow(-12000);
+      indexer.move_voltage(-12000);
+      pros::Task::delay(1000);
+      roller.move_voltage(-12000);
+      intakePow(0);
+      indexer.move_voltage(0);
+      pros::Task::delay(500);
+      roller.move_voltage(0);
+      intakePow(-12000);
+      indexer.move_voltage(-12000);
+      goRL(-1, 49, 80, 1);
+      roller.move_voltage(12000);
+      intakePow(12000);
+      indexer.move_voltage(12000);
+      pros::Task::delay(500);
+      roller.move_voltage(0);
+      intakePow(0);
+      indexer.move_voltage(0);
+
+
+
+
+
+
+      //Tower D
+      goLeft(1, 7.11, 80, 1);
+      pros::Task::delay(250);
+      goLeft(1, 12, 80, 1);
+      intakePow(-12000);
+      indexer.move_voltage(-12000);
+      pros::Task::delay(250);
       goRL(1, 24, 80, 1);
-    }
+      goRight(1, 12.5, 80, 1);
+      goRL(1, 33, 80, 1);
+      intakePow(0);
+      driveR(3000);
+      driveL(3000);
+      pros::Task::delay(500);
+      driveR(0);
+      driveL(0);
+      indexer.move_voltage(-12000);
+      roller.move_voltage(-12000);
+      pros::Task::delay(750);
+      indexer.move_voltage(0);
+      roller.move_voltage(0);
+      intakePow(-12000);
+      pros::Task::delay(250);
+      goRL(-1, 12, 80, 1); */
+
+
+
+      //Tower G
+
+
+  //  }
 
     /*if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && master.get_digital(E_CONTROLLER_DIGITAL_R1)
       && !cb->autoAngle->angleState && !cb->armVar->armIsMoving) {

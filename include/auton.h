@@ -3,13 +3,13 @@
 
 void auton(void* controlblock);
 
-void blue_single(void* controlblock);
+void homerow(void* controlblock);
 
-void blue_double(void* controlblock);
+void old_skills(void* controlblock);
 
 void red_single(void* controlblock);
 
-void red_double(void* controlblock);
+void new_skills(void* controlblock);
 
 void skills_auton(void* controlblock);
 

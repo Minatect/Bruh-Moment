@@ -114,7 +114,11 @@ void midtower(void* controlblock) {
 void cornertower(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   goLeft(1, 7, 80, 1);
-  goRL(1, 17, 80, 1);
+  driveL(12000);
+  driveR(12000);
+  pros::Task::delay(750);
+  driveL(0);
+  driveR(0);
   roller.move_voltage(-12000);
   indexer.move_voltage(-12000);
   pros::Task::delay(750);
@@ -133,10 +137,10 @@ void centertower(void* controlblock) {
 void midtowerde(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
   goLeft(1, 12, 80, 1);
+  intakePow(-12000);
   goRL(1, 9, 80, 1);
   indexer.move_voltage(-12000);
   roller.move_voltage(-12000);
-  intakePow(-12000);
   pros::Task::delay(750);
   indexer.move_voltage(0);
   roller.move_voltage(0);
@@ -145,7 +149,7 @@ void midtowerde(void* controlblock) {
   roller.move_voltage(12000);
   intakePow(9000);
   goRL(-1, 9, 80, 1);
-  goLeft(1, 29.35, 80, 0.8);
+  goLeft(1, 25.5, 80, 0.5);
   indexer.move_voltage(0);
   roller.move_voltage(0);
   intakePow(0);

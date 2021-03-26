@@ -23,15 +23,15 @@ void auton(void* controlblock)  {
     break;
 
     case 2:
-      red_double(cb);
+      new_skills(cb);
     break;
 
 		case 3:
-      blue_single(cb);
+      homerow(cb);
     break;
 
 		case 4:
-      blue_double(cb);
+      old_skills(cb);
     break;
 
 		case 5:

@@ -2,7 +2,7 @@
 
 void initial(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
-  setDriveBrakes(COAST);
+  setDriveBrakes(HOLD);
   driveReset();
   driveLB.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
   driveRB.set_encoder_units(pros::E_MOTOR_ENCODER_DEGREES);
