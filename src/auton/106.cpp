@@ -1,6 +1,6 @@
 #include "main.h"
 
-void blue_double(void* controlblock)  {
+void old_skills(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
   roller.move_voltage(-12000);
   intakePow(12000);
@@ -20,7 +20,7 @@ void blue_double(void* controlblock)  {
 
   //Mid center tower
   goRL(1, 61, 80, 1);
-  midtowerde(cb);
+  midtower(cb);
 
 
 
@@ -63,23 +63,20 @@ void blue_double(void* controlblock)  {
   goRL(1, 9, 80, 1);
   indexer.move_voltage(-12000);
   roller.move_voltage(-12000);
-  intakePow(-12000);
   pros::Task::delay(750);
   indexer.move_voltage(0);
   roller.move_voltage(0);
-  intakePow(0);
-  indexer.move_voltage(9000);
-  roller.move_voltage(12000);
-  intakePow(9000);
-  goRL(-1, 9, 80, 1);
-  goLeft(1, 24, 80, 0.8);
+  goRL(-1, 12, 80, 1);
+  goRight(1, 12, 80, 1);
+  pros::Task::delay(500);
+  goRight(1, 12, 80, 1);
   intakePow(-12000);
   indexer.move_voltage(-12000);
   goRL(1, 24, 80, 1);
   pros::Task::delay(500);
   goRL(-1, 16, 80, 1);
   pros::Task::delay(250);
-  goLeft(1, 12, 80, 1);
+  goLeft(1, 12.5, 80, 1);
   pros::Task::delay(250);
   goRL(1, 48, 80, 1);
   pros::Task::delay(250);
@@ -130,7 +127,7 @@ void blue_double(void* controlblock)  {
   goRL(1, 62, 80, 1);
   intakePow(0);
   indexer.move_voltage(0);
-  midtowerde(cb);
+  midtower(cb);
 
 
 
@@ -169,16 +166,13 @@ void blue_double(void* controlblock)  {
   goRL(1, 9, 80, 1);
   indexer.move_voltage(-12000);
   roller.move_voltage(-12000);
-  intakePow(-12000);
   pros::Task::delay(750);
   indexer.move_voltage(0);
   roller.move_voltage(0);
-  intakePow(0);
-  indexer.move_voltage(9000);
-  roller.move_voltage(12000);
-  intakePow(9000);
-  goRL(-1, 9, 80, 1);
-  goLeft(1, 24, 80, 0.8);
+  goRL(-1, 12, 80, 1);
+  goRight(1, 12, 80, 1);
+  pros::Task::delay(500);
+  goRight(1, 12, 80, 1);
   intakePow(-12000);
   indexer.move_voltage(-12000);
   goRL(1, 24, 80, 1);
@@ -190,7 +184,9 @@ void blue_double(void* controlblock)  {
 
   //CENTER tower
   goRight(1, 4, 80, 1);
-  goRL(1, 14, 80, 1);
+  driveL(12000);
+  driveR(12000);
+  pros::Task::delay(1000);
   driveL(0);
   driveR(12000);
   pros::Task::delay(500);

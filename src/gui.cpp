@@ -20,23 +20,23 @@ static lv_res_t btnm_action(lv_obj_t * btnm, const char *txt) {
     auton_sel = 1;
     break;
   case 2:
-    lv_label_set_text(g_sb_label, "Red Protected Auton");
+    lv_label_set_text(g_sb_label, "New Skills");
     auton_sel = 2;
     break;
   case 3:
-    lv_label_set_text(g_sb_label, "Blue Unprotected Auton");
+    lv_label_set_text(g_sb_label, "Home Row");
     auton_sel = 3;
 break;
   case 4:
-    lv_label_set_text(g_sb_label, "Blue Protected Auton");
+    lv_label_set_text(g_sb_label, "Current Skills");
     auton_sel = 4;
 break;
   case 5:
-    lv_label_set_text(g_sb_label, "Skills Auton1");
+    lv_label_set_text(g_sb_label, "skills");
     auton_sel = 5;
 break;
   case 6:
-    lv_label_set_text(g_sb_label, "Skills Auton2");
+    lv_label_set_text(g_sb_label, "Moment");
     auton_sel = 6;
 break;
   }

@@ -8,7 +8,8 @@ void skills_auton(void* controlblock) {
   roller.move_voltage(12000);
   goRL(1, 66, 80, 1);
   goLeft(1, 9, 80, .9);
-  goRL(1, 20, 80, 1);
+  goRL(1, 20, 80, 1)
+  ;
   goRL(-1, 20, 80, 1);
   goRL(1, 20, 80, 1);
   goRL(-1, 20, 80, 1);
