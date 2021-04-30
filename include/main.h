@@ -64,14 +64,14 @@ using namespace okapi;
 #define DRIVE_RATIO .5
 #define WHEEL_D 4
 
-#define LF 10
-#define LB 20
-#define RF 1
-#define RB 11
-#define INTAKE_R 13
-#define INTAKE_L 9
-#define INDEXER 12
-#define ROLLER 2
+#define LF 8
+#define LB 9
+#define RF 6
+#define RB 7
+#define INTAKE_R 12
+#define INTAKE_L 16
+#define INDEXER 20
+#define ROLLER 19
 
 #define ROLLER_UP_HIGH 640
 #define ROLLER_UP_LOW 480

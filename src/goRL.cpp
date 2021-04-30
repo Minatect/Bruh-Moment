@@ -7,7 +7,7 @@ void goRL(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*360*.725/(WHEEL_D*PROPI);
+		float target = distance*360*.44/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
     float kD = 1;//1;
@@ -119,204 +119,14 @@ void goRL(int dir, float distance, float factor, float speed)
 }
 
 
-void goR(int dir, float distance, float factor, float speed)
-{
-    setDriveBrakes(COAST);
 
-		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
-    float kP = 0.5;//.3; // .25
-    float kI = 0.02;//.0005;
-    float kD = 1;//1;
-
-    float errorZone = 100; // target * .1;
-    float errorR, errorTotR, errorLastR;
-    float pTermR, iTermR, dTermR;
-    float powerR;
-    float lastPowerR = 0;
-
-    float targetMin = target - 30;
-    float targetMax = target + 30;
-    bool ft = true;
-    bool ogPass = false;
-    float pTime; // pause time
-    int exitDelay = 0; // millis to check exit
-    bool settled = false;
-
-    int count = 0;
-    int accelCount;
-    float accelTime = 1;
-    float maxAccel = 12000/(accelTime*50);
-    // zero motors fix if this is not correct method
-		driveReset();
-
-    while(!settled)
-    //while(std::abs(LENCO) < target * .98) // left encoder  < target
-    {
-        count++;
-				errorR = target - std::abs(RENCO());
-        // errorTot += error;
-
-				if (errorR < errorZone) {
-            errorTotR += errorR;
-        } else {
-            errorTotR = 0;
-        }
-
-				pTermR = errorR * kP;
-
-				iTermR = kI * errorTotR;
-        dTermR = kD * (errorR - errorLastR);
-        errorLastR = errorR;
-
-				powerR = ((pTermR + iTermR + dTermR) * factor);
-
-        if(powerR/powerR>1.1) {
-          powerR=powerR;
-        }
-        else if(powerR/powerR>1.1) {
-          powerR=powerR;
-        }
-
-        if(fabs(powerR)>12000*speed)  {
-          powerR = 12000*speed;
-        }
-
-        if(fabs(powerR-lastPowerR)<maxAccel)  powerR = maxAccel + lastPowerR;
-        lastPowerR = powerR;
-
-				driveR(dir*powerR);
-
-        if(std::abs(AVGENC()) > targetMin && ft)
-        {
-            pTime = pros::millis();
-            ft = false;
-            ogPass = true;
-        }
-        if(pros::millis() > pTime + exitDelay && ogPass)
-        {
-            if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
-            {
-                settled = true;
-            }
-            else
-            {
-                pTime = pros::millis();
-            }
-        }
-
-        pros::Task::delay(20);
-    }
-
-
-    driveL(0);
-    driveR(0);
-
-		driveReset();
-}
-
-
-
-void goL(int dir, float distance, float factor, float speed)
-{
-    setDriveBrakes(COAST);
-
-		float target = distance*360*DRIVE_RATIO/(WHEEL_D*PROPI);
-    float kP = 0.5;//.3; // .25
-    float kI = 0.02;//.0005;
-    float kD = 1;//1;
-
-    float errorZone = 100; // target * .1;
-    float errorL, errorTotL, errorLastL;
-    float pTermL, iTermL, dTermL;
-    float powerL;
-    float lastPowerL = 0;
-
-    float targetMin = target - 30;
-    float targetMax = target + 30;
-    bool ft = true;
-    bool ogPass = false;
-    float pTime; // pause time
-    int exitDelay = 0; // millis to check exit
-    bool settled = false;
-
-    int count = 0;
-    int accelCount;
-    float accelTime = 1;
-    float maxAccel = 12000/(accelTime*50);
-    // zero motors fix if this is not correct method
-		driveReset();
-
-    while(!settled)
-    //while(std::abs(LENCO) < target * .98) // left encoder  < target
-    {
-        count++;
-        errorL = target - std::abs(LENCO());
-		    // errorTot += error;
-
-        if (errorL < errorZone) {
-            errorTotL += errorL;
-        } else {
-            errorTotL = 0;
-        }
-
-        pTermL = errorL * kP;
-
-        iTermL = kI * errorTotL;
-        dTermL = kD * (errorL - errorLastL);
-        errorLastL = errorL;
-
-        powerL = ((pTermL + iTermL + dTermL) * factor);
-
-        if(powerL/powerL>1.1) {
-          powerL=powerL;
-        }
-        else if(powerL/powerL>1.1) {
-          powerL=powerL;
-        }
-
-        if(fabs(powerL)>12000*speed)  {
-          powerL = 12000*speed;
-        }
-
-        if(fabs(powerL-lastPowerL)<maxAccel)  powerL = maxAccel + lastPowerL;
-        lastPowerL = powerL;
-
-				driveL(dir*powerL);
-
-        if(std::abs(AVGENC()) > targetMin && ft)
-        {
-            pTime = pros::millis();
-            ft = false;
-            ogPass = true;
-        }
-        if(pros::millis() > pTime + exitDelay && ogPass)
-        {
-            if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
-            {
-                settled = true;
-            }
-            else
-            {
-                pTime = pros::millis();
-            }
-        }
-
-        pros::Task::delay(20);
-    }
-
-
-    driveL(0);
-    driveR(0);
-
-		driveReset();
-}
 
 
 void goRight(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*360*.626/(WHEEL_D*PROPI);
+		float target = distance*360*.4945/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
     float kD = 1;//1;
@@ -420,7 +230,7 @@ void goLeft(int dir, float distance, float factor, float speed)
 {
     setDriveBrakes(COAST);
 
-		float target = distance*360*.63/(WHEEL_D*PROPI);
+		float target = distance*360*.4945/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
     float kD = 1;//1;

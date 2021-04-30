@@ -2,74 +2,40 @@
 
 void homerow(void* controlblock)  {
   controlBlock* cb = (controlBlock*)controlblock;
-  intakePow(12000);
-  pros::Task::delay(500);
   intakePow(-12000);
+  pros::Task::delay(250);
+  driveL(6000);
+  driveR(12000);
   indexer.move_voltage(-12000);
-  driveL(12000);
-  driveR(9000);
-  pros::Task::delay(500);
-  roller.move_voltage(-12000);
-  driveR(3000);
   pros::Task::delay(1000);
-  driveL(0);
-  driveR(0);
+
   intakePow(0);
-  pros::Task::delay(500);
-  roller.move_voltage(0);
-  indexer.move_voltage(0);
-  goRL(-1, 58, 80, 1);
-  roller.move_voltage(12000);
-  indexer.move_voltage(12000);
-  intakePow(12000);
+  roller.move_voltage(-12000);
   pros::Task::delay(750);
-  intakePow(0);
   roller.move_voltage(0);
-  indexer.move_voltage(0);
-  goRight(1, 10, 80, 1);
 
-
-
-
-
-  //midtower
-  intakePow(-12000);
-  indexer.move_voltage(-12000);
-  roller.move_voltage(-12000);
-  driveR(6000);
-  driveL(6000);
-  pros::Task::delay(1000);
-  driveR(0);
-  driveL(0);
-  intakePow(0);
-  pros::Task::delay(500);
+  goRL(-1, 12, 80, 1);
+  goRight(1, 6.9, 80, 1);
   intakePow(12000);
-  indexer.move_voltage(12000);
   roller.move_voltage(12000);
-  goRL(-1, 9, 80, 1);
-  goRight(1, 12, 80, 1);
-  pros::Task::delay(200);
+  indexer.move_voltage(12000);
+  pros::Task::delay(500);
+  intakePow(0);
+  roller.move_voltage(0);
+  indexer.move_voltage(0);
 
-
-
-  //top cornertower
-  goRL(1, 45, 80, 1);
-  goLeft(1, 7.5, 80, 1);
+  goRL(-1, 48, 80, 1);
+  goLeft(1, 12, 80, 1);
   intakePow(-12000);
   indexer.move_voltage(-12000);
-  roller.move_voltage(-12000);
-  driveR(6000);
-  driveL(6000);
-  pros::Task::delay(1750);
-  driveR(0);
-  driveL(0);
+
+  goRL(1, 9, 80, 1);
+  pros::Task::delay(250);
   intakePow(0);
-  indexer.move_voltage(0);
+  roller.move_voltage(-12000);
+  pros::Task::delay(500);
   roller.move_voltage(0);
-
-
-
-
+  goRL(-1, 10, 80, 1);
 
 
 

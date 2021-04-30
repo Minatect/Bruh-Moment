@@ -59,7 +59,7 @@ void resetGyro()	{
 	rightGyro.reset();
 }
 
-/*float getGyroImu(void* controlblock)	{
+float getGyroImu(void* controlblock)	{
 	controlBlock* cb = (controlBlock*) controlblock;
 
 	float currentVal = Gyro.get_heading();
@@ -74,7 +74,7 @@ void resetGyro()	{
 		else return currentVal;
 	}
 }
-*/
+
 float sgn(float input)	{
 	if(input == 0) return 1;
 	else return input/fabs(input);

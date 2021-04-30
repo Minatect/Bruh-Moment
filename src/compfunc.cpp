@@ -179,6 +179,38 @@ void cornertowerde(void* controlblock) {
   goRight(1, 24, 80, 1);
 }
 
+void intaketoroller(void* controlblock) {
+  controlBlock* cb = (controlBlock*) controlblock;
+  while(true) {
+    if(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) {
+      intakePow(0);
+      indexer.move_voltage(0);
+    }
+    else {
+      intakePow(-12000);
+      indexer.move_voltage(-12000);
+    }
+  }
+}
+
+void autoshoot(void* controlblock) {
+  controlBlock* cb = (controlBlock*) controlblock;
+  while(true) {
+    if(trayLine.get_value_calibrated() > cb->intakeTime->sensorThreshold) {
+      roller.move_voltage(-12000);
+      pros::Task::delay(500);
+      roller.move_voltage(0);
+    }
+    if(trayLine.get_value_calibrated() < cb->intakeTime->sensorThreshold) {
+      intakePow(-12000);
+      indexer.move_voltage(-12000);
+    }
+    else {
+
+    }
+  }
+}
+
 /*void intakeToPoint(void* controlblock)  {
   controlBlock* cb = (controlBlock*) controlblock;
   while(true) {

@@ -16,11 +16,11 @@ static lv_res_t btnm_action(lv_obj_t * btnm, const char *txt) {
 
   switch (btnm_num) {
   case 1:
-    lv_label_set_text(g_sb_label, "Red Unprotected Auton");
+    lv_label_set_text(g_sb_label, "Left Start HR");
     auton_sel = 1;
     break;
   case 2:
-    lv_label_set_text(g_sb_label, "New Skills");
+    lv_label_set_text(g_sb_label, "Right Start HR");
     auton_sel = 2;
     break;
   case 3:
