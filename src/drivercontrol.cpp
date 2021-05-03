@@ -39,23 +39,6 @@ void driver(void* controlblock) {
 
 
 
-/*  while(true)	{
-    if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X)) > 5)  {
-      x = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
-      y = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-
-      powerL = 12000 * (sgn(y) * powf(y, 2) + sgn(x) * powf(x, 2)) / powf(127, 2);
-      powerR = 12000 * (sgn(y) * powf(y, 2) - sgn(x) * powf(x, 2)) / powf(127, 2);
-      //if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * maxAccel;
-      //if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * maxAccel;
-      driveL(powerL);
-      driveR(powerR);
-      //prevPowerL = powerL;
-      //prevPowerR = powerR;
-    }     else  {
-      driveL(0);
-      driveR(0);
-    }*/
 
     while(true) {
     if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y))>5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y))>5) {
@@ -65,19 +48,116 @@ void driver(void* controlblock) {
     else {
       driveR(0);
       driveL(0);
-    } 
-  //  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
+    }
+
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))	{	//Run all
+      indexer.move_voltage(-12000);
+      roller.move_voltage(-12000);
+      intakePow(-12000);
+		}
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))	{ //Intake Minus Roller
+			intakePow(-12000);
+      indexer.move_voltage(-12000);
+		}
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))  { //Outake All
+      intakePow(12000);
+      indexer.move_voltage(12000);
+      roller.move_voltage(12000);
+    }
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))  { //Shoot
+      indexer.move_voltage(-12000);
+      roller.move_voltage(-12000);
+    }
+		else	{
+			intakePow(0);
+      roller.move_voltage(0);
+      indexer.move_voltage(0);
+		}
+
+   if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
+      cb->isOpControl = true;
+      goRL(-1, 64, 80, .25);
+      pros::Task::delay(500);
+      goRight(1, 90, 80, 1);
+      goRL(-1, 64, 80, .25);
+      pros::Task::delay(500);
+      goRight(1, 90, 80, 1);
+      goRL(-1, 64, 80, .25);
+      pros::Task::delay(500);
+      goRight(1, 90, 80, 1);
+      goRL(-1, 64, 80, .25);
+    }
+
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B) && !cb->isOpControl)  {
+       cb->isOpControl = true;
+       goRL(-1, 55, 80, .25);
+       pros::Task::delay(100);
+     }
+
+
+if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+  driveR(-12000);
+  driveL(-12000);
+  pros::Task::delay(2000);
+  driveL(0);
+  driveR(0);
+}
+
+
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //  if(master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT))  { //macro
       /*if(master.get_digital(E_CONTROLLER_DIGITAL_R1))	{ //enumerate arm position +
         if(cb->armVar->armUpAllow >= 3) cb->armVar->armUpAllow = 3;
         else cb->armVar->armUpAllow ++;
-  		}
-  		else if(master.get_digital(E_CONTROLLER_DIGITAL_R2))	{ //enumerate arm position -
-  			if(cb->armVar->armUpAllow <= 0) cb->armVar->armUpAllow = 0;
+      }
+      else if(master.get_digital(E_CONTROLLER_DIGITAL_R2))	{ //enumerate arm position -
+        if(cb->armVar->armUpAllow <= 0) cb->armVar->armUpAllow = 0;
         else cb->armVar->armUpAllow --;
-  		}*/
+      }*/
 
 
-    /*  if(!cb->autoAngle->angleIsMoving) { //manuel angle adjust
+      /*  if(!cb->autoAngle->angleIsMoving) { //manuel angle adjust
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState) {
           angle.move_voltage(-6000);
         }
@@ -102,20 +182,20 @@ void driver(void* controlblock) {
       if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1) && !cb->armVar->armIsMoving)	{
         if(cb->armVar->armUpAllow == 2) cb->armVar->armUpAllow = 0;
         else cb->armVar->armUpAllow = 2;
-  		}
-  		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && !cb->armVar->armIsMoving)	{
+      }
+      else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2) && !cb->armVar->armIsMoving)	{
         if(cb->armVar->armUpAllow == 1) cb->armVar->armUpAllow = 0;
         else cb->armVar->armUpAllow = 1;
-  		}*/
+      }*/
 
       //auto angler
-  /*    if(!cb->autoAngle->angleIsMoving) {
+      /*    if(!cb->autoAngle->angleIsMoving) {
         if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP) && !cb->autoAngle->angleState)	{ //activate angle up task
-      		cb->autoAngle->angleUpAllow = true;
-      	}
+          cb->autoAngle->angleUpAllow = true;
+        }
         else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN) && cb->autoAngle->angleState)	{  //activate angle down task
-      		cb->autoAngle->angleDownAllow = true;
-      	}
+          cb->autoAngle->angleDownAllow = true;
+        }
         else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_B) && !cb->autoAngle->angleState)  {
           //cb->intakeTime->intakePoint = true;
           //intakeSettled(cb);
@@ -128,48 +208,26 @@ void driver(void* controlblock) {
       }
     }*/
 
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1))	{	//back out cubes
-      indexer.move_voltage(-12000);
-      roller.move_voltage(-12000);
-      intakePow(-12000);
-		}
-		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2))	{ //intake cubes
-			intakePow(-12000);
-      indexer.move_voltage(-12000);
-		}
-    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1))  {
-      intakePow(12000);
-      indexer.move_voltage(12000);
-      roller.move_voltage(12000);
-    }
-    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))  {
-      indexer.move_voltage(-12000);
-      roller.move_voltage(-12000);
-    }
-		else	{
-			intakePow(0);
-      roller.move_voltage(0);
-      indexer.move_voltage(0);
-		}
 
-   if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
-      cb->isOpControl = true;
-      goLeft(1, 12, 80, 1);
-      pros::Task::delay(100);
-    }
+    /*  while(true)	{
+      if(std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)) > 5 || std::fabs(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X)) > 5)  {
+        x = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+        y = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+
+        powerL = 12000 * (sgn(y) * powf(y, 2) + sgn(x) * powf(x, 2)) / powf(127, 2);
+        powerR = 12000 * (sgn(y) * powf(y, 2) - sgn(x) * powf(x, 2)) / powf(127, 2);
+        //if(fabs(powerL - prevPowerL) > maxAccel)  powerL = prevPowerL + sgn(powerL - prevPowerL) * maxAccel;
+        //if(fabs(powerR - prevPowerR) > maxAccel)  powerR = prevPowerR + sgn(powerR - prevPowerR) * maxAccel;
+        driveL(powerL);
+        driveR(powerR);
+        //prevPowerL = powerL;
+        //prevPowerR = powerR;
+      }     else  {
+        driveL(0);
+        driveR(0);
+      }*/
 
 
-
-if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-  roller.move_voltage(-12000);
-}
-
-
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-      intakePow(12000);
-      indexer.move_voltage(12000);
-      roller.move_voltage(12000);
-    }
 
 /*    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A)) {
       goRight(1, 12, 80, 1);

@@ -2,62 +2,75 @@
 
 void red_single(void* controlblock) {
   controlBlock* cb = (controlBlock*)controlblock;
-  intakePow(-12000);
-  pros::Task::delay(400);
 
-  driveR(6000);
-  driveL(12000);
-  pros::Task::delay(750);
-  intakePow(0);
+  //Deploy
+  intakePow(-12000);
   pros::Task::delay(250);
-  driveR(0);
-  driveL(0);
+  intakePow(0);
 
-  goRL(-1, 2, 80, 1);
+  //Drive into Tower
+  goRL(1, 12, 80, 1);
+  goLeft(1, 45, 100, 1);
+  intakePow(-12000);
+  goRL(1, 15, 80, .5);
+  intakePow(0);
 
+  //First Ball
   roller.move_voltage(-12000);
   indexer.move_voltage(-12000);
-  pros::Task::delay(500);
+  pros::Task::delay(1000);
   roller.move_voltage(0);
   indexer.move_voltage(0);
 
+  //Second Ball Intake
   intakePow(-12000);
   indexer.move_voltage(-12000);
   pros::Task::delay(500);
   intakePow(0);
   indexer.move_voltage(0);
 
+  //Second Ball Score
   roller.move_voltage(-12000);
-  indexer.move_voltage(-12000);
-  pros::Task::delay(750);
+  pros::Task::delay(500);
   roller.move_voltage(0);
-  indexer.move_voltage(0);
 
-  goRL(-1, 14, 80, 1);
-  goLeft(1, 6.5, 80, .5);
+  //Tower Backout
+  goRL(-1, 24, 80, 1);
+  goRight(1, 135, 80, 1);
   intakePow(-12000);
-  roller.move_voltage(12000);
   indexer.move_voltage(-12000);
-  pros::Task::delay(1000);
-  roller.move_voltage(0);
-  indexer.move_voltage(0);
+  goRL(1, 36, 80, .5);
   intakePow(0);
+  indexer.move_voltage(0);
 
-  driveL(6000);
-  driveR(6000);
-  pros::Task::delay(2000);
+  //Back Away From Ball and Turn Towards Tower
+  goRL(-1, 24, 80, 1);
+  goRight(1, 45, 100, 1);
+
+  //Into Center Tower
+  driveL(3000);
+  driveR(3000);
+  pros::Task::delay(3000);
   driveL(0);
   driveR(0);
-  goRL(-1, 6, 80, 1);
-  goLeft(1, 11.5, 80, 1);
-  intakePow(-12000);
-  goRL(1, 40, 80, .5);
-  driveL(6000);
-  driveR(6000);
-  pros::Task::delay(1000);
-  driveL(0);
-  driveR(0);
-  goRL(-1, 12, 80, 1);
+
+  //Last Ball
+  indexer.move_voltage(-12000);
+  roller.move_voltage(-12000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*  goRL(-1, 50, 80, 1);
   pros::Task::delay(250);

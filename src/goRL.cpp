@@ -10,7 +10,7 @@ void goRL(int dir, float distance, float factor, float speed)
 		float target = distance*360*.44/(WHEEL_D*PROPI);
     float kP = 0.5;//.3; // .25
     float kI = 0.02;//.0005;
-    float kD = 1;//1;
+    float kD = 1.5;//1;
 
     float errorZone = 100; // target * .1;
     float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
@@ -124,66 +124,85 @@ void goRL(int dir, float distance, float factor, float speed)
 
 void goRight(int dir, float distance, float factor, float speed)
 {
-    setDriveBrakes(COAST);
+    setDriveBrakes(HOLD);
 
-		float target = distance*360*.4945/(WHEEL_D*PROPI);
-    float kP = 0.5;//.3; // .25
-    float kI = 0.02;//.0005;
-    float kD = 1;//1;
+		float target = distance;
+    float kP = 1.35;//.3; // .25
+    float kI = 1;//.0005;
+    float kD = 1.75;//1;
 
-    float errorZone = 100; // target * .1;
-    float errorL, errorTotL, errorLastL;
-    float pTermL, iTermL, dTermL;
+    float errorZone = 1; // target * .1;
+    float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
+    float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
     float powerR, powerL;
     float lastPowerL = 0;
     float lastPowerR = 0;
 
-    float targetMin = target - 50;
-    float targetMax = target + 50;
+    float targetMin = target - 1;
+    float targetMax = target + 1;
     bool ft = true;
     bool ogPass = false;
     float pTime; // pause time
     int exitDelay = 0; // millis to check exit
     bool settled = false;
-
     int count = 0;
     int accelCount;
-    float accelTime = 1;
+    float accelTime = 7;
     float maxAccel = 12000/(accelTime*50);
+    int exit = 0;
     // zero motors fix if this is not correct method
 		driveReset();
+    Gyro.set_rotation(0);
 
-    while(!settled)
+
+    while(exit != 1)
+    //while(!settled)
     //while(std::abs(LENCO) < target * .98) // left encoder  < target
     {
         count++;
-        errorL = target - std::abs(LENCO());
+        errorL = target - Gyro.get_rotation();
+				errorR = target - Gyro.get_rotation();
         // errorTot += error;
+
+        if (Gyro.get_rotation() > target * .99 && Gyro.get_rotation() < target * .996){
+          exit = 1;
+        } else {
+          exit = 0;
+        }
 
         if (errorL < errorZone) {
             errorTotL += errorL;
         } else {
             errorTotL = 0;
         }
+				if (errorR < errorZone) {
+            errorTotR += errorR;
+        } else {
+            errorTotR = 0;
+        }
 
         pTermL = errorL * kP;
+				pTermR = errorR * kP;
 
         iTermL = kI * errorTotL;
         dTermL = kD * (errorL - errorLastL);
         errorLastL = errorL;
+				iTermR = kI * errorTotR;
+        dTermR = kD * (errorR - errorLastR);
+        errorLastR = errorR;
 
         powerL = ((pTermL + iTermL + dTermL) * factor);
-				powerR = ((powerL * -1) * factor);
+				powerR = ((pTermR + iTermR + dTermR) * factor);
 
-        if(powerL/powerR>-1.1) {
-          powerR=powerL * -1;
+        if(powerL/powerR>1.1) {
+          powerR=powerL;
         }
-        else if(powerR/powerL>-1.1) {
-          powerL=powerR * -1;
+        else if(powerR/powerL>1.1) {
+          powerL=powerR;
         }
 
-        if(fabs(powerR)<-12000*speed)  {
-          powerR = -12000*speed;
+        if(fabs(powerR)>12000*speed)  {
+          powerR = 12000*speed;
         }
         if(fabs(powerL)>12000*speed)  {
           powerL = 12000*speed;
@@ -194,8 +213,8 @@ void goRight(int dir, float distance, float factor, float speed)
         lastPowerR = powerR;
         lastPowerL = powerL;
 
-				driveL(dir*powerL);
-        driveR(dir*powerR);
+				driveL(powerL);
+        driveR(powerR * -1);
 
         if(std::abs(AVGENC()) > targetMin && ft)
         {
@@ -222,110 +241,141 @@ void goRight(int dir, float distance, float factor, float speed)
     driveR(0);
     driveL(0);
 
-		driveReset();
-}
+    pros::Task::delay(250);
 
+		driveReset();
+
+    Gyro.set_rotation(0);
+
+    setDriveBrakes(COAST);
+}
 
 void goLeft(int dir, float distance, float factor, float speed)
 {
-    setDriveBrakes(COAST);
+  setDriveBrakes(HOLD);
 
-		float target = distance*360*.4945/(WHEEL_D*PROPI);
-    float kP = 0.5;//.3; // .25
-    float kI = 0.02;//.0005;
-    float kD = 1;//1;
+  float target = distance;
+  float kP = 1.35;//.3; // .25
+  float kI = 1;//.0005;
+  float kD = 1.75;//1;
 
-    float errorZone = 100; // target * .1;
-    float errorR, errorTotR, errorLastR;
-    float pTermR, iTermR, dTermR;
-    float powerR, powerL;
-    float lastPowerL = 0;
-    float lastPowerR = 0;
+  float errorZone = 1; // target * .1;
+  float errorR, errorTotR, errorLastR, errorL, errorTotL, errorLastL;
+  float pTermR, iTermR, dTermR, pTermL, iTermL, dTermL;
+  float powerR, powerL;
+  float lastPowerL = 0;
+  float lastPowerR = 0;
 
-    float targetMin = target - 50;//30
-    float targetMax = target + 50;
-    bool ft = true;
-    bool ogPass = false;
-    float pTime; // pause time
-    int exitDelay = 0; // millis to check exit
-    bool settled = false;
-
-    int count = 0;
-    int accelCount;
-    float accelTime = 1;
-    float maxAccel = 12000/(accelTime*50);//50 original
-    // zero motors fix if this is not correct method
-		driveReset();
-
-    while(!settled)
-    //while(std::abs(LENCO) < target * .98) // left encoder  < target
-    {
-        count++;
-				errorR = target - std::abs(RENCO());
-        // errorTot += error;
-
-				if (errorR < errorZone) {
-            errorTotR += errorR;
-        } else {
-            errorTotR = 0;
-        }
-
-				pTermR = errorR * kP;
-				iTermR = kI * errorTotR;
-        dTermR = kD * (errorR - errorLastR);
-        errorLastR = errorR;
-
-        powerL = ((powerR * -1) * factor);
-				powerR = ((pTermR + iTermR + dTermR) * factor);
-
-        if(powerL/powerR>-1.1) {
-          powerR=powerL * -1;
-        }
-        else if(powerR/powerL>-1.1) {
-          powerL=powerR * -1;
-        }
-
-        if(fabs(powerR)>12000*speed)  {
-          powerR = 12000*speed;
-        }
-        if(fabs(powerL)<-12000*speed)  {
-          powerL = -12000*speed;
-        }
-
-        if(fabs(powerR-lastPowerR)<maxAccel)  powerR = maxAccel + lastPowerR;
-        if(fabs(powerL-lastPowerL)<maxAccel)  powerL = maxAccel + lastPowerL;
-        lastPowerR = powerR;
-        lastPowerL = powerL;
-
-				driveL(dir*powerL);
-        driveR(dir*powerR);
-
-        if(std::abs(AVGENC()) > targetMin && ft)
-        {
-            pTime = pros::millis();
-            ft = false;
-            ogPass = true;
-        }
-        if(pros::millis() > pTime + exitDelay && ogPass)
-        {
-            if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
-            {
-                settled = true;
-            }
-            else
-            {
-                pTime = pros::millis();
-            }
-        }
-
-        pros::Task::delay(20);
-    }
+  float targetMin = target - 1;
+  float targetMax = target + 1;
+  bool ft = true;
+  bool ogPass = false;
+  float pTime; // pause time
+  int exitDelay = 0; // millis to check exit
+  bool settled = false;
+  int count = 0;
+  int accelCount;
+  float accelTime = 7;
+  float maxAccel = 12000/(accelTime*50);
+  int exit = 0;
+  // zero motors fix if this is not correct method
+  driveReset();
+  Gyro.set_rotation(0);
 
 
-    driveR(0);
-    driveL(0);
+  while(exit != 1)
+  //while(!settled)
+  //while(std::abs(LENCO) < target * .98) // left encoder  < target
+  {
+      count++;
+      errorL = target - Gyro.get_rotation();
+      errorR = target - Gyro.get_rotation();
+      // errorTot += error;
 
-		driveReset();
+      if (Gyro.get_rotation() > target * .99 && Gyro.get_rotation() < target * .996){
+        exit = 1;
+      } else {
+        exit = 0;
+      }
+
+      if (errorL < errorZone) {
+          errorTotL += errorL;
+      } else {
+          errorTotL = 0;
+      }
+      if (errorR < errorZone) {
+          errorTotR += errorR;
+      } else {
+          errorTotR = 0;
+      }
+
+      pTermL = errorL * kP;
+      pTermR = errorR * kP;
+
+      iTermL = kI * errorTotL;
+      dTermL = kD * (errorL - errorLastL);
+      errorLastL = errorL;
+      iTermR = kI * errorTotR;
+      dTermR = kD * (errorR - errorLastR);
+      errorLastR = errorR;
+
+      powerL = ((pTermL + iTermL + dTermL) * factor);
+      powerR = ((pTermR + iTermR + dTermR) * factor);
+
+      if(powerL/powerR>1.1) {
+        powerR=powerL;
+      }
+      else if(powerR/powerL>1.1) {
+        powerL=powerR;
+      }
+
+      if(fabs(powerR)>12000*speed)  {
+        powerR = 12000*speed;
+      }
+      if(fabs(powerL)>12000*speed)  {
+        powerL = 12000*speed;
+      }
+
+      if(fabs(powerR-lastPowerR)<maxAccel)  powerR = maxAccel + lastPowerR;
+      if(fabs(powerL-lastPowerL)<maxAccel)  powerL = maxAccel + lastPowerL;
+      lastPowerR = powerR;
+      lastPowerL = powerL;
+
+      driveL(powerL * -1);
+      driveR(powerR);
+
+      if(std::abs(AVGENC()) > targetMin && ft)
+      {
+          pTime = pros::millis();
+          ft = false;
+          ogPass = true;
+      }
+      if(pros::millis() > pTime + exitDelay && ogPass)
+      {
+          if(std::abs(AVGENC()) > targetMin && std::abs(AVGENC()) < targetMax)
+          {
+              settled = true;
+          }
+          else
+          {
+              pTime = pros::millis();
+          }
+      }
+
+      pros::Task::delay(20);
+  }
+
+
+  driveR(0);
+  driveL(0);
+
+  pros::Task::delay(250);
+
+  driveReset();
+
+  Gyro.set_rotation(0);
+
+  setDriveBrakes(COAST);
 }
 
 
