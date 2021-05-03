@@ -74,7 +74,7 @@ void driver(void* controlblock) {
       indexer.move_voltage(0);
 		}
 
-   if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
+/*   if(master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && !cb->isOpControl)  {
       cb->isOpControl = true;
       goRL(-1, 64, 80, .25);
       pros::Task::delay(500);
@@ -106,7 +106,7 @@ if(master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
 
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
 
-    }
+    } */
 
 
 
